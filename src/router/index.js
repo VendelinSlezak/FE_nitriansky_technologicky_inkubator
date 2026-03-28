@@ -5,6 +5,9 @@ import ProgramAView from '../views/ProgramAView.vue'
 import ProgramBView from '../views/ProgramBView.vue'
 import PartnersAndMentorsView from '../views/PartnersAndMentorsView.vue'
 import NewsView from '../views/NewsView.vue'
+import StudentView from '@/views/StudentView.vue'
+import CreateTeamView from '@/views/CreateTeamView.vue'
+import CreateChallengeView from '@/views/CreateChallengeView.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,6 +42,21 @@ const router = createRouter({
             name: 'news',
             component: NewsView,
         },
+        {
+            path: '/student',
+            name: 'student',
+            component: StudentView,
+            children: [{
+                path: '/student/vytvorit-tim',
+                name: 'vytvorit-tim',
+                component: CreateTeamView
+            },{
+                path: '/student/vytvorit-vyzvu',
+                name: 'vytvorit-vyzvu',
+                component: CreateChallengeView
+
+        }]
+        }
     ],
 })
 
