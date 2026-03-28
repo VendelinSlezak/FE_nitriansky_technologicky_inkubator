@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import AboutView from '../views/AboutView.vue'
 import ProgramBView from '@/views/ProgramBView.vue'
 import PartnersAndMentorsView from '@/views/PartnersAndMentorsView.vue'
 import NewsView from '@/views/NewsView.vue'
@@ -15,7 +16,7 @@ const router = createRouter({
         {
             path: '/o-nas',
             name: 'about-us',
-            component: HomeView,
+            component: AboutView,
         },
         {
             path: '/program-a',

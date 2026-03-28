@@ -16,7 +16,7 @@
           </p>
           <div class="flex flex-col sm:flex-row gap-4">
             <RouterLink to="/registracia-studenta" class="inline-flex items-center justify-center px-6 py-3 bg-white text-green-700 font-semibold rounded-lg shadow-md hover:bg-green-50 transition-colors duration-200">
-              Registrovať študenta
+              Registrovať sa ako študent
               <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </RouterLink>
             <RouterLink to="/registracia-firmy" class="inline-flex items-center justify-center px-6 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors duration-200">
@@ -125,7 +125,7 @@
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <RouterLink to="/registracia-studenta" class="px-8 py-4 bg-white text-green-800 font-bold rounded-xl shadow-lg hover:bg-green-50 transition-all">
-            Registrovať študenta
+            Registrovať sa ako študent
           </RouterLink>
           <RouterLink to="/registracia-firmy" class="px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-xl hover:bg-white/10 transition-all">
             Registrovať firmu
