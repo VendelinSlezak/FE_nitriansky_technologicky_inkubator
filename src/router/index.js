@@ -13,11 +13,11 @@ const router = createRouter({
             name: 'home',
             component: HomeView,
         },
-        {
+        /*{
             path: '/o-nas',
             name: 'about-us',
             component: AboutView,
-        },
+        },*/
         {
             path: '/program-a',
             name: 'program-a',
