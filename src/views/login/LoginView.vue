@@ -100,11 +100,11 @@ export default {
         this.loading = false;
         this.login({ 
           name: 'Ján Novák',
-          role: 'Študent',
+          role: 'Mentor',
           avatar: null,
-          dashboard: '/student-dashboard',
+          dashboard: '/mentor-dashboard',
         });
-        this.$router.push('/student-dashboard');
+        this.$router.push('/mentor-dashboard');
       }, 300);
     }
   }

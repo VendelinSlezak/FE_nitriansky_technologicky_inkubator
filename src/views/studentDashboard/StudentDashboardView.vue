@@ -61,7 +61,7 @@
 
 <script>
 export default {
-  name: "ProjektyDashboard",
+  name: "StudentDashboardView",
   data() {
     return {
       posledneProjekty: [
