@@ -5,15 +5,17 @@ import ProgramAView from '../views/ProgramAView.vue'
 import ProgramBView from '../views/ProgramBView.vue'
 import PartnersAndMentorsView from '../views/PartnersAndMentorsView.vue'
 import NewsView from '../views/NewsView.vue'
+import ArticleView from '@/views/ArticleView.vue'
 import StudentView from '@/views/StudentView.vue'
 import CreateTeamView from '@/views/CreateTeamView.vue'
 import CreateChallengeView from '@/views/CreateChallengeView.vue'
 import LoginView from '../views/LoginView.vue'
+import ResetPasswordView from '@/views/ResetPasswordView.vue'
+import UpdateResettedPasswordView from '@/views/UpdateResettedPasswordView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import RegisterStudentView from '../views/RegisterStudentView.vue'
 import RegisterFirmView from '../views/RegisterFirmView.vue'
 import RegisterSuccessView from '../views/RegisterSuccessView.vue'
-
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,30 +46,46 @@ const router = createRouter({
             component: PartnersAndMentorsView,
         },
         {
-            path: '/novinky',
+            path: '/news',
             name: 'news',
             component: NewsView,
         },
         {
-
-            path: '/student',
+            path: '/news/:id',
+            name: 'article',
+            props: true,
+            component: ArticleView,
+        },
+        {
+            path: '/student-dashboard',
             name: 'student',
             component: StudentView,
-            children: [{
-                path: '/student/vytvorit-tim',
-                name: 'vytvorit-tim',
-                component: CreateTeamView
-            },{
-                path: '/student/vytvorit-vyzvu',
-                name: 'vytvorit-vyzvu',
-                component: CreateChallengeView
-
-        }]
+        },
+        {
+            path: '/student-dashboard/vytvorit-tim',
+            name: 'vytvorit-tim',
+            component: CreateTeamView
+        },
+        {
+            path: '/student-dashboard/vytvorit-vyzvu',
+            name: 'vytvorit-vyzvu',
+            component: CreateChallengeView
         },
         {
             path: '/login',
             name: 'login',
             component: LoginView,
+        },
+        {    
+            path: '/reset-password',
+            name: 'reset-password',
+            component: ResetPasswordView,
+        },
+        {
+            path: '/update-resetted-password/:token',
+            name: 'update-resetted-password',
+            props: true,
+            component: UpdateResettedPasswordView,
         },
         {
             path: '/register',

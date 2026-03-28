@@ -31,7 +31,7 @@
             <label for="password" class="block text-xs font-bold text-gray-700 uppercase tracking-wider">
               Heslo
             </label>
-            <router-link to="/forgot-password" class="text-xs font-bold text-blue-600 hover:text-blue-700">
+            <router-link to="/reset-password" class="text-xs font-bold text-blue-600 hover:text-blue-700">
               ZABUDLI STE HESLO?
             </router-link>
           </div>

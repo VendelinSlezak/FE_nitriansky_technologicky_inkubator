@@ -35,11 +35,8 @@
 
         <div class="flex items-center space-x-4 border-l border-gray-200 pl-6 ml-6">
           <template v-if="!isLoggedIn">
-            <router-link to="/login" class="text-gray-500 hover:text-blue-600 text-sm font-bold transition-colors whitespace-nowrap">
+            <router-link to="/login" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-full text-sm font-black shadow-lg shadow-blue-200 transition-all transform active:scale-95 whitespace-nowrap">
               PRIHLÁSENIE
-            </router-link>
-            <router-link to="/register" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-full text-sm font-black shadow-lg shadow-blue-200 transition-all transform active:scale-95 whitespace-nowrap">
-              REGISTRÁCIA
             </router-link>
           </template>
           <template v-else>
@@ -50,7 +47,7 @@
               ODHLÁSIŤ SA
             </button>
 
-            <div class="flex items-center gap-3 mr-2">
+            <div class="flex items-center gap-3 mr-2" @click="$router.push('/student-dashboard')">
               <div class="flex flex-col items-end leading-tight">
                 <span class="text-sm font-bold text-gray-900">{{ user.name }}</span>
                 <span class="text-[10px] font-medium text-gray-500 uppercase tracking-wider">{{ user.role }}</span>
@@ -117,11 +114,8 @@
           
           <div class="pt-6 pb-2 border-t border-gray-100 mt-4 space-y-4 px-2">
             <template v-if="!isLoggedIn">
-              <router-link to="/login" @click="closeMenu" class="block text-center text-gray-600 font-bold py-2">
+              <router-link to="/login" @click="closeMenu" class="block text-center bg-blue-600 text-white py-4 rounded-2xl font-black shadow-lg">
                 PRIHLÁSENIE
-              </router-link>
-              <router-link to="/register" @click="closeMenu" class="block text-center bg-blue-600 text-white py-4 rounded-2xl font-black shadow-lg">
-                REGISTRÁCIA
               </router-link>
             </template>
             <button v-else @click="handleLogout" class="w-full text-center bg-gray-900 text-white py-4 rounded-2xl font-black shadow-lg uppercase">
@@ -152,7 +146,7 @@ export default {
         { name: 'Grantový program', path: '/program-a' },
         { name: 'Živá prax', path: '/program-b' },
         { name: 'Partneri', path: '/partneri-a-mentori' },
-        { name: 'Novinky', path: '/novinky' },
+        { name: 'Novinky', path: '/news' },
       ]
     }
   },
@@ -178,7 +172,7 @@ export default {
       document.body.style.overflow = '';
     },
     handleResize() {
-      if (window.innerWidth >= 1280 && this.isOpen) {
+      if (window.innerWidth >= 1200 && this.isOpen) {
         this.closeMenu();
       }
     }

@@ -7,7 +7,7 @@ export default {
       navLinks: [
         { name: 'Domov', path: '/' },
         { name: 'O nás', path: '/o-nas' },
-        { name: 'Novinky', path: '/novinky' },
+        { name: 'Novinky', path: '/news' },
       ],
     }
   },
