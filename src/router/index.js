@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ProgramBView from '@/views/ProgramBView.vue'
 import PartnersAndMentorsView from '@/views/PartnersAndMentorsView.vue'
+import NewsView from '@/views/NewsView.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,7 +14,7 @@ const router = createRouter({
         },
         {
             path: '/o-nas',
-            name: 'o-nas',
+            name: 'about-us',
             component: HomeView,
         },
         {
@@ -28,13 +29,13 @@ const router = createRouter({
         },
         {
             path: '/partneri-a-mentori',
-            name: 'partneri-a-mentori',
+            name: 'partners-and-mentors',
             component: PartnersAndMentorsView,
         },
         {
             path: '/novinky',
-            name: 'novinky',
-            component: HomeView,
+            name: 'news',
+            component: NewsView,
         },
     ],
 })
