@@ -215,7 +215,7 @@ export default {
       }
 
       console.log('Registračné dáta:', this.form);
-      alert('Registrácia študenta bola prijatá!');
+      this.$router.push('/register-success');
     }
   }
 }

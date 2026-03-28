@@ -1,0 +1,189 @@
+<template>
+  <div class="min-h-screen bg-gray-50 py-12 px-4">
+    <div class="max-w-2xl mx-auto">
+      
+      <button 
+        @click="goBack()" 
+        class="inline-flex items-center text-sm font-bold text-gray-500 hover:text-emerald-600 mb-8 transition-colors group"
+      >
+        <svg class="w-4 h-4 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        SPÄŤ
+      </button>
+
+      <div class="bg-white rounded-3xl shadow-xl shadow-emerald-100 border border-gray-100 overflow-hidden">
+        <div class="bg-emerald-600 p-8 text-white">
+          <h1 class="text-2xl font-black uppercase tracking-tight">Registrácia firmy</h1>
+          <p class="text-emerald-100 text-sm mt-1 font-medium">Staňte sa partnerom a podporte inovácie v NTI.</p>
+        </div>
+
+        <form @submit.prevent="handleRegister" class="p-8 space-y-6">
+          
+          <div class="grid md:grid-cols-1 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-2 ml-1">Názov spoločnosti</label>
+              <input 
+                v-model="form.companyName" 
+                type="text" 
+                required 
+                placeholder="Názov s.r.o. / a.s." 
+                class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white transition-all shadow-sm" 
+              />
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-2 ml-1">IČO</label>
+              <input 
+                v-model="form.ico" 
+                type="text" 
+                required 
+                placeholder="12345678" 
+                class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white transition-all shadow-sm" 
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-2 ml-1">DIČ</label>
+              <input 
+                v-model="form.dic" 
+                type="text" 
+                placeholder="2021234567" 
+                class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white transition-all shadow-sm" 
+              />
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6 pt-2 border-t border-gray-100">
+            <div class="md:col-span-2 mt-2">
+                <p class="text-[11px] font-black text-emerald-600 uppercase tracking-widest">Kontaktná osoba a prístup</p>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-2 ml-1">Meno a Priezvisko</label>
+              <input 
+                v-model="form.contactPerson" 
+                type="text" 
+                required 
+                placeholder="Ing. Jozef Mrkva" 
+                class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white transition-all shadow-sm" 
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-2 ml-1">Email (Prihlasovacie meno)</label>
+              <input 
+                v-model="form.email" 
+                type="email" 
+                required 
+                placeholder="firma@spolocnost.sk" 
+                class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white transition-all shadow-sm" 
+              />
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-2 ml-1">Heslo</label>
+              <input 
+                v-model="form.password" 
+                type="password" 
+                placeholder="••••••••"
+                required 
+                class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white transition-all shadow-sm" 
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-2 ml-1">Zopakovať heslo</label>
+              <input 
+                v-model="form.passwordConfirm" 
+                type="password" 
+                placeholder="••••••••"
+                required 
+                class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white transition-all shadow-sm" 
+              />
+            </div>
+          </div>
+
+          <label class="flex items-center gap-3 py-2 cursor-pointer group">
+            <input 
+                v-model="form.gdpr" 
+                type="checkbox" 
+                required 
+                class="w-5 h-5 text-emerald-600 rounded-lg border-gray-300 focus:ring-emerald-500 transition-all cursor-pointer" 
+            />
+            <span class="text-xs text-gray-600 leading-tight font-medium group-hover:text-gray-900 transition-colors">
+                Súhlasím so <a href="/gdpr" class="text-emerald-600 underline font-bold hover:text-emerald-700">spracovaním osobných údajov</a> právnickej osoby.
+            </span>
+          </label>
+
+          <div class="bg-gray-50 border border-gray-200 rounded-2xl p-5 flex items-center justify-between shadow-inner">
+            <label class="flex items-center gap-4 cursor-pointer">
+              <input 
+                type="checkbox" 
+                v-model="form.captcha" 
+                class="w-6 h-6 border-gray-300 rounded-md text-emerald-600 focus:ring-emerald-500 cursor-pointer" 
+              />
+              <span class="text-sm font-bold text-gray-700 uppercase tracking-tight">Nie som robot</span>
+            </label>
+            <div class="flex flex-col items-center">
+              <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="recaptcha" class="w-8 h-8 opacity-40 grayscale" />
+              <span class="text-[8px] text-gray-400 font-bold mt-1 uppercase">reCAPTCHA</span>
+            </div>
+          </div>
+
+          <button 
+            type="submit" 
+            class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 rounded-2xl shadow-lg shadow-emerald-200 transition-all transform active:scale-[0.97] uppercase tracking-widest text-sm"
+          >
+            Vytvoriť firemný účet
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'RegisterFirmView',
+  data() {
+    return {
+      form: {
+        companyName: '',
+        ico: '',
+        dic: '',
+        contactPerson: '',
+        email: '',
+        password: '',
+        passwordConfirm: '',
+        gdpr: false,
+        captcha: false
+      }
+    }
+  },
+  methods: {
+    goBack() {
+        if(window.history.state && window.history.state.back) {
+            this.$router.back();
+        }
+        else {
+            this.$router.push('/');
+        }
+    },
+    handleRegister() {
+      if (this.form.password !== this.form.passwordConfirm) {
+        alert("Chyba: Heslá sa musia zhodovať.");
+        return;
+      }
+      
+      if (!this.form.captcha) {
+        alert("Prosím, potvrďte CAPTCHA overenie.");
+        return;
+      }
+
+      console.log('Registračné dáta firmy:', this.form);
+      this.$router.push('/register-success');
+    }
+  }
+}
+</script>
