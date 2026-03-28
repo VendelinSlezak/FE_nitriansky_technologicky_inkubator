@@ -42,7 +42,7 @@
                 {{ item.title }}
             </h3>
             
-            <p class="text-sm text-slate-500 mb-4 line-clamp-2 leading-relaxed">
+            <p class="text-sm text-slate-500 mb-4 leading-relaxed">
                 {{ item.excerpt }}
             </p>
             
@@ -149,19 +149,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-/* Voliteľné: obmedzenie riadkov pre text (v prípade, že prehliadač nepodporuje native line-clamp) */
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-</style>

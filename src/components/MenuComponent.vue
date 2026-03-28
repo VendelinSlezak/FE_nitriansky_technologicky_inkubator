@@ -97,13 +97,22 @@
           </div>
 
           <router-link
-              v-for="link in navLinks"
-              :key="link.name"
-              :to="link.path"
-              @click="closeMenu"
-              class="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl font-semibold transition-colors"
+            v-for="link in navLinks"
+            :key="link.name"
+            :to="link.path"
+            @click="closeMenu"
+            v-slot="{ isActive }"
           >
-            {{ link.name }}
+            <span
+              :class="[
+                'block px-4 py-3 rounded-xl font-semibold transition-all duration-200',
+                isActive 
+                  ? 'bg-gray-100 text-blue-600' 
+                  : 'text-gray-700 hover:bg-blue-50 hover:text-blue-600'
+              ]"
+            >
+              {{ link.name }}
+            </span>
           </router-link>
           
           <div class="pt-6 pb-2 border-t border-gray-100 mt-4 space-y-4 px-2">
