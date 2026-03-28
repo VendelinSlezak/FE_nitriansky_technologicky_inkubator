@@ -5,11 +5,15 @@ import ProgramAView from '../views/ProgramAView.vue'
 import ProgramBView from '../views/ProgramBView.vue'
 import PartnersAndMentorsView from '../views/PartnersAndMentorsView.vue'
 import NewsView from '../views/NewsView.vue'
+import StudentView from '@/views/StudentView.vue'
+import CreateTeamView from '@/views/CreateTeamView.vue'
+import CreateChallengeView from '@/views/CreateChallengeView.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import RegisterStudentView from '../views/RegisterStudentView.vue'
 import RegisterFirmView from '../views/RegisterFirmView.vue'
 import RegisterSuccessView from '../views/RegisterSuccessView.vue'
+
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,6 +47,22 @@ const router = createRouter({
             path: '/novinky',
             name: 'news',
             component: NewsView,
+        },
+        {
+
+            path: '/student',
+            name: 'student',
+            component: StudentView,
+            children: [{
+                path: '/student/vytvorit-tim',
+                name: 'vytvorit-tim',
+                component: CreateTeamView
+            },{
+                path: '/student/vytvorit-vyzvu',
+                name: 'vytvorit-vyzvu',
+                component: CreateChallengeView
+
+        }]
         },
         {
             path: '/login',
