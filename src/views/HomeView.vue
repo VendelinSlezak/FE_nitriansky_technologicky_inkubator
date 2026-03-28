@@ -1,68 +1,35 @@
 <template>
   <div class="min-h-screen bg-white font-sans text-slate-900">
-    <section class="relative overflow-hidden bg-gradient-to-br from-blue-700 via-blue-800 to-indigo-950 text-white py-20 lg:py-32">
-      <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl"></div>
-      <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-80 h-80 bg-indigo-500/20 rounded-full blur-3xl"></div>
+    <section class="bg-gradient-to-br from-blue-700 via-blue-800 to-indigo-950 text-white py-20 lg:py-32">
+      <div class="container mx-auto px-4 text-center">
+        <div class="max-w-5xl mx-auto">
+          <span class="inline-block px-3 py-1 rounded-full bg-blue-600 text-xs font-bold uppercase tracking-wider mb-6">
+            Innovation • Mentoring • Partnership
+          </span>
 
-      <div class="container mx-auto px-4 relative z-10 text-center">
-        <span class="inline-block px-4 py-1.5 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-200 text-xs font-bold uppercase tracking-widest mb-6">
-          Innovation • Mentoring • Partnership
-        </span>
+          <h1 class="text-5xl md:text-7xl font-extrabold mb-8 leading-[1.1] tracking-tight">
+            Nitriansky technologický inkubátor
+          </h1>
 
-        <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight tracking-tight">
-          Nitriansky technologický <span class="text-blue-300">inkubátor</span>
-        </h1>
-
-        <p class="text-xl md:text-2xl mb-10 text-blue-100 max-w-3xl mx-auto leading-relaxed">
-          Podporujeme technologické talenty, inovácie a startupy v regióne.
-          Zmeňte svoj nápad na úspešný projekt s našou podporou.
-        </p>
-
-        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <router-link to="/registracia" class="w-full sm:w-auto">
-            <button class="w-full sm:w-auto bg-white text-blue-700 px-8 py-4 rounded-xl font-bold hover:bg-blue-50 transition-all shadow-lg flex items-center justify-center gap-2 group">
-              Registrovať sa ako študent
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-            </button>
-          </router-link>
-
-          <router-link to="/registracia" class="w-full sm:w-auto">
-            <button class="w-full sm:w-auto border-2 border-white/30 bg-white/5 backdrop-blur-sm px-8 py-4 rounded-xl font-bold hover:bg-white/10 transition-all text-white">
-              Registrovať firmu
-            </button>
-          </router-link>
-        </div>
-      </div>
-    </section>
-
-    <section class="py-12 bg-white relative z-20 -mt-10">
-      <div class="max-w-6xl mx-auto px-4">
-        <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8 md:p-12 grid grid-cols-2 md:grid-cols-4 gap-8">
-          <div v-for="(stat, i) in stats" :key="i" class="text-center group">
-            <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" v-html="getIcon(stat.icon)"></div>
-            <div class="text-3xl md:text-4xl font-black text-slate-800 mb-1">{{ stat.value }}</div>
-            <div class="text-xs md:text-sm font-bold text-slate-400 uppercase tracking-widest">{{ stat.label }}</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="py-20 bg-slate-50">
-      <div class="container mx-auto px-4">
-        <div class="text-center mb-16">
-          <h2 class="text-3xl md:text-4xl font-black mb-4 text-slate-800 tracking-tight">Naše piliere</h2>
-          <div class="w-20 h-1.5 bg-blue-600 mx-auto rounded-full mb-6"></div>
-          <p class="text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed">
-            Štyri strategické oblasti, ktoré tvoria základ našej práce a vašej budúcnosti.
+          <p class="text-xl md:text-2xl mb-12 text-blue-100 max-w-3xl mx-auto leading-relaxed">
+            Podporujeme technologické talenty, inovácie a startupy v regióne Nitra. 
+            Zmeňte svoj nápad na úspešný projekt s našou odbornou podporou.
           </p>
-        </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-          <div v-for="(pillar, i) in pillars" :key="i" 
-               class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
-            <div :class="['w-14 h-14 rounded-xl flex items-center justify-center mb-6 shadow-inner', pillar.color]" v-html="getIcon(pillar.icon)"></div>
-            <h3 class="font-bold text-xl mb-3 text-slate-800">{{ pillar.title }}</h3>
-            <p class="text-slate-500 leading-relaxed text-sm">{{ pillar.description }}</p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <router-link to="/registracia-studenta" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-white text-blue-800 font-bold rounded-lg shadow-xl hover:bg-blue-50 transition-all duration-200 group active:scale-95">
+              Registrovať sa ako študent
+              <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-5 w-5 transform group-hover:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+              </svg>
+            </router-link>
+
+            <router-link to="/registracia-firmy" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-all duration-200 active:scale-95">
+              Registrovať firmu
+              <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+              </svg>
+            </router-link>
           </div>
         </div>
       </div>
@@ -112,18 +79,6 @@ export default {
   name: "HomeView",
   data() {
     return {
-      stats: [
-        { label: "Aktívnych projektov", value: "45+", icon: "target" },
-        { label: "Partnerských firiem", value: "30+", icon: "building" },
-        { label: "Študentov v programoch", value: "200+", icon: "graduation" },
-        { label: "Úspešných absolventov", value: "150+", icon: "trending" },
-      ],
-      pillars: [
-        { title: "Inkubácia", description: "Podporujeme vznik a akceleráciu perspektívnych startupov.", icon: "lightbulb", color: "bg-blue-100 text-blue-700" },
-        { title: "Partnerstvá", description: "Prepájame talentovaných študentov priamo s IT sférou.", icon: "building", color: "bg-green-100 text-green-700" },
-        { title: "Mentoring", description: "Skúsení odborníci z praxe pomáhajú vašim projektom.", icon: "users", color: "bg-purple-100 text-purple-700" },
-        { title: "Retencia", description: "Budujeme silnú a udržateľnú komunitu lokálnych talentov.", icon: "target", color: "bg-orange-100 text-orange-700" },
-      ],
       programs: [
         {
           id: "a",

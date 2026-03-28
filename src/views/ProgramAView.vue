@@ -1,208 +1,196 @@
 <template>
-  <div class="min-h-screen bg-white">
-    <!-- Hero Section -->
-    <section class="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-16 lg:py-24">
-      <div class="container mx-auto px-4 max-w-4xl">
-        <span class="inline-block mb-4 px-3 py-1 bg-blue-500 rounded-full text-sm font-semibold">Program A</span>
-        <h1 class="text-4xl md:text-5xl font-bold mb-6">Grantový inkubačný program</h1>
-        <p class="text-xl text-blue-100 mb-8">
-          Máte vlastný inovatívny nápad? Získajte financovanie, mentoring a podporu pre
-          váš startup alebo produkt. Zmeňte svoj nápad na úspešný biznis.
-        </p>
-        <div class="flex flex-col sm:flex-row gap-4">
-          <router-link to="/registracia">
-            <Button size="lg" class="bg-white text-blue-700 hover:bg-blue-50">
-              Podať prihlášku
-              <ArrowRight class="ml-2 h-5 w-5" />
-            </Button>
-          </router-link>
-          <Button size="lg" variant="outline" class="border-white text-white hover:bg-white/10">
-            Stiahnuť podmienky
-          </Button>
-        </div>
-      </div>
-    </section>
+  <div class="min-h-screen bg-white font-sans text-slate-900">
+    <section class="bg-gradient-to-br from-blue-700 to-indigo-900 text-white py-16 lg:py-24">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <span class="inline-block px-3 py-1 rounded-full bg-blue-600 text-xs font-bold uppercase tracking-wider mb-4">
+            Program A
+          </span>
 
-    <!-- How it works -->
-    <section class="py-16">
-      <div class="container mx-auto px-4 max-w-4xl">
-        <h2 class="text-3xl font-bold mb-8 text-center">Ako to funguje</h2>
-        <div class="grid md:grid-cols-4 gap-6">
-          <div v-for="(step, index) in steps" :key="index" class="text-center">
-            <div class="w-16 h-16 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-2xl font-bold mx-auto mb-4">
-              {{ index + 1 }}
-            </div>
-            <h3 class="font-semibold mb-2">{{ step.title }}</h3>
-            <p class="text-sm text-gray-600">{{ step.description }}</p>
+          <h1 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
+            Grantový inkubačný program
+          </h1>
+
+          <p class="text-xl text-blue-100 mb-8 leading-relaxed">
+            Máte vlastný inovatívny nápad? Získajte financovanie, mentoring a podporu pre 
+            váš startup. Zmeňte svoju víziu na úspešný biznis s našou pomocou.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-4">
+            <router-link to="/registracia-studenta" class="inline-flex items-center justify-center px-6 py-3 bg-white text-blue-700 font-semibold rounded-lg shadow-md hover:bg-blue-50 transition-colors duration-200">
+              Registrovať sa ako študent
+              <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+              </svg>
+            </router-link>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Categories -->
-    <section class="py-16 bg-gray-50">
+    <section class="py-16 bg-slate-50">
       <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold mb-12 text-center">Tematické kategórie</h2>
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          <Card v-for="(category, index) in categories" :key="index" class="border-2 hover:border-blue-300 transition-colors">
-            <CardHeader>
-              <div class="w-12 h-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center mb-3">
-                <component :is="category.icon" class="h-6 w-6" />
-              </div>
-              <CardTitle>{{ category.title }}</CardTitle>
-              <CardDescription>{{ category.description }}</CardDescription>
-            </CardHeader>
-          </Card>
+        <h2 class="text-3xl font-bold mb-12 text-center text-slate-800">
+          Ako to funguje
+        </h2>
+
+        <div class="max-w-4xl mx-auto space-y-4">
+          <div v-for="(step, index) in steps" :key="'step-' + index" 
+              class="bg-white p-6 rounded-xl border-l-4 border-l-blue-600 shadow-sm flex items-start gap-5 transition-transform hover:scale-[1.01]">
+            
+            <div class="w-12 h-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0" 
+                v-html="getIcon(step.icon)">
+            </div>
+
+            <div>
+              <span class="text-xs font-bold text-blue-600 uppercase tracking-wide">
+                Krok {{ index + 1 }}
+              </span>
+              <h4 class="text-xl font-bold mb-1 text-slate-800">
+                {{ step.title }}
+              </h4>
+              <p class="text-slate-600 leading-relaxed">
+                {{ step.description }}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Requirements -->
-    <section class="py-16">
-      <div class="container mx-auto px-4 max-w-4xl">
-        <h2 class="text-3xl font-bold mb-8 text-center">Požiadavky na uchádzačov</h2>
-        <Card class="border-2 border-blue-100">
-          <CardContent class="pt-6">
-            <ul class="space-y-4">
-              <li v-for="(req, index) in requirements" :key="index" class="flex items-start">
-                <CheckCircle2 class="h-6 w-6 text-blue-600 mr-3 flex-shrink-0 mt-0.5" />
-                <span class="text-lg">{{ req }}</span>
+    <section class="py-24 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16">
+          
+          <div>
+            <h2 class="text-3xl font-black mb-8 text-slate-900 tracking-tight text-left">Požiadavky</h2>
+            <ul class="space-y-5">
+              <li v-for="(req, index) in requirements" :key="index" class="flex items-start gap-4">
+                <div class="mt-1 flex-shrink-0 w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+                <span class="text-lg text-slate-600 font-medium leading-snug">{{ req }}</span>
               </li>
             </ul>
-          </CardContent>
-        </Card>
-      </div>
-    </section>
+          </div>
 
-    <!-- Required Documents -->
-    <section class="py-16 bg-gray-50">
-      <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold mb-12 text-center">Povinná projektová dokumentácia</h2>
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          <Card v-for="(doc, index) in documents" :key="index">
-            <CardHeader>
-              <component :is="doc.icon" class="h-8 w-8 text-blue-600 mb-3" />
-              <CardTitle class="text-lg">{{ doc.title }}</CardTitle>
-              <CardDescription>{{ doc.description }}</CardDescription>
-            </CardHeader>
-          </Card>
+          <div>
+            <h2 class="text-3xl font-black mb-8 text-slate-900 tracking-tight text-left">Čo získate</h2>
+            <ul class="space-y-5">
+              <li v-for="(benefit, index) in benefits" :key="index" class="flex items-start gap-4">
+                <div class="mt-1 flex-shrink-0 w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+                <span class="text-lg text-slate-600 font-medium leading-snug">{{ benefit }}</span>
+              </li>
+            </ul>
+          </div>
+
         </div>
       </div>
     </section>
 
-    <!-- Benefits -->
-    <section class="py-16">
-      <div class="container mx-auto px-4 max-w-4xl">
-        <h2 class="text-3xl font-bold mb-8 text-center">Čo získate</h2>
-        <div class="grid md:grid-cols-2 gap-6">
-          <div v-for="(benefit, index) in benefits" :key="index" class="flex items-start">
-            <CheckCircle2 class="h-6 w-6 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
-            <span class="text-lg">{{ benefit }}</span>
+    <section class="py-24 bg-slate-50">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-black mb-16 text-center text-slate-900 tracking-tight">Projektová dokumentácia</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div v-for="(doc, index) in documents" :key="index" class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+            <div class="text-blue-600 mb-4" v-html="getIcon('file')"></div>
+            <h3 class="font-black text-lg mb-2 text-slate-900">{{ doc.title }}</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">{{ doc.description }}</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Timeline -->
-    <section class="py-16 bg-blue-50">
-      <div class="container mx-auto px-4 max-w-4xl">
-        <h2 class="text-3xl font-bold mb-8 text-center">Harmonogram</h2>
-        <Card>
-          <CardContent class="pt-6">
-            <div class="space-y-6">
-              <div v-for="(item, index) in timeline" :key="index" class="flex items-start">
-                <component :is="item.icon" class="h-6 w-6 text-blue-600 mr-4 flex-shrink-0 mt-1" />
-                <div>
-                  <div class="font-semibold text-lg mb-1">{{ item.title }}</div>
-                  <p class="text-gray-600">{{ item.description }}</p>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="py-16 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-      <div class="container mx-auto px-4 max-w-3xl text-center">
-        <h2 class="text-3xl font-bold mb-4">Pripravení zmeniť váš nápad na realitu?</h2>
-        <p class="text-xl mb-8 text-blue-100">
-          Podajte prihlášku do Program A a získajte podporu pre váš inovatívny projekt
+    <section class="py-20 bg-gradient-to-r from-blue-700 to-indigo-900 text-white text-center">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold mb-6 tracking-tight">Pripravení na štart?</h2>
+        
+        <p class="text-xl mb-10 text-blue-100 max-w-2xl mx-auto leading-relaxed">
+          Podajte prihlášku ešte dnes a staňte sa súčasťou technologickej elity v našom regióne.
         </p>
-        <router-link to="/registracia">
-          <Button size="lg" class="bg-white text-blue-700 hover:bg-blue-50">
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <router-link 
+            to="/registracia" 
+            class="px-10 py-4 bg-white text-blue-800 font-bold rounded-xl shadow-lg hover:bg-blue-50 transition-all transform active:scale-95"
+          >
             Podať prihlášku teraz
-            <ArrowRight class="ml-2 h-5 w-5" />
-          </Button>
-        </router-link>
+          </router-link>
+
+          <router-link 
+            to="/partneri-a-mentori" 
+            class="px-10 py-4 bg-transparent border-2 border-white text-white font-bold rounded-xl hover:bg-white/10 transition-all transform active:scale-95"
+          >
+            Zobraziť partnerov
+          </router-link>
+        </div>
       </div>
     </section>
   </div>
 </template>
 
 <script>
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../components/ui/card";
-import { Button } from "../components/ui/button";
-import { CheckCircle2, ArrowRight, FileText, Users, Banknote, Calendar, Smartphone, Brain, Globe, Gamepad2, Cpu } from "lucide-vue-next";
-
 export default {
-  name: "ProgramA",
-  components: {
-    Card, CardContent, CardHeader, CardTitle, CardDescription, Button,
-    CheckCircle2, ArrowRight, FileText, Users, Banknote, Calendar, Smartphone, Brain, Globe, Gamepad2, Cpu
-  },
+  name: "ProgramAView",
   data() {
     return {
       steps: [
-        { title: "Registrácia tímu", description: "Vytvorte tím minimálne 3 členov" },
-        { title: "Podanie prihlášky", description: "Vyplňte prihlášku a nahrajte dokumentáciu" },
-        { title: "Hodnotenie", description: "Komisia vyhodnotí váš projekt" },
-        { title: "Realizácia", description: "Realizujte projekt s mentorom" },
+        { title: "Registrácia tímu", description: "Vytvorte tím minimálne 3 členov." },
+        { title: "Podanie prihlášky", description: "Nahrajte potrebnú dokumentáciu." },
+        { title: "Hodnotenie", description: "Komisia vyhodnotí váš inovatívny projekt." },
+        { title: "Realizácia", description: "Práca na projekte s prideleným mentorom." },
       ],
       categories: [
-        { icon: Smartphone, title: "Vývoj softvéru", description: "Desktop, mobilné aplikácie, embedded systémy" },
-        { icon: Brain, title: "AI a dátové technológie", description: "AI aplikácie, strojové učenie, analýza dát" },
-        { icon: Globe, title: "Webové aplikácie", description: "Internetové a prehliadačové aplikácie" },
-        { icon: Gamepad2, title: "Herný vývoj", description: "Herné aplikácie, 3D vývoj, VR/AR" },
-        { icon: Cpu, title: "IoT a embedded systémy", description: "Internet vecí, robotika, priemyselné systémy" },
+        { iconKey: "smartphone", title: "Vývoj softvéru", description: "Mobilné aplikácie, desktopové riešenia a embedded systémy." },
+        { iconKey: "brain", title: "AI technológie", description: "Strojové učenie, neurónové siete a pokročilá analýza dát." },
+        { iconKey: "globe", title: "Webové platformy", description: "Moderné cloudové riešenia a komplexné webové systémy." },
+        { iconKey: "gamepad", title: "Herný vývoj", description: "Herné mechaniky, 3D vizualizácie a VR/AR prostredia." },
+        { iconKey: "cpu", title: "IoT riešenia", description: "Robotika, inteligentné senzory a prepojené zariadenia." },
       ],
       documents: [
-        { icon: FileText, title: "Executive Summary", description: "Stručný opis problému, riešenia, trhu a prínosu" },
-        { icon: FileText, title: "Technická architektúra", description: "Opis riešenia, technológií, modulov a prevádzky" },
-        { icon: FileText, title: "Roadmapa", description: "Míľniky, plán realizácie a harmonogram" },
-        { icon: FileText, title: "Rozpočet", description: "Plán čerpania grantu a očakávané náklady" },
-        { icon: FileText, title: "Riziková analýza", description: "Identifikácia rizík, dopadov a mitigácií" },
-        { icon: FileText, title: "Monetizačný model", description: "Spôsob vytvárania hodnoty a príjmov produktu" },
+        { title: "Executive Summary", description: "Stručný opis problému, vášho riešenia a potenciálu trhu." },
+        { title: "Technická architektúra", description: "Opis technológií, modulov a spôsobu fungovania produktu." },
+        { title: "Projektová roadmapa", description: "Kľúčové míľniky, termíny a plánovaný postup prác." },
+        { title: "Rozpočet", description: "Detailný plán čerpania grantu na potrebný rozvoj." },
+        { title: "Analýza rizík", description: "Identifikácia možných prekážok a spôsobov ich riešenia." },
+        { title: "Biznis model", description: "Spôsob, akým bude váš produkt vytvárať hodnotu." },
       ],
       requirements: [
         "Minimálna veľkosť tímu: 3 členovia",
-        "Študenti bez prenášaných predmetov",
-        "Dobrý priemer profilových predmetov",
-        "Originálny inovatívny nápad",
-        "Technická realizovateľnosť projektu",
+        "Aktívni študenti bez prenášaných predmetov",
+        "Vynikajúce výsledky v profilových predmetoch",
+        "Originálny a technicky realizovateľný nápad",
       ],
       benefits: [
-        "Grantové financovanie projektu",
-        "Prístup k infraštruktúre a technológiám",
-        "Profesionálny mentoring od skúsených odborníkov",
-        "Podpora až do uvedenia produktu na trh",
-        "Možnosť získať investície",
-        "Budovanie portfólia a referencií",
+        "Priame grantové financovanie",
+        "Profesionálny mentoring z praxe",
+        "Moderná infraštruktúra NTI",
+        "Prístup k investorom a partnerom",
+        "Silné referencie pre budúcu kariéru",
       ],
-      timeline: [
-        { icon: Calendar, title: "Kvartálne hodnotiace kolá", description: "Prihlášky sa hodnotia 4x ročne podľa harmonogramu výziev" },
-        { icon: Users, title: "Onboarding a pridelenie mentora", description: "Po schválení vás sprevádzame celým procesom realizácie" },
-        { icon: Banknote, title: "Priebežné financovanie podľa míľnikov", description: "Grant čerpáte postupne na základe dosiahnutých míľnikov" },
-      ],
+      iconPaths: {
+        file: '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>',
+        smartphone: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>',
+        brain: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.78-3.06 2.5 2.5 0 0 1-2.41-4.4 2.5 2.5 0 0 1 3.28-3.81c.5-1.14 1.54-1.92 2.73-2.1c.14-.02.27-.05.41-.07Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.78-3.06 2.5 2.5 0 0 0 2.41-4.4 2.5 2.5 0 0 0-3.28-3.81c-.5-1.14-1.54-1.92-2.73-2.1-.14-.02-.27-.05-.41-.07Z"/></svg>',
+        globe: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+        gamepad: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" x2="10" y1="12" y2="12"/><line x1="8" x2="8" y1="10" y2="14"/><circle cx="15" cy="13" r="1"/><circle cx="18" cy="11" r="1"/><rect width="20" height="12" x="2" y="6" rx="2"/></svg>',
+        cpu: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg>',
+      }
     };
+  },
+  methods: {
+    getIcon(name) {
+      return this.iconPaths[name] || '';
+    }
   },
   mounted() {
     document.title = "Program A | NTI";
   },
 };
 </script>
-
-<style scoped>
-/* Tailwind utility sa používa priamo v template */
-</style>

@@ -1,84 +1,110 @@
 <template>
   <div class="min-h-screen bg-white font-sans text-slate-900">
-    <section class="relative overflow-hidden bg-gradient-to-br from-blue-700 via-blue-800 to-indigo-950 text-white py-20 lg:py-32">
-      <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl animate-pulse"></div>
-      <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-80 h-80 bg-indigo-500/20 rounded-full blur-3xl"></div>
-
-      <div class="container mx-auto px-4 relative z-10 text-center">
-        <span class="inline-block px-4 py-1.5 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-200 text-xs font-bold uppercase tracking-widest mb-6 backdrop-blur-md">
-          O nás • Naša misia
-        </span>
-
-        <h1 class="text-5xl md:text-7xl font-black mb-8 leading-[1.1] tracking-tighter">
-          Nitriansky technologický <br class="hidden md:block" />
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-indigo-200">inkubátor</span>
-        </h1>
-
-        <p class="text-xl md:text-2xl mb-12 text-blue-100/80 max-w-3xl mx-auto leading-relaxed font-medium">
-          Podporujeme rozvoj technologických talentov, inovácie a podnikateľské myslenie v regióne Nitra.
-        </p>
+    <section class="bg-gradient-to-br from-blue-700 to-indigo-900 text-white py-20 lg:py-28">
+      <div class="container mx-auto px-4 text-center">
+        <div class="max-w-4xl mx-auto">
+          <span class="inline-block px-4 py-1.5 rounded-full bg-blue-600/30 border border-blue-400/30 text-blue-100 text-xs font-bold uppercase tracking-widest mb-6">
+            Naša misia
+          </span>
+          <h1 class="text-4xl md:text-6xl font-black mb-8 leading-tight tracking-tight">
+            Budujeme technologickú <br class="hidden md:block" /> budúcnosť regiónu
+          </h1>
+          <p class="text-xl md:text-2xl text-blue-100 leading-relaxed font-light">
+            NTI vznikol ako odpoveď na odliv talentov. Naším cieľom je vytvárať nové startupy 
+            a profesionálne IT tímy s medzinárodným potenciálom.
+          </p>
+        </div>
       </div>
     </section>
 
-    <section class="py-24 bg-white">
-    <div class="container mx-auto px-4 text-center">
-      <div class="max-w-3xl mx-auto">
-        <h2 class="text-4xl md:text-5xl font-black mb-8 text-slate-900 tracking-tight">
-          Naša misia
-        </h2>
-        
-        <div class="space-y-6">
-          <p class="text-xl text-slate-600 leading-relaxed font-medium">
-            Nitriansky technologický inkubátor vznikol ako odpoveď na potrebu systematickej
-            podpory inovatívnych projektov v regióne. Naším cieľom je vytvárať startupy a 
-            profesionálne IT tímy s medzinárodným potenciálom.
-          </p>
-          
-          <p class="text-xl text-slate-600 leading-relaxed font-medium">
-            Zameriavame sa na riešenie odlivu talentov a podporu podnikateľského myslenia. 
-            Prepájame akademické prostredie s praxou a vytvárame ekosystém, v ktorom môžu 
-            inovácie prosperovať a rásť priamo v našom regióne.
-          </p>
-        </div>
-
-        <div class="mt-12 flex justify-center">
-          <div class="w-12 h-1 bg-slate-100 rounded-full"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-    <section class="py-24 bg-white">
+    <section class="py-20 bg-white">
       <div class="container mx-auto px-4">
         <div class="text-center mb-16">
-          <h2 class="text-4xl font-black mb-4 text-slate-900 tracking-tight text-center">Náš tím</h2>
-          <p class="text-xl text-slate-500 max-w-2xl mx-auto font-medium">Ľudia, ktorí stoja za úspechom našich programov.</p>
+          <h2 class="text-3xl font-bold text-slate-800 mb-4">Strategické piliere NTI</h2>
+          <p class="text-slate-500">Základné kamene, na ktorých staviame náš informačný systém a procesy.</p>
         </div>
-
-        <div class="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
-          <div v-for="(member, index) in team" :key="index" class="bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-500 group text-center">
-            <div class="w-24 h-24 rounded-3xl bg-gradient-to-br from-blue-500 to-indigo-600 mx-auto mb-6 transform group-hover:rotate-6 transition-transform shadow-lg flex items-center justify-center text-white text-3xl font-bold">
-              {{ member.name.charAt(0) }}
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          <div v-for="(pillar, i) in pillars" :key="i" 
+               class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm text-center hover:shadow-md transition-all">
+            <div class="w-16 h-16 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-6" 
+                 v-html="getIcon(pillar.icon)">
             </div>
-            <h3 class="text-xl font-black text-slate-900 mb-1 tracking-tight">{{ member.name }}</h3>
-            <div class="text-blue-600 font-bold text-sm uppercase tracking-widest mb-4">{{ member.role }}</div>
-            <p class="text-slate-500 text-sm leading-relaxed">{{ member.description }}</p>
+            <h3 class="text-lg font-bold mb-3 text-slate-800">{{ pillar.title }}</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">{{ pillar.description }}</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="py-24 bg-slate-900 text-white relative overflow-hidden">
-      <div class="absolute top-0 right-0 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl"></div>
-      <div class="container mx-auto px-4 relative z-10">
-        <div class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[3rem] p-12 md:p-20">
-          <h2 class="text-3xl md:text-4xl font-black mb-16 text-center tracking-tight">Náš dopad v číslach</h2>
-          <div class="grid md:grid-cols-3 gap-12 text-center">
-            <div v-for="(stat, index) in impact" :key="index" class="group">
-              <div class="text-5xl md:text-6xl font-black text-blue-400 mb-4 tracking-tighter group-hover:scale-110 transition-transform duration-300">
-                {{ stat.value }}
+    <section class="py-20 bg-slate-50 border-y border-slate-100">
+      <div class="container mx-auto px-4">
+        <div class="max-w-5xl mx-auto">
+          <div class="flex flex-col lg:flex-row items-center gap-12">
+            <div class="lg:w-1/2">
+              <h2 class="text-3xl font-bold mb-6 text-slate-900">Inovačný ekosystém</h2>
+              <p class="text-slate-600 mb-6 leading-relaxed">
+                Náš ekosystém nie je len o priestoroch, ale o plnohodnotnej <b>procesnej platforme</b>. 
+                Prepájame akademické prostredie s reálnou praxou cez dva kľúčové programy:
+              </p>
+              <ul class="space-y-4">
+                <li class="flex items-start gap-3">
+                  <div class="mt-1.5 w-2 h-2 rounded-full bg-blue-600 flex-shrink-0"></div>
+                  <span class="text-slate-700"><strong>Program A:</strong> Inkubácia vlastných startupov a inovatívnych produktov.</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <div class="mt-1.5 w-2 h-2 rounded-full bg-indigo-600 flex-shrink-0"></div>
+                  <span class="text-slate-700"><strong>Program B:</strong> Živá prax na reálnych zadaniach od firiem pod dohľadom mentorov.</span>
+                </li>
+              </ul>
+            </div>
+            <div class="lg:w-1/2 bg-blue-600 rounded-3xl p-8 text-white shadow-2xl">
+              <h4 class="text-xl font-bold mb-4">Cieľové skupiny</h4>
+              <p class="text-blue-100 text-sm mb-6">Naša platforma obsluhuje celý životný cyklus spolupráce.</p>
+              <div class="grid grid-cols-2 gap-4 text-xs font-bold uppercase tracking-widest">
+                <div class="bg-blue-500/30 p-4 rounded-xl border border-blue-400/20 text-center">Študenti</div>
+                <div class="bg-blue-500/30 p-4 rounded-xl border border-blue-400/20 text-center">Firmy</div>
+                <div class="bg-blue-500/30 p-4 rounded-xl border border-blue-400/20 text-center">Mentori</div>
+                <div class="bg-blue-500/30 p-4 rounded-xl border border-blue-400/20 text-center">Komisia</div>
               </div>
-              <div class="text-slate-400 font-bold uppercase tracking-widest text-sm">{{ stat.label }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-24 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+          <div class="grid lg:grid-cols-2 gap-16">
+            <div>
+              <h2 class="text-3xl font-bold mb-8 text-slate-900">Akademické zázemie</h2>
+              <div class="bg-white border border-slate-100 p-8 rounded-3xl shadow-sm">
+                <p class="text-slate-600 leading-relaxed mb-6">
+                  NTI úzko spolupracuje s fakultou na overovaní <b>akademickej spôsobilosti</b> kandidátov. 
+                  Využívame kvalifikačné stacky v oblastiach AI, IoT, herného vývoja a softvérového inžinierstva.
+                </p>
+                <div class="inline-flex items-center gap-2 text-blue-600 font-bold">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.382 0z"/></svg>
+                  <span>Prepojenie s univerzitným výskumom</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h2 class="text-3xl font-bold mb-8 text-slate-900">Administratíva a vedenie</h2>
+              <p class="text-slate-600 leading-relaxed mb-8">
+                Náš tím tvoria experti na procesné riadenie, business development a technológie, 
+                ktorí zabezpečujú hladký priebeh od registrácie až po finálny report.
+              </p>
+              <div class="grid grid-cols-2 gap-6">
+                <div v-for="n in 2" :key="n" class="flex items-center gap-4">
+                  <div class="w-16 h-16 rounded-full bg-slate-200 animate-pulse"></div>
+                  <div>
+                    <div class="h-4 w-24 bg-slate-200 rounded mb-2"></div>
+                    <div class="h-3 w-16 bg-slate-100 rounded"></div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -92,15 +118,11 @@ export default {
   name: "AboutView",
   data() {
     return {
-      team: [
-        { name: "Prof. Ing. Martin Novák, PhD.", role: "Riaditeľ NTI", description: "Skúsený akademik a odborník na technologické inovácie." },
-        { name: "Ing. Jana Kováčová", role: "Koordinátorka programov", description: "Zodpovedná za hladkú realizáciu programov A a B." },
-        { name: "Mgr. Peter Horváth", role: "Manažér partnerstiev", description: "Buduje strategické vzťahy s IT firmami v regióne." },
-      ],
-      impact: [
-        { value: "150+", label: "Absolventov programov" },
-        { value: "45+", label: "Úspešných projektov" },
-        { value: "30+", label: "Partnerských firiem" },
+      pillars: [
+        { title: 'Inkubácia', icon: 'lightbulb', description: 'Podpora vzniku startupov, akcelerácia nápadov a evidencia míľnikov k úspechu.' },
+        { title: 'Partnerstvá', icon: 'building', description: 'Modul pre firmy a partnerov, správa spoločných výziev a technologických zadaní.' },
+        { title: 'Mentoring', icon: 'users', description: 'Priraďovanie mentorov, plánovanie konzultácií a sledovanie odborného progresu.' },
+        { title: 'Retencia', icon: 'target', description: 'Budovanie komunity absolventov a udržanie talentov v našom regióne.' }
       ],
       iconPaths: {
         lightbulb: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>',
@@ -117,6 +139,6 @@ export default {
   },
   mounted() {
     document.title = "O nás | Nitriansky technologický inkubátor";
-  },
+  }
 };
 </script>
