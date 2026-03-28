@@ -28,43 +28,6 @@
       </div>
     </section>
 
-    <section class="py-16 bg-white">
-      <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold mb-12 text-center text-slate-800">
-          Výhody pre obe strany
-        </h2>
-        <div class="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          <div class="bg-white p-8 rounded-2xl border-2 border-green-100 shadow-sm">
-            <div class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center mb-6">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            </div>
-            <h3 class="text-2xl font-bold mb-2">Pre študentov</h3>
-            <p class="text-slate-500 mb-6 font-medium">Získajte praktické skúsenosti a vybudujte si portfólio</p>
-            <ul class="space-y-4">
-              <li v-for="(benefit, index) in benefits.students" :key="'st-' + index" class="flex items-start">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                <span class="text-slate-700">{{ benefit }}</span>
-              </li>
-            </ul>
-          </div>
-
-          <div class="bg-white p-8 rounded-2xl border-2 border-blue-100 shadow-sm">
-            <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mb-6">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M16 10h.01"/><path d="M8 14h.01"/><path d="M16 14h.01"/></svg>
-            </div>
-            <h3 class="text-2xl font-bold mb-2">Pre firmy</h3>
-            <p class="text-slate-500 mb-6 font-medium">Realizujte projekty a získajte prístup k talentom</p>
-            <ul class="space-y-4">
-              <li v-for="(benefit, index) in benefits.companies" :key="'co-' + index" class="flex items-start">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 mr-3 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                <span class="text-slate-700">{{ benefit }}</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section class="py-16 bg-slate-50">
       <div class="container mx-auto px-4">
         <h2 class="text-3xl font-bold mb-12 text-center">Ako to funguje</h2>
@@ -104,6 +67,43 @@
     </section>
 
     <section class="py-16 bg-slate-50">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-12 text-center text-slate-800">
+          Výhody pre obe strany
+        </h2>
+        <div class="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          <div class="bg-white p-8 rounded-2xl border-2 border-green-100 shadow-sm">
+            <div class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center mb-6">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h3 class="text-2xl font-bold mb-2">Pre študentov</h3>
+            <p class="text-slate-500 mb-6 font-medium">Získajte praktické skúsenosti a vybudujte si portfólio</p>
+            <ul class="space-y-4">
+              <li v-for="(benefit, index) in benefits.students" :key="'st-' + index" class="flex items-start">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600 mr-3 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <span class="text-slate-700">{{ benefit }}</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-white p-8 rounded-2xl border-2 border-blue-100 shadow-sm">
+            <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mb-6">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M16 10h.01"/><path d="M8 14h.01"/><path d="M16 14h.01"/></svg>
+            </div>
+            <h3 class="text-2xl font-bold mb-2">Pre firmy</h3>
+            <p class="text-slate-500 mb-6 font-medium">Realizujte projekty a získajte prístup k talentom</p>
+            <ul class="space-y-4">
+              <li v-for="(benefit, index) in benefits.companies" :key="'co-' + index" class="flex items-start">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 mr-3 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <span class="text-slate-700">{{ benefit }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 bg-white">
       <div class="container mx-auto px-4 text-center">
         <h2 class="text-3xl font-bold mb-12">Príklady úspešných projektov</h2>
         <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto text-left">
