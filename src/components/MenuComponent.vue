@@ -34,19 +34,39 @@
         </div>
 
         <div class="flex items-center space-x-4 border-l border-gray-200 pl-6 ml-6">
-          <router-link to="/login" class="text-gray-500 hover:text-blue-600 text-sm font-bold transition-colors whitespace-nowrap">
-            PRIHLÁSENIE
-          </router-link>
-          <router-link to="/register" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-full text-sm font-black shadow-lg shadow-blue-200 transition-all transform active:scale-95 whitespace-nowrap">
-            REGISTRÁCIA
-          </router-link>
+          <template v-if="!isLoggedIn">
+            <router-link to="/login" class="text-gray-500 hover:text-blue-600 text-sm font-bold transition-colors whitespace-nowrap">
+              PRIHLÁSENIE
+            </router-link>
+            <router-link to="/register" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-full text-sm font-black shadow-lg shadow-blue-200 transition-all transform active:scale-95 whitespace-nowrap">
+              REGISTRÁCIA
+            </router-link>
+          </template>
+          <template v-else>
+            <button 
+              @click="handleLogout" 
+              class="px-5 py-2.5 rounded-full text-sm font-black transition-all transform active:scale-95 whitespace-nowrap bg-gray-100 hover:bg-gray-200 text-gray-700"
+            >
+              ODHLÁSIŤ SA
+            </button>
+
+            <div class="flex items-center gap-3 mr-2">
+              <div class="flex flex-col items-end leading-tight">
+                <span class="text-sm font-bold text-gray-900">{{ user.name }}</span>
+                <span class="text-[10px] font-medium text-gray-500 uppercase tracking-wider">{{ user.role }}</span>
+              </div>
+              <div class="w-10 h-10 rounded-full bg-blue-100 border border-blue-200 flex items-center justify-center text-blue-600 font-bold overflow-hidden">
+                <img v-if="user.avatar" :src="user.avatar" alt="User" class="w-full h-full object-cover">
+                <span v-else>{{ userInitials }}</span>
+              </div>
+            </div>
+          </template>
         </div>
       </div>
 
       <button 
         @click="toggleMenu" 
         class="xl:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-lg focus:outline-none transition-colors"
-        aria-label="Menu"
       >
         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path v-if="!isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
@@ -65,6 +85,17 @@
     >
       <div v-show="isOpen" class="xl:hidden bg-white border-t border-gray-100 w-full shadow-xl overflow-hidden">
         <div class="px-4 py-6 space-y-1">
+          
+          <div v-if="isLoggedIn" class="flex items-center gap-4 px-4 py-4 bg-gray-50 rounded-2xl mb-4">
+            <div class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-lg">
+              {{ userInitials }}
+            </div>
+            <div>
+              <div class="font-bold text-gray-900">{{ user.name }}</div>
+              <div class="text-xs text-gray-500 uppercase tracking-widest">{{ user.role }}</div>
+            </div>
+          </div>
+
           <router-link
               v-for="link in navLinks"
               :key="link.name"
@@ -76,12 +107,17 @@
           </router-link>
           
           <div class="pt-6 pb-2 border-t border-gray-100 mt-4 space-y-4 px-2">
-            <router-link to="/login" @click="closeMenu" class="block text-center text-gray-600 font-bold py-2">
-              PRIHLÁSENIE
-            </router-link>
-            <router-link to="/register" @click="closeMenu" class="block text-center bg-blue-600 text-white py-4 rounded-2xl font-black shadow-lg">
-              REGISTRÁCIA
-            </router-link>
+            <template v-if="!isLoggedIn">
+              <router-link to="/login" @click="closeMenu" class="block text-center text-gray-600 font-bold py-2">
+                PRIHLÁSENIE
+              </router-link>
+              <router-link to="/register" @click="closeMenu" class="block text-center bg-blue-600 text-white py-4 rounded-2xl font-black shadow-lg">
+                REGISTRÁCIA
+              </router-link>
+            </template>
+            <button v-else @click="handleLogout" class="w-full text-center bg-gray-900 text-white py-4 rounded-2xl font-black shadow-lg uppercase">
+               ODHLÁSIŤ SA
+            </button>
           </div>
         </div>
       </div>
@@ -95,17 +131,35 @@ export default {
   data() {
     return {
       isOpen: false,
+      isLoggedIn: true, 
+      user: {
+        name: 'Ján Novák',
+        role: 'Študent',
+        avatar: null
+      },
       navLinks: [
         { name: 'Domov', path: '/' },
         { name: 'O nás', path: '/o-nas' },
-        { name: 'Grantový inkubačný program', path: '/program-a' },
-        { name: 'Program živej praxe', path: '/program-b' },
-        { name: 'Partneri a mentori', path: '/partneri-a-mentori' },
+        { name: 'Grantový program', path: '/program-a' },
+        { name: 'Živá prax', path: '/program-b' },
+        { name: 'Partneri', path: '/partneri-a-mentori' },
         { name: 'Novinky', path: '/novinky' },
       ]
     }
   },
+  computed: {
+    userInitials() {
+      if (!this.user.name) return '?';
+      return this.user.name.split(' ').map(n => n[0]).join('').toUpperCase();
+    }
+  },
   methods: {
+    handleLogout() {
+      console.log("Odhlasujem...");
+      this.isLoggedIn = false;
+      this.closeMenu();
+      // Tu pridaj logiku na premazanie tokenu a redirect na home
+    },
     toggleMenu() {
       this.isOpen = !this.isOpen;
       document.body.style.overflow = this.isOpen ? 'hidden' : '';

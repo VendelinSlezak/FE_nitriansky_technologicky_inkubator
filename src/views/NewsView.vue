@@ -3,9 +3,6 @@
     <section class="bg-gradient-to-br from-slate-600 to-slate-800 text-white py-16">
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto">
-          <span class="inline-block px-3 py-1 rounded-full bg-slate-700 text-xs font-bold uppercase tracking-wider mb-4">
-            Novinky a aktuality
-          </span>
           <h1 class="text-4xl md:text-5xl font-extrabold mb-6">
             Novinky z NTI
           </h1>

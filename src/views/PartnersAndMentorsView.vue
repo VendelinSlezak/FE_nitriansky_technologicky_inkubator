@@ -3,9 +3,6 @@
     <section class="bg-gradient-to-br from-purple-600 to-purple-800 text-white py-16 lg:py-20">
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto">
-          <span class="inline-block px-3 py-1 rounded-full bg-purple-500 text-xs font-bold uppercase tracking-wider mb-4">
-            Partneri a mentori
-          </span>
           <h1 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
             Naši partneri a mentori
           </h1>

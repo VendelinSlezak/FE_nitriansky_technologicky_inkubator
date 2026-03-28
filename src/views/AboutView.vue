@@ -3,9 +3,6 @@
     <section class="bg-gradient-to-br from-blue-700 to-indigo-900 text-white py-20 lg:py-28">
       <div class="container mx-auto px-4 text-center">
         <div class="max-w-4xl mx-auto">
-          <span class="inline-block px-4 py-1.5 rounded-full bg-blue-600/30 border border-blue-400/30 text-blue-100 text-xs font-bold uppercase tracking-widest mb-6">
-            Naša misia
-          </span>
           <h1 class="text-4xl md:text-6xl font-black mb-8 leading-tight tracking-tight">
             Budujeme technologickú <br class="hidden md:block" /> budúcnosť regiónu
           </h1>

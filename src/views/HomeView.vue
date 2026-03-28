@@ -3,10 +3,6 @@
     <section class="bg-gradient-to-br from-blue-700 via-blue-800 to-indigo-950 text-white py-20 lg:py-32">
       <div class="container mx-auto px-4 text-center">
         <div class="max-w-5xl mx-auto">
-          <span class="inline-block px-3 py-1 rounded-full bg-blue-600 text-xs font-bold uppercase tracking-wider mb-6">
-            Innovation • Mentoring • Partnership
-          </span>
-
           <h1 class="text-5xl md:text-7xl font-extrabold mb-8 leading-[1.1] tracking-tight">
             Nitriansky technologický inkubátor
           </h1>
