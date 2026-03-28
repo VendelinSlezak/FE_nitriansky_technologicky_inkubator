@@ -116,7 +116,6 @@ export default {
     };
   },
   computed: {
-    // Odfiltruje prvú novinku (ktorá je v Hero/Featured sekcii) pre zobrazenie v gride
     remainingNews() {
       return this.newsItems.slice(1);
     }

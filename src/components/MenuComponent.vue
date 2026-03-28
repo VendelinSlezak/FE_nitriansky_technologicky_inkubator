@@ -15,7 +15,7 @@
       <div class="hidden xl:flex items-center">
         <div class="flex items-center gap-1">
           <router-link
-              v-for="link in navLinks"
+              v-for="link in visibleLinks"
               :key="link.name"
               :to="link.path"
               v-slot="{ isActive }"
@@ -33,7 +33,7 @@
           </router-link>
         </div>
 
-        <div class="flex items-center space-x-4 border-l border-gray-200 pl-6 ml-6">
+        <div class="flex items-center space-x-4 border-l border-gray-200 pl-5 ml-6">
           <template v-if="!isLoggedIn">
             <router-link to="/login" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-full text-sm font-black shadow-lg shadow-blue-200 transition-all transform active:scale-95 whitespace-nowrap">
               PRIHLÁSENIE
@@ -47,7 +47,7 @@
               ODHLÁSIŤ SA
             </button>
 
-            <div class="flex items-center gap-3 mr-2" @click="$router.push('/student-dashboard')">
+            <div class="flex items-center gap-3 mr-2">
               <div class="flex flex-col items-end leading-tight">
                 <span class="text-sm font-bold text-gray-900">{{ user.name }}</span>
                 <span class="text-[10px] font-medium text-gray-500 uppercase tracking-wider">{{ user.role }}</span>
@@ -94,7 +94,7 @@
           </div>
 
           <router-link
-            v-for="link in navLinks"
+            v-for="link in visibleLinks"
             :key="link.name"
             :to="link.path"
             @click="closeMenu"
@@ -129,17 +129,15 @@
 </template>
 
 <script>
+import { useAuthStore } from '../stores/auth' // Uprav cestu podľa tvojho projektu
+import { mapState, mapActions } from 'pinia'
+
 export default {
   name: 'MenuComponent',
   data() {
     return {
       isOpen: false,
-      isLoggedIn: true, 
-      user: {
-        name: 'Ján Novák',
-        role: 'Študent',
-        avatar: null
-      },
+      // NavLinks zostávajú v komponente, lebo sú statické pre toto menu
       navLinks: [
         { name: 'Domov', path: '/' },
         { name: 'O nás', path: '/o-nas' },
@@ -151,18 +149,32 @@ export default {
     }
   },
   computed: {
-    userInitials() {
-      if (!this.user.name) return '?';
-      return this.user.name.split(' ').map(n => n[0]).join('').toUpperCase();
-    }
+    ...mapState(useAuthStore, ['isLoggedIn', 'user', 'userInitials']),
+
+    visibleLinks() {
+      let links = [...this.navLinks];
+      
+      if (this.isLoggedIn && this.user) {
+        links.unshift({ 
+          name: 'Dashboard', 
+          path: this.user.dashboard || '/dashboard' 
+        });
+      }
+      
+      return links;
+    },
   },
   methods: {
+    ...mapActions(useAuthStore, ['logout']),
+
     handleLogout() {
-      console.log("Odhlasujem...");
-      this.isLoggedIn = false;
+      console.log("Odhlasujem cez Pinia Store...");
+      this.logout(); // Zavolá akciu v uložisku
       this.closeMenu();
-      // Tu pridaj logiku na premazanie tokenu a redirect na home
+      this.$router.push('/');
     },
+
+    // UI pomocné metódy zostávajú nezmenené
     toggleMenu() {
       this.isOpen = !this.isOpen;
       document.body.style.overflow = this.isOpen ? 'hidden' : '';

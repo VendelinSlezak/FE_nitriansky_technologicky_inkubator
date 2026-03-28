@@ -69,6 +69,9 @@
 </template>
 
 <script>
+import { useAuthStore } from '@/stores/auth.js'
+import { mapState, mapActions } from 'pinia'
+
 export default {
   name: 'LoginView',
   data() {
@@ -78,7 +81,12 @@ export default {
       loading: false
     }
   },
+  computed: {
+    ...mapState(useAuthStore, ['isLoggedIn', 'user', 'userInitials']),
+  },
   methods: {
+    ...mapActions(useAuthStore, ['login']),
+
     handleSubmit() {
       this.loading = true;
       
@@ -90,9 +98,14 @@ export default {
 
       setTimeout(() => {
         this.loading = false;
-        // Tu by nasledoval redirect napr.: this.$router.push('/');
-        alert('Úspešne prihlásený (simulácia)');
-      }, 1500);
+        this.login({ 
+          name: 'Ján Novák',
+          role: 'Študent',
+          avatar: null,
+          dashboard: '/student-dashboard',
+        });
+        this.$router.push('/student-dashboard');
+      }, 300);
     }
   }
 }

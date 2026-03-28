@@ -141,9 +141,9 @@ export default {
   data() {
     return {
       steps: [
-        { title: "Registrácia tímu", description: "Vytvorte tím minimálne 3 členov.", icon: "userGroup" },
         { title: "Podanie prihlášky", description: "Nahrajte potrebnú dokumentáciu.", icon: "file" },
         { title: "Hodnotenie", description: "Komisia vyhodnotí váš inovatívny projekt.", icon: "award" },
+        { title: "Registrácia tímu", description: "Vytvorte tím minimálne 3 členov.", icon: "userGroup" },
         { title: "Realizácia", description: "Práca na projekte s prideleným mentorom.", icon: "handshake" },
       ],
       categories: [
