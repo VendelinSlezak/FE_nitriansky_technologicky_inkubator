@@ -13,14 +13,14 @@
           </p>
 
           <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <router-link to="/registracia-studenta" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-white text-blue-800 font-bold rounded-lg shadow-xl hover:bg-blue-50 transition-all duration-200 group active:scale-95">
+            <router-link to="/register-student" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-white text-blue-800 font-bold rounded-lg shadow-xl hover:bg-blue-50 transition-all duration-200 group active:scale-95">
               Registrovať sa ako študent
               <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-5 w-5 transform group-hover:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
               </svg>
             </router-link>
 
-            <router-link to="/registracia-firmy" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-all duration-200 active:scale-95">
+            <router-link to="/register-firm" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-all duration-200 active:scale-95">
               Registrovať firmu
               <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>

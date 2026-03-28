@@ -131,7 +131,7 @@
             Pripojte sa k našej komunite firiem a odborníkov, ktorí podporujú technologické talenty.
           </p>
           <div class="flex justify-center">
-            <RouterLink to="/registracia-firmy" class="px-10 py-4 bg-white text-purple-800 font-bold rounded-xl shadow-lg hover:bg-purple-50 transition-all duration-200">
+            <RouterLink to="/register-firm" class="px-10 py-4 bg-white text-purple-800 font-bold rounded-xl shadow-lg hover:bg-purple-50 transition-all duration-200">
               Registrovať firmu
             </RouterLink>
           </div>

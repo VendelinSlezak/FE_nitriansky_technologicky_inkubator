@@ -9,11 +9,6 @@ export default {
         { name: 'O nás', path: '/o-nas' },
         { name: 'Novinky', path: '/novinky' },
       ],
-      socials: [
-        { name: 'Facebook', url: '#' },
-        { name: 'LinkedIn', url: '#' },
-        { name: 'Instagram', url: '#' },
-      ]
     }
   },
 }
@@ -26,20 +21,14 @@ export default {
         
         <div class="space-y-6">
           <router-link to="/" class="flex items-center group">
-            <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3 shadow-sm">
+            <div class="w-10 h-10 md:w-12 md:h-12 bg-blue-600 rounded-lg flex items-center justify-center mr-3 shadow-sm">
               <span class="text-white font-black text-lg italic">NTI</span>
             </div>
             <span class="text-xl font-extrabold tracking-tight text-gray-900 uppercase">NTI</span>
           </router-link>
           <p class="text-gray-500 text-sm leading-relaxed max-w-xs">
-            Technologický inkubátor NTI pomáha nápadom rásť. Prepájame inovátorov, mentorov a investorov do jedného ekosystému.
+            Nitriansky Technologický inkubátor pomáha nápadom rásť. Prepájame inovátorov, mentorov a investorov do jedného ekosystému.
           </p>
-          <!-- Miesto pre socialne siete -->
-          <!-- <div class="flex space-x-4">
-            <a v-for="social in socials" :key="social.name" :href="social.url" class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-blue-600 hover:text-white transition-all">
-              <span class="text-xs font-bold">{{ social.name[0] }}</span>
-            </a>
-          </div> -->
         </div>
 
         <div>
@@ -107,7 +96,7 @@ export default {
 
       <div class="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center text-center md:text-left">
         <p class="text-gray-400 text-xs font-medium">
-          &copy; {{ currentYear }} NTI Technologický Inkubátor. Všetky práva vyhradené.
+          &copy; {{ currentYear }} Nitriansky Technologický Inkubátor. Všetky práva vyhradené.
         </p>
         <div class="flex space-x-8 mt-4 md:mt-0">
           <router-link to="/gdpr" class="text-gray-400 hover:text-gray-600 text-xs transition-colors">Ochrana osobných údajov</router-link>

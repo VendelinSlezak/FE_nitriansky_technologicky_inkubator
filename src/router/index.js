@@ -5,6 +5,9 @@ import ProgramAView from '../views/ProgramAView.vue'
 import ProgramBView from '../views/ProgramBView.vue'
 import PartnersAndMentorsView from '../views/PartnersAndMentorsView.vue'
 import NewsView from '../views/NewsView.vue'
+import LoginView from '../views/LoginView.vue'
+import RegisterView from '../views/RegisterView.vue'
+import RegisterStudentView from '../views/RegisterStudentView.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +41,21 @@ const router = createRouter({
             path: '/novinky',
             name: 'news',
             component: NewsView,
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: LoginView,
+        },
+        {
+            path: '/register',
+            name: 'register',
+            component: RegisterView,
+        },
+        {
+            path: '/register-student',
+            name: 'register-student',
+            component: RegisterStudentView,
         },
     ],
 })

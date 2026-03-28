@@ -17,7 +17,7 @@
           </p>
 
           <div class="flex flex-col sm:flex-row gap-4">
-            <router-link to="/registracia-studenta" class="inline-flex items-center justify-center px-6 py-3 bg-white text-blue-700 font-semibold rounded-lg shadow-md hover:bg-blue-50 transition-colors duration-200">
+            <router-link to="/register-student" class="inline-flex items-center justify-center px-6 py-3 bg-white text-blue-700 font-semibold rounded-lg shadow-md hover:bg-blue-50 transition-colors duration-200">
               Registrovať sa ako študent
               <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
