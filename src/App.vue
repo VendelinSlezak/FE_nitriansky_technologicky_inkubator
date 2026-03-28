@@ -1,10 +1,12 @@
 <script>
 import MenuComponent from './components/MenuComponent.vue';
+import FooterComponent from './components/FooterComponent.vue';
 
 export default {
     name: 'App',
     components: {
         MenuComponent,
+        FooterComponent,
     },
 }
 </script>
@@ -12,6 +14,7 @@ export default {
 <template>
     <MenuComponent />
     <router-view />
+    <FooterComponent />
 </template>
 
 <style>

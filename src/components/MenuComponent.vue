@@ -8,8 +8,8 @@ export default {
                 { name: 'O nás', path: '/o-nas' },
                 { name: 'Grantový inkubačný program', path: '/program-a' },
                 { name: 'Program živej praxe', path: '/program-b' },
-                { name: 'Partneri a mentori', path: '/kontakt' },
-                { name: 'Novinky', path: '/kontakt' },
+                { name: 'Partneri a mentori', path: '/partneri-a-mentori' },
+                { name: 'Novinky', path: '/novinky' },
             ]
         }
     },
