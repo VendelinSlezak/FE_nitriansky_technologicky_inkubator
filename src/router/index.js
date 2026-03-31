@@ -26,6 +26,13 @@ import MentorProjectView from '@/views/mentorDashboard/MentorProjectView.vue'
 import CommitteeMemberDashboardView from '@/views/committeeMemberDashboard/CommitteeMemberDashboardView.vue'
 import CommitteeMemberProjectView from '@/views/committeeMemberDashboard/CommitteeMemberProjectView.vue'
 
+import EditorDashboardView from '@/views/editorDashboard/EditorDashboardView.vue'
+import EditorEditNewsView from '@/views/editorDashboard/EditorEditNewsView.vue'
+import EditorCreateArticleView from '@/views/editorDashboard/EditorCreateArticleView.vue'
+import EditorEditArticleView from '@/views/editorDashboard/EditorEditArticleView.vue'
+import EditorEditLogosView from '@/views/editorDashboard/EditorEditLogosView.vue'
+import EditorEditFAQView from '@/views/editorDashboard/EditorEditFAQView.vue'
+
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
@@ -141,6 +148,39 @@ const router = createRouter({
             name: 'committee-member-project',
             props: true,
             component: CommitteeMemberProjectView,
+        },
+        {
+            path: '/editor-dashboard',
+            name: 'editor-dashboard',
+            component: EditorDashboardView,
+            children: [
+                {
+                    path: '/editor-dashboard/edit-news',
+                    name: 'editor-edit-news',
+                    component: EditorEditNewsView,
+                },
+                {
+                    path: '/editor-dashboard/create-article',
+                    name: 'editor-create-article',
+                    component: EditorCreateArticleView,
+                },
+                {
+                    path: '/editor-dashboard/edit-article/:id',
+                    name: 'editor-edit-article',
+                    props: true,
+                    component: EditorEditArticleView,
+                },
+                {
+                    path: '/editor-dashboard/edit-logos',
+                    name: 'editor-edit-logos',
+                    component: EditorEditLogosView,
+                },
+                {
+                    path: '/editor-dashboard/edit-faq',
+                    name: 'editor-edit-faq',
+                    component: EditorEditFAQView,
+                },
+            ]
         },
     ],
     scrollBehavior(to, from, savedPosition) {

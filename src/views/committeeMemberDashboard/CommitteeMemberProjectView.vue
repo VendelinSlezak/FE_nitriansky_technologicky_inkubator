@@ -126,7 +126,7 @@
 
     <section v-if="isZapisovatel" class="mt-16 p-8 md:p-10 bg-white rounded-[2.5rem] border-2 border-blue-100 shadow-2xl shadow-blue-100/30 text-left">
       <div class="space-y-10">
-        <h2 class="text-2xl font-black text-slate-900 tracking-tight italic text-left">Nové rozhodnutie komisie</h2>
+        <h2 class="text-2xl font-black text-slate-900 tracking-tight italic text-left">Rozhodnutie komisie</h2>
 
         <div class="p-2 bg-slate-100 rounded-2xl flex gap-2">
           <button @click="form.status = 'approved'" class="flex-1 py-3 rounded-xl font-black uppercase text-xs tracking-widest transition-all" :class="form.status === 'approved' ? 'bg-white text-emerald-600 shadow-md' : 'text-slate-500'">
@@ -204,7 +204,7 @@ export default {
         id: this.id || 123,
         title: "Inovatívny systém recyklácie odpadu",
         teamName: "GreenFuture",
-        program: "Program B",
+        program: "Program A",
         category: "Ekológia",
         categoryDescription: "Zamerané na technologické riešenia udržateľnosti.",
         description: "Vývoj inteligentných senzorov pre smetné nádoby.",
@@ -217,26 +217,34 @@ export default {
           techSpec: { name: "specifikacia.pdf", url: "#" },
           implementation: { name: "navrh.pdf", url: "#" }
         },
-        decision: {
-          status: 'approved',
-          mentorEmail: 'mentor.hlavny@uniba.sk',
-          poEmail: 'po.firma@startup.sk',
-          committeeComment: 'Projekt vykazuje vysoký potenciál.'
-        }
+        decision: null,
       };
       if (this.project.decision) this.form = { ...this.project.decision };
     },
     ulozitRozhodnutie() {
-      this.errors.committeeComment = this.form.committeeComment.length < 5;
+      this.errors.committeeComment = this.form.committeeComment.length == 0;
       this.errors.mentorEmail = (this.form.status === 'approved' && !this.form.mentorEmail);
-      this.errors.productOwnerEmail = (this.form.status === 'approved' && !this.form.poEmail);
+      this.errors.productOwnerEmail = (this.form.status === 'approved' && this.project.program === 'Program B' && !this.form.poEmail);
       
-      if (this.errors.mentorEmail || this.errors.productOwnerEmail || this.errors.committeeComment) return;
+      const hasErrors = 
+        this.errors.committeeComment || 
+        this.errors.mentorEmail || 
+        (this.project.program === 'Program B' && this.errors.productOwnerEmail);
+
+      if (hasErrors) {
+        console.error("Formulár obsahuje chyby");
+        return;
+      }
 
       const finalData = { ...this.form };
-      if (this.form.status === 'returned') { finalData.mentorEmail = ''; finalData.poEmail = ''; }
+      if (this.form.status === 'returned') { 
+        finalData.mentorEmail = ''; 
+        finalData.poEmail = ''; 
+      }
 
       this.project = { ...this.project, decision: finalData };
+      
+      Object.keys(this.errors).forEach(key => this.errors[key] = false);
     }
   }
 };

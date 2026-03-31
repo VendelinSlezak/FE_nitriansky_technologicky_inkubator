@@ -116,11 +116,11 @@ export default {
         avatar: null,
         dashboard: '/zamestnanec-firmy-dashboard',
       },
-      editor_stranky: {
+      editor_webu: {
         name: 'Ján Nový',
-        role: 'Editor stranky',
+        role: 'Editor webu',
         avatar: null,
-        dashboard: '/editor-dashboard',
+        dashboard: '/editor-dashboard/edit-news',
       },
     }
   },
@@ -141,8 +141,8 @@ export default {
 
       setTimeout(() => {
         this.loading = false;
-        this.login(this.clen_komisie);
-        this.$router.push(this.clen_komisie.dashboard);
+        this.login(this.editor_webu);
+        this.$router.push(this.editor_webu.dashboard);
       }, 300);
     }
   }
