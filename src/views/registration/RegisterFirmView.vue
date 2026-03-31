@@ -55,6 +55,27 @@
             </div>
           </div>
 
+          <div>
+            <label class="block text-xs font-bold text-gray-700 uppercase mb-2 ml-1">Logo</label>
+            <div class="relative group border-2 border-dashed border-gray-200 rounded-2xl p-6 hover:border-blue-400 hover:bg-blue-50 transition-all text-center">
+              <input 
+                type="file" 
+                @change="handleFileUpload" 
+                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
+                accept=".pdf,.doc,.docx" 
+              />
+              <div class="space-y-2">
+                <svg class="w-8 h-8 mx-auto text-gray-400 group-hover:text-blue-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                </svg>
+                <div class="text-sm text-gray-500">
+                  <span v-if="!form.logoName" class="font-bold text-blue-600 underline">Nahrajte súbor</span> alebo ho sem presuňte
+                  <p v-if="form.logoName" class="mt-2 text-gray-900 font-black text-xs uppercase tracking-widest">{{ form.logoName }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="grid md:grid-cols-2 gap-6 pt-2 border-t border-gray-100">
             <div class="md:col-span-2 mt-2">
                 <p class="text-[11px] font-black text-emerald-600 uppercase tracking-widest">Kontaktná osoba a prístup</p>
@@ -152,6 +173,8 @@ export default {
         companyName: '',
         ico: '',
         dic: '',
+        logoFile: null,
+        logoName: '',
         contactPerson: '',
         email: '',
         password: '',
@@ -183,7 +206,14 @@ export default {
 
       console.log('Registračné dáta firmy:', this.form);
       this.$router.push('/register-success');
-    }
+    },
+    handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.form.logoFile = file;
+        this.form.logoName = file.name;
+      }
+    },
   }
 }
 </script>

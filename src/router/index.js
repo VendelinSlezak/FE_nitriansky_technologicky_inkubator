@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
 import HomeView from '../views/publicWeb/HomeView.vue'
 import AboutView from '../views/publicWeb/AboutView.vue'
 import ProgramAView from '../views/publicWeb/ProgramAView.vue'
@@ -6,9 +7,7 @@ import ProgramBView from '../views/publicWeb/ProgramBView.vue'
 import PartnersAndMentorsView from '../views/publicWeb/PartnersAndMentorsView.vue'
 import NewsView from '../views/publicWeb/NewsView.vue'
 import ArticleView from '../views/publicWeb/ArticleView.vue'
-import StudentDashboardView from '../views/studentDashboard/StudentDashboardView.vue'
-import CreateTeamView from '../views/studentDashboard/CreateTeamView.vue'
-import CreateChallengeView from '../views/studentDashboard/CreateChallengeView.vue'
+
 import LoginView from '../views/login/LoginView.vue'
 import ResetPasswordView from '../views/login/ResetPasswordView.vue'
 import UpdateResettedPasswordView from '../views/login/UpdateResettedPasswordView.vue'
@@ -16,8 +15,16 @@ import RegisterView from '../views/registration/RegisterView.vue'
 import RegisterStudentView from '../views/registration/RegisterStudentView.vue'
 import RegisterFirmView from '../views/registration/RegisterFirmView.vue'
 import RegisterSuccessView from '../views/registration/RegisterSuccessView.vue'
+
+import StudentDashboardView from '../views/studentDashboard/StudentDashboardView.vue'
+import CreateTeamView from '../views/studentDashboard/CreateTeamView.vue'
+import CreateChallengeView from '../views/studentDashboard/CreateChallengeView.vue'
+
 import MentorDashboardView from '../views/mentorDashboard/MentorDashboardView.vue'
 import MentorProjectView from '@/views/mentorDashboard/MentorProjectView.vue'
+
+import CommitteeMemberDashboardView from '@/views/committeeMemberDashboard/CommitteeMemberDashboardView.vue'
+import CommitteeMemberProjectView from '@/views/committeeMemberDashboard/CommitteeMemberProjectView.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -58,6 +65,7 @@ const router = createRouter({
             props: true,
             component: ArticleView,
         },
+
         {
             path: '/student-dashboard',
             name: 'student-dashboard',
@@ -73,6 +81,7 @@ const router = createRouter({
             name: 'vytvorit-vyzvu',
             component: CreateChallengeView
         },
+
         {
             path: '/login',
             name: 'login',
@@ -109,6 +118,7 @@ const router = createRouter({
             name: 'register-success',
             component: RegisterSuccessView,
         },
+
         {
             path: '/mentor-dashboard',
             name: 'mentor-dashboard',
@@ -119,6 +129,18 @@ const router = createRouter({
             name: 'mentor-project',
             props: true,
             component: MentorProjectView,
+        },
+
+        {
+            path: '/committee-member-dashboard',
+            name: 'committee-member-dashboard',
+            component: CommitteeMemberDashboardView,
+        },
+        {
+            path: '/committee-member-dashboard/project/:id',
+            name: 'committee-member-project',
+            props: true,
+            component: CommitteeMemberProjectView,
         },
     ],
     scrollBehavior(to, from, savedPosition) {

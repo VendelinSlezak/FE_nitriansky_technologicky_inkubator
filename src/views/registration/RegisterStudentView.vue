@@ -44,7 +44,7 @@
           </div>
 
           <div>
-            <label class="block text-xs font-bold text-gray-700 uppercase mb-2 ml-1">Univerzita / Fakulta</label>
+            <label class="block text-xs font-bold text-gray-700 uppercase mb-2 ml-1">Univerzita</label>
             <input 
               v-model="form.university" 
               type="text" 
@@ -64,24 +64,6 @@
               class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all shadow-sm" 
             />
             <p class="text-[10px] text-gray-400 mt-2 ml-1 italic font-medium">Overenie prebieha cez doménu vašej univerzity.</p>
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold text-gray-700 uppercase mb-2 ml-1">Ročník štúdia</label>
-            <div class="relative">
-              <select 
-                v-model="form.year" 
-                required 
-                class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all shadow-sm appearance-none"
-              >
-                <option value="" disabled>Vyberte ročník</option>
-                <option v-for="n in 5" :key="n" :value="n">{{ n }}. ročník</option>
-                <option value="doktorand">Doktorand</option>
-              </select>
-              <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-gray-400">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </div>
-            </div>
           </div>
 
           <div>
@@ -177,7 +159,6 @@ export default {
         lastName: '',
         university: '',
         email: '',
-        year: '',
         cvFile: null,
         cvName: '',
         password: '',

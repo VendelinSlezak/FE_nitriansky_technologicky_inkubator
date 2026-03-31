@@ -78,7 +78,50 @@ export default {
     return {
       email: '',
       password: '',
-      loading: false
+      loading: false,
+
+      student: {
+        name: 'Ján Nový',
+        role: 'Student',
+        avatar: null,
+        dashboard: '/student-dashboard',
+      },
+      mentor: {
+        name: 'Ján Nový',
+        role: 'Mentor',
+        avatar: null,
+        dashboard: '/mentor-dashboard',
+      },
+      clen_komisie: {
+        name: 'Ján Nový',
+        role: 'Člen Komisie',
+        avatar: null,
+        dashboard: '/committee-member-dashboard',
+      },
+      admin: {
+        name: 'Ján Nový',
+        role: 'Admin',
+        avatar: null,
+        dashboard: '/admin-dashboard',
+      },
+      administrator_firmy: {
+        name: 'Ján Nový',
+        role: 'Administrator firmy',
+        avatar: null,
+        dashboard: '/administrator-firmy-dashboard',
+      },
+      zamestnanec_firmy: {
+        name: 'Ján Nový',
+        role: 'Zamestnanec firmy',
+        avatar: null,
+        dashboard: '/zamestnanec-firmy-dashboard',
+      },
+      editor_stranky: {
+        name: 'Ján Nový',
+        role: 'Editor stranky',
+        avatar: null,
+        dashboard: '/editor-dashboard',
+      },
     }
   },
   computed: {
@@ -98,13 +141,8 @@ export default {
 
       setTimeout(() => {
         this.loading = false;
-        this.login({ 
-          name: 'Ján Novák',
-          role: 'Mentor',
-          avatar: null,
-          dashboard: '/mentor-dashboard',
-        });
-        this.$router.push('/mentor-dashboard');
+        this.login(this.clen_komisie);
+        this.$router.push(this.clen_komisie.dashboard);
       }, 300);
     }
   }

@@ -4,7 +4,7 @@
     <div class="max-w-4xl w-full mx-auto">
       
       <div class="text-center md:text-left">
-        <h1 class="text-3xl font-bold mb-4 text-gray-900">Moje Projekty</h1>
+        <h1 class="text-3xl font-bold mb-4 text-gray-900">Študentský dashboard</h1>
 
         <p class="text-gray-700 mb-10 mx-auto md:mx-0">
           Pridajte novú výzvu do programu A, vytvorte nový tím, alebo počkajte kým vás teamleader do tímu pozve.
@@ -24,14 +24,13 @@
         </router-link>
       </div>
 
+      <h2 class="text-2xl font-bold mb-6 text-gray-900">Posledné ukončené projekty</h2>
       <div class="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-gray-200">
-        <h2 class="text-2xl font-semibold mb-6 text-gray-800">Posledné ukončené projekty</h2>
-        
         <ul class="divide-y divide-gray-100">
           <li 
             v-for="project in posledneProjekty" 
             :key="project.id" 
-            class="py-4 flex items-center justify-between group"
+            class="py-4 first:pt-0 last:pb-0 flex items-center justify-between group"
           >
             <div class="flex flex-col">
               <span class="font-medium text-gray-900">{{ project.title }}</span>

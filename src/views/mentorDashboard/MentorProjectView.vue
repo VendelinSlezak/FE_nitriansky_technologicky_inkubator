@@ -187,7 +187,8 @@
         </div>
         </section>
 
-      <section class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8">
+        <!-- Plánované konzultácie budeme riešiť až úplne na konci projektu -->
+      <!-- <section class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8">
         <h2 class="text-2xl font-black text-gray-900 mb-8 flex items-center gap-3">
             Plánované konzultácie
         </h2>
@@ -268,7 +269,7 @@
             PRIDAŤ KONZULTÁCIU DO ZOZNAMU
             </button>
         </div>
-        </section>
+        </section> -->
 
     </div>
   </div>
