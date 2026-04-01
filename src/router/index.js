@@ -19,6 +19,7 @@ import RegisterSuccessView from '../views/registration/RegisterSuccessView.vue'
 import StudentDashboardView from '../views/studentDashboard/StudentDashboardView.vue'
 import CreateTeamView from '../views/studentDashboard/CreateTeamView.vue'
 import CreateChallengeView from '../views/studentDashboard/CreateChallengeView.vue'
+import StudentProfileView from '@/views/studentDashboard/StudentProfileView.vue'
 
 import MentorDashboardView from '../views/mentorDashboard/MentorDashboardView.vue'
 import MentorProjectView from '@/views/mentorDashboard/MentorProjectView.vue'
@@ -91,6 +92,11 @@ const router = createRouter({
             path: '/student-dashboard/vytvorit-vyzvu',
             name: 'vytvorit-vyzvu',
             component: CreateChallengeView
+        },
+        {
+            path: '/student-dashboard/profile',
+            name: 'student-profile',
+            component: StudentProfileView
         },
 
         {

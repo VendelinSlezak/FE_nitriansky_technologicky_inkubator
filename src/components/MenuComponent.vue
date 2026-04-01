@@ -42,25 +42,44 @@
           
           <template v-else>
             <div class="flex items-center gap-4">
-              <div class="flex flex-col items-end leading-tight">
-                <span class="text-sm font-bold text-gray-900">{{ user.name }}</span>
-                <span class="text-[10px] font-medium text-gray-500 uppercase tracking-wider">{{ user.role }}</span>
-              </div>
               
-              <div class="w-10 h-10 rounded-full bg-blue-100 border border-blue-200 flex items-center justify-center text-blue-600 font-bold overflow-hidden">
-                <img v-if="user.avatar" :src="user.avatar" alt="User" class="w-full h-full object-cover">
-                <span v-else>{{ userInitials }}</span>
-              </div>
+              <component
+                :is="user?.role === 'Student' ? 'router-link' : 'div'"
+                :to="user?.role === 'Student' ? '/student-dashboard/profile' : null"
+                class="flex items-center gap-4 transition-all duration-200"
+                :class="{ 'hover:opacity-80 cursor-pointer group': user?.role === 'Student' }"
+              >
+                <div class="flex flex-col items-end leading-tight">
+                  <span 
+                    class="text-sm font-bold text-gray-900 transition-colors"
+                    :class="{ 'group-hover:text-blue-600': user?.role === 'Student' }"
+                  >
+                    {{ user.name }}
+                  </span>
+                  <span class="text-[10px] font-medium text-gray-500 uppercase tracking-wider">
+                    {{ user.role }}
+                  </span>
+                </div>
+                
+                <div class="w-10 h-10 rounded-full bg-blue-100 border border-blue-200 flex items-center justify-center text-blue-600 font-bold overflow-hidden shadow-sm transition-transform"
+                    :class="{ 'group-hover:scale-105 group-hover:border-blue-400': user?.role === 'Student' }">
+                  <img v-if="user.avatar" :src="user.avatar" alt="User" class="w-full h-full object-cover">
+                  <span v-else>{{ userInitials }}</span>
+                </div>
+              </component>
+
+              <div class="h-8 w-px bg-gray-200 ml-2"></div>
 
               <button 
                 @click="handleLogout" 
-                class="ml-2 p-2 text-gray-400 hover:text-red-600 transition-colors"
+                class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all"
                 title="Odhlásiť sa"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
                 </svg>
               </button>
+              
             </div>
           </template>
         </div>
@@ -87,15 +106,27 @@
     >
       <div v-show="isOpen" class="xl:hidden bg-white border-t border-gray-100 w-full shadow-xl overflow-hidden">
         <div class="px-6 py-6 space-y-1">
-          <div v-if="isLoggedIn" class="flex items-center gap-4 px-4 py-4 bg-gray-50 rounded-2xl mb-4">
-            <div class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-sm">
+          <component
+            :is="user?.role === 'Student' ? 'router-link' : 'div'"
+            v-if="isLoggedIn"
+            :to="user?.role === 'Student' ? '/student-dashboard/profile' : null"
+            @click="user?.role === 'Student' ? closeMenu() : null"
+            class="flex items-center gap-4 px-4 py-4 bg-gray-50 rounded-2xl mb-4 transition-colors"
+            :class="{ 'hover:bg-gray-100 cursor-pointer group': user?.role === 'Student' }"
+          >
+            <div class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-sm group-hover:scale-105 transition-transform">
               {{ userInitials }}
             </div>
+
             <div>
-              <div class="font-bold text-gray-900">{{ user.name }}</div>
-              <div class="text-xs text-gray-500 uppercase tracking-widest">{{ user.role }}</div>
+              <div class="font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+                {{ user.name }}
+              </div>
+              <div class="text-xs text-gray-500 uppercase tracking-widest">
+                {{ user.role }}
+              </div>
             </div>
-          </div>
+          </component>
 
           <router-link
             v-for="link in visibleLinks"
