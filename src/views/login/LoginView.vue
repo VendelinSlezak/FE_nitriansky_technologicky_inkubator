@@ -108,13 +108,7 @@ export default {
         name: 'Ján Nový',
         role: 'Administrator firmy',
         avatar: null,
-        dashboard: '/administrator-firmy-dashboard',
-      },
-      zamestnanec_firmy: {
-        name: 'Ján Nový',
-        role: 'Zamestnanec firmy',
-        avatar: null,
-        dashboard: '/zamestnanec-firmy-dashboard',
+        dashboard: '/firm-dashboard',
       },
       editor_webu: {
         name: 'Ján Nový',
@@ -141,8 +135,8 @@ export default {
 
       setTimeout(() => {
         this.loading = false;
-        this.login(this.editor_webu);
-        this.$router.push(this.editor_webu.dashboard);
+        this.login(this.administrator_firmy);
+        this.$router.push(this.administrator_firmy.dashboard);
       }, 300);
     }
   }

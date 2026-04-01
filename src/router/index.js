@@ -33,6 +33,10 @@ import EditorEditArticleView from '@/views/editorDashboard/EditorEditArticleView
 import EditorEditLogosView from '@/views/editorDashboard/EditorEditLogosView.vue'
 import EditorEditFAQView from '@/views/editorDashboard/EditorEditFAQView.vue'
 
+import FirmDashboardView from '@/views/firmDashboard/FirmDashboardView.vue'
+import FirmCreateChallengeView from '@/views/firmDashboard/FirmCreateChallengeView.vue'
+import FirmChallengeView from '@/views/firmDashboard/FirmChallengeView.vue'
+
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
@@ -181,6 +185,24 @@ const router = createRouter({
                     component: EditorEditFAQView,
                 },
             ]
+        },
+
+        {
+            path: '/firm-dashboard',
+            name: 'firm-dashboard',
+            component: FirmDashboardView,
+        },
+        {
+            path: '/firm-dashboard/create-challenge/:id',
+            props: true,
+            name: 'firm-create-challenge',
+            component: FirmCreateChallengeView,
+        },
+        {
+            path: '/firm-dashboard/challenge/:id',
+            props: true,
+            name: 'firm-challenge',
+            component: FirmChallengeView,
         },
     ],
     scrollBehavior(to, from, savedPosition) {
