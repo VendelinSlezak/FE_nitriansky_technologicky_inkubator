@@ -20,6 +20,7 @@ import StudentDashboardView from '../views/studentDashboard/StudentDashboardView
 import CreateTeamView from '../views/studentDashboard/CreateTeamView.vue'
 import CreateChallengeView from '../views/studentDashboard/CreateChallengeView.vue'
 import StudentProfileView from '@/views/studentDashboard/StudentProfileView.vue'
+import StudentTeamleaderDashboardView from '@/views/studentDashboard/StudentTeamleaderDashboardView.vue'
 
 import MentorDashboardView from '../views/mentorDashboard/MentorDashboardView.vue'
 import MentorProjectView from '@/views/mentorDashboard/MentorProjectView.vue'
@@ -97,6 +98,11 @@ const router = createRouter({
             path: '/student-dashboard/profile',
             name: 'student-profile',
             component: StudentProfileView
+        },
+        {
+            path: '/student-dashboard/teamleader-dashboard',
+            name: 'student-teamleader-dashboard',
+            component: StudentTeamleaderDashboardView
         },
 
         {
