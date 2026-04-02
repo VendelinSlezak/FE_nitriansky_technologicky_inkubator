@@ -37,6 +37,7 @@ import EditorEditFAQView from '@/views/editorDashboard/EditorEditFAQView.vue'
 import FirmDashboardView from '@/views/firmDashboard/FirmDashboardView.vue'
 import FirmCreateChallengeView from '@/views/firmDashboard/FirmCreateChallengeView.vue'
 import FirmChallengeView from '@/views/firmDashboard/FirmChallengeView.vue'
+import AdminDashboardView from '@/views/adminDashboard/AdminDashboardView.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -159,6 +160,39 @@ const router = createRouter({
             props: true,
             component: CommitteeMemberProjectView,
         },
+        /*{
+            path: '/editor-dashboard',
+            name: 'editor-dashboard',
+            component: EditorDashboardView,
+            children: [
+                {
+                    path: '/editor-dashboard/edit-news',
+                    name: 'editor-edit-news',
+                    component: EditorEditNewsView,
+                },
+                {
+                    path: '/editor-dashboard/create-article',
+                    name: 'editor-create-article',
+                    component: EditorCreateArticleView,
+                },
+                {
+                    path: '/editor-dashboard/edit-article/:id',
+                    name: 'editor-edit-article',
+                    props: true,
+                    component: EditorEditArticleView,
+                },
+                {
+                    path: '/editor-dashboard/edit-logos',
+                    name: 'editor-edit-logos',
+                    component: EditorEditLogosView,
+                },
+                {
+                    path: '/editor-dashboard/edit-faq',
+                    name: 'editor-edit-faq',
+                    component: EditorEditFAQView,
+                },
+            ]
+        },*/
         {
             path: '/editor-dashboard',
             name: 'editor-dashboard',
@@ -192,7 +226,39 @@ const router = createRouter({
                 },
             ]
         },
-
+        {
+            path: '/admin-dashboard',
+            name: 'admin-dashboard',
+            component: AdminDashboardView,
+            children: [
+                {
+                    path: '/admin-dashboard/edit-news',
+                    name: 'admin-edit-news',
+                    component: EditorEditNewsView,
+                },
+                {
+                    path: '/admin-dashboard/create-article',
+                    name: 'admin-create-article',
+                    component: EditorCreateArticleView,
+                },
+                {
+                    path: '/admin-dashboard/edit-article/:id',
+                    name: 'admin-edit-article',
+                    props: true,
+                    component: EditorEditArticleView,
+                },
+                {
+                    path: '/admin-dashboard/edit-logos',
+                    name: 'admin-edit-logos',
+                    component: EditorEditLogosView,
+                },
+                {
+                    path: '/admin-dashboard/edit-faq',
+                    name: 'admin-edit-faq',
+                    component: EditorEditFAQView,
+                },
+            ]
+        },
         {
             path: '/firm-dashboard',
             name: 'firm-dashboard',

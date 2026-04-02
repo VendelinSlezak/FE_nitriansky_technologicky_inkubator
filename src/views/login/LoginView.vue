@@ -135,8 +135,8 @@ export default {
 
       setTimeout(() => {
         this.loading = false;
-        this.login(this.student);
-        this.$router.push(this.student.dashboard);
+        this.login(this.admin);
+        this.$router.push(this.admin.dashboard);
       }, 300);
     }
   }
