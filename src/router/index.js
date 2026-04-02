@@ -38,6 +38,7 @@ import EditorEditFAQView from '@/views/editorDashboard/EditorEditFAQView.vue'
 import FirmDashboardView from '@/views/firmDashboard/FirmDashboardView.vue'
 import FirmCreateChallengeView from '@/views/firmDashboard/FirmCreateChallengeView.vue'
 import FirmChallengeView from '@/views/firmDashboard/FirmChallengeView.vue'
+
 import AdminDashboardView from '@/views/adminDashboard/AdminDashboardView.vue'
 
 const router = createRouter({

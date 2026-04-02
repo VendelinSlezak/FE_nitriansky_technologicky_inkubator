@@ -19,7 +19,7 @@
         <aside class="w-full md:w-72 flex-shrink-0">
           <nav class="flex flex-col gap-3">           
             <router-link 
-              to="/editor-dashboard/edit-news" 
+              to="/admin-dashboard/edit-news" 
               class="flex items-center gap-3 px-5 py-4 bg-white border border-slate-200 rounded-2xl shadow-sm transition-all hover:shadow-md hover:border-blue-300 group"
               active-class="!border-blue-500 !bg-blue-50 ring-2 ring-blue-500/10"
             >
@@ -33,7 +33,7 @@
             </router-link>
 
             <router-link 
-              to="/editor-dashboard/edit-logos" 
+              to="/admin-dashboard/edit-logos" 
               class="flex items-center gap-3 px-5 py-4 bg-white border border-slate-200 rounded-2xl shadow-sm transition-all hover:shadow-md hover:border-emerald-300 group"
               active-class="!border-emerald-500 !bg-emerald-50 ring-2 ring-emerald-500/10"
             >
@@ -46,7 +46,7 @@
             </router-link>
 
             <router-link 
-              to="/editor-dashboard/edit-faq" 
+              to="/admin-dashboard/edit-faq" 
               class="flex items-center gap-3 px-5 py-4 bg-white border border-slate-200 rounded-2xl shadow-sm transition-all hover:shadow-md hover:border-purple-300 group"
               active-class="!border-purple-500 !bg-purple-50 ring-2 ring-purple-500/10"
             >
