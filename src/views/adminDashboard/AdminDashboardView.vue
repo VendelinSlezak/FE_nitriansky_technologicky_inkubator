@@ -57,6 +57,42 @@
               </div>
               <span class="font-bold text-slate-700">Upraviť FAQ</span>
             </router-link>
+            <router-link 
+                to="/admin-dashboard/manage-accounts" 
+                class="flex items-center gap-3 px-5 py-4 bg-white border border-slate-200 rounded-2xl shadow-sm transition-all hover:shadow-md hover:border-indigo-300 group"
+                active-class="!border-indigo-500 !bg-indigo-50 ring-2 ring-indigo-500/10"
+                >
+                <div class="p-2 bg-indigo-100 text-indigo-600 rounded-lg group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                </div>
+                <span class="font-bold text-slate-700">Správa účtov</span>
+            </router-link>
+            <router-link 
+                to="/admin-dashboard/manage-teams" 
+                class="flex items-center gap-3 px-5 py-4 bg-white border border-slate-200 rounded-2xl shadow-sm transition-all hover:shadow-md hover:border-emerald-300 group"
+                active-class="!border-emerald-500 !bg-emerald-50 ring-2 ring-emerald-500/10"
+                >
+                <div class="p-2 bg-emerald-100 text-emerald-600 rounded-lg group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </div>
+                <span class="font-bold text-slate-700">Správa tímov</span>
+            </router-link>
+            <router-link 
+                to="/admin-dashboard/manage-calls" 
+                class="flex items-center gap-3 px-5 py-4 bg-white border border-slate-200 rounded-2xl shadow-sm transition-all hover:shadow-md hover:border-sky-300 group"
+                active-class="!border-sky-500 !bg-sky-50 ring-2 ring-sky-500/10"
+                >
+                <div class="p-2 bg-sky-100 text-sky-600 rounded-lg group-hover:bg-sky-600 group-hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                    </svg>
+                </div>
+                <span class="font-bold text-slate-700">Správa výziev</span>
+            </router-link>
           </nav>
         </aside>
 
