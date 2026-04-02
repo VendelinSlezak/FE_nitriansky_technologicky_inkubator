@@ -40,7 +40,6 @@ import FirmCreateChallengeView from '@/views/firmDashboard/FirmCreateChallengeVi
 import FirmChallengeView from '@/views/firmDashboard/FirmChallengeView.vue'
 
 import AdminDashboardView from '@/views/adminDashboard/AdminDashboardView.vue'
-import AdminAccountManagementView from '@/views/adminDashboard/AdminAccountManagementView.vue'
 import AdminTeamManagementView from '@/views/adminDashboard/AdminTeamManagementView.vue'
 import AdminManageAccountsView from '@/views/adminDashboard/AdminManageAccountsView.vue'
 import AdminManageTeamsView from '@/views/adminDashboard/AdminManageTeamsView.vue'
@@ -235,11 +234,6 @@ const router = createRouter({
                     path: '/admin-dashboard/edit-faq',
                     name: 'admin-edit-faq',
                     component: EditorEditFAQView,
-                },
-                {
-                    path: '/admin-dashboard/account-management',
-                    name: 'admin-account-management',
-                    component: AdminAccountManagementView
                 },
                 {
                     path: '/admin-dashboard/team-management',
