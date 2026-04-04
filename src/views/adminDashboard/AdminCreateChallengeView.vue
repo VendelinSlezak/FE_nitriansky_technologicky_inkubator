@@ -3,7 +3,7 @@
     
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-100 pb-6 mb-8 text-left">
       <div>
-        <router-link to="/admin-dashboard/manage-calls" class="text-blue-600 hover:text-blue-800 text-sm font-bold flex items-center gap-1 mb-2 transition-all">
+        <router-link to="/admin-dashboard/manage-challenges" class="text-blue-600 hover:text-blue-800 text-sm font-bold flex items-center gap-1 mb-2 transition-all">
           <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M15 19l-7-7 7-7" /></svg>
           Späť na zoznam
         </router-link>
@@ -218,7 +218,7 @@ export default {
 
       console.log("Admin vytvára výzvu:", challengeData);
       alert("Výzva bola úspešne vytvorená.");
-      this.$router.push("/admin-dashboard/manage-calls");
+      this.$router.push("/admin-dashboard/manage-challenges");
     }
   }
 };

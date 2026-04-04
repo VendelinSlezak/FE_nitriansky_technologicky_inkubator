@@ -82,7 +82,7 @@
                 <span class="font-bold text-slate-700">Správa tímov</span>
             </router-link>
             <router-link 
-                to="/admin-dashboard/manage-calls" 
+                to="/admin-dashboard/manage-challenges" 
                 class="flex items-center gap-3 px-5 py-4 bg-white border border-slate-200 rounded-2xl shadow-sm transition-all hover:shadow-md hover:border-sky-300 group"
                 active-class="!border-sky-500 !bg-sky-50 ring-2 ring-sky-500/10"
                 >

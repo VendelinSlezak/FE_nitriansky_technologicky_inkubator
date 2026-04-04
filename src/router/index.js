@@ -38,12 +38,10 @@ import EditorEditFAQView from '@/views/editorDashboard/EditorEditFAQView.vue'
 import FirmDashboardView from '@/views/firmDashboard/FirmDashboardView.vue'
 import FirmCreateChallengeView from '@/views/firmDashboard/FirmCreateChallengeView.vue'
 import FirmChallengeView from '@/views/firmDashboard/FirmChallengeView.vue'
-
 import AdminDashboardView from '@/views/adminDashboard/AdminDashboardView.vue'
-import AdminTeamManagementView from '@/views/adminDashboard/AdminTeamManagementView.vue'
 import AdminManageAccountsView from '@/views/adminDashboard/AdminManageAccountsView.vue'
 import AdminManageTeamsView from '@/views/adminDashboard/AdminManageTeamsView.vue'
-import AdminManageCallsView from '@/views/adminDashboard/AdminManageCallsView.vue'
+import AdminManageChallengesView from '@/views/adminDashboard/AdminManageChallengesView.vue'
 import AdminCreateAccountView from '@/views/adminDashboard/AdminCreateAccountView.vue'
 import AdminEditAccountView from '@/views/adminDashboard/AdminEditAccountView.vue'
 import AdminCreateChallengeView from '@/views/adminDashboard/AdminCreateChallengeView.vue'
@@ -242,11 +240,6 @@ const router = createRouter({
                     component: EditorEditFAQView,
                 },
                 {
-                    path: '/admin-dashboard/team-management',
-                    name: 'admin-team-management',
-                    component: AdminTeamManagementView
-                },
-                {
                     path: '/admin-dashboard/manage-accounts',
                     name: 'admin-manage-accounts',
                     component: AdminManageAccountsView,
@@ -258,9 +251,9 @@ const router = createRouter({
                     component: AdminManageTeamsView
                 },
                 {
-                    path: '/admin-dashboard/manage-calls',
-                    name: 'admin-manage-calls',
-                    component: AdminManageCallsView
+                    path: '/admin-dashboard/manage-challenges',
+                    name: 'admin-manage-challenges',
+                    component: AdminManageChallengesView
                 },
                 {
                     path: '/admin-dashboard/create-account',

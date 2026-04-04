@@ -167,7 +167,7 @@
 
 <script>
 export default {
-  name: "ManageCallsView",
+  name: "AdminManageChallengesView",
   data() {
     return {
       expandedProposalId: null,
@@ -213,7 +213,9 @@ export default {
     createNewCall() {
       this.$router.push('/admin-dashboard/create-challenge');
     },
-    editCall(call) {  }
+    editCall(call) { 
+      this.$router.push(`/admin-dashboard/edit-challenge/${call.id}`);
+    }
   }
 };
 </script>
