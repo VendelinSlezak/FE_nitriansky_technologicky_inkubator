@@ -44,6 +44,12 @@ import AdminTeamManagementView from '@/views/adminDashboard/AdminTeamManagementV
 import AdminManageAccountsView from '@/views/adminDashboard/AdminManageAccountsView.vue'
 import AdminManageTeamsView from '@/views/adminDashboard/AdminManageTeamsView.vue'
 import AdminManageCallsView from '@/views/adminDashboard/AdminManageCallsView.vue'
+import AdminCreateAccountView from '@/views/adminDashboard/AdminCreateAccountView.vue'
+import AdminEditAccountView from '@/views/adminDashboard/AdminEditAccountView.vue'
+import AdminCreateChallengeView from '@/views/adminDashboard/AdminCreateChallengeView.vue'
+import AdminEditChallengeView from '@/views/adminDashboard/AdminEditChallengeView.vue'
+import AdminCreateTeamView from '@/views/adminDashboard/AdminCreateTeamView.vue'
+import AdminEditTeamView from '@/views/adminDashboard/AdminEditTeamView.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -244,6 +250,7 @@ const router = createRouter({
                     path: '/admin-dashboard/manage-accounts',
                     name: 'admin-manage-accounts',
                     component: AdminManageAccountsView,
+
                 },
                 {
                     path: '/admin-dashboard/manage-teams',
@@ -254,6 +261,39 @@ const router = createRouter({
                     path: '/admin-dashboard/manage-calls',
                     name: 'admin-manage-calls',
                     component: AdminManageCallsView
+                },
+                {
+                    path: '/admin-dashboard/create-account',
+                    name: 'admin-create-account',
+                    component: AdminCreateAccountView
+                },
+                {
+                    path: '/admin-dashboard/edit-account/:id',
+                    name: 'admin-edit-account',
+                    props: true,
+                    component: AdminEditAccountView
+                },
+                {
+                    path: '/admin-dashboard/create-challenge',
+                    name: 'admin-create-challenge',
+                    component: AdminCreateChallengeView
+                },
+                {
+                    path: '/admin-dashboard/edit-challenge/:id',
+                    name: 'admin-edit-challenge',
+                    props: true,
+                    component: AdminEditChallengeView
+                },
+                {
+                    path: '/admin-dashboard/create-team',
+                    name: 'admin-create-team',
+                    component: AdminCreateTeamView
+                },
+                {
+                    path: '/admin-dashboard/edit-team/:id',
+                    name: 'admin-edit-team',
+                    props: true,
+                    component: AdminEditTeamView
                 },
             ]
         },
