@@ -168,8 +168,6 @@
             <tr>
               <th class="px-6 py-4">Používateľ</th>
               <th class="px-6 py-4">Rola</th>
-              <th class="px-6 py-4">Stav</th>
-              <th class="px-6 py-4">Posledné prihlásenie</th>
               <th class="px-6 py-4 text-right">Akcie</th>
             </tr>
           </thead>
@@ -193,17 +191,6 @@
                 </span>
               </td>
               
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span :class="['inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold', user.status === 'Aktívny' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600']">
-                  <span :class="['w-1.5 h-1.5 rounded-full', user.status === 'Aktívny' ? 'bg-emerald-500' : 'bg-slate-400']"></span>
-                  {{ user.status }}
-                </span>
-              </td>
-              
-              <td class="px-6 py-4 text-slate-500 text-xs font-medium whitespace-nowrap">
-                {{ user.lastLogin }}
-              </td>
-              
               <td class="px-6 py-4 text-right whitespace-nowrap">
                 <div class="flex items-center justify-end gap-1">
                   <button @click="editUser(user)" class="p-2 text-slate-400 hover:text-blue-600 transition-colors">
@@ -212,8 +199,8 @@
                     </svg>
                   </button>
                   <button @click="deleteUser(user.id)" class="p-2 text-slate-400 hover:text-rose-600 transition-colors">
-                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m4-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6h18m-2 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2m-6 5v6m4-6v6" />
                     </svg>
                   </button>
                 </div>

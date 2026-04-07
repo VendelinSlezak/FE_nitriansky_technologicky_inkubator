@@ -86,23 +86,6 @@
                 </div>
               </div>
             </div>
-
-            <div>
-              <h2 class="text-3xl font-bold mb-8 text-slate-900">Administratíva a vedenie</h2>
-              <p class="text-slate-600 leading-relaxed mb-8">
-                Náš tím tvoria experti na procesné riadenie, business development a technológie, 
-                ktorí zabezpečujú hladký priebeh od registrácie až po finálny report.
-              </p>
-              <div class="grid grid-cols-2 gap-6">
-                <div v-for="n in 2" :key="n" class="flex items-center gap-4">
-                  <div class="w-16 h-16 rounded-full bg-slate-200 animate-pulse"></div>
-                  <div>
-                    <div class="h-4 w-24 bg-slate-200 rounded mb-2"></div>
-                    <div class="h-3 w-16 bg-slate-100 rounded"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

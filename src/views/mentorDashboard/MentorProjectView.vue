@@ -87,7 +87,7 @@
         </div>
       </section>
 
-      <section class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+      <!-- <section class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
         <div class="w-full flex items-center justify-between mb-4">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 text-blue-600 rounded-xl flex items-center justify-center font-bold">
@@ -115,7 +115,7 @@
             </button>
           </div>
         </div>
-      </section>
+      </section> -->
 
       <section class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8">
         <h2 class="text-2xl font-black text-gray-900 mb-8">Míľniky projektu</h2>

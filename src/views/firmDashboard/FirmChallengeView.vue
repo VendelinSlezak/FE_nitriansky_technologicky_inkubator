@@ -145,14 +145,6 @@
               </div>
             </div>
           </div>
-
-          <button 
-            v-if="challenge.status === 'V realizácii'"
-            @click="finishChallenge"
-            class="w-full mt-10 py-4 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-black transition-all active:scale-95 shadow-xl shadow-slate-200"
-          >
-            Ukončiť realizáciu výzvy
-          </button>
         </section>
 
       </div>
@@ -210,11 +202,6 @@ export default {
     createDraft() {
       console.log("Vytváram nový draft...");
     },
-    finishChallenge() {
-      if(confirm("Potvrdením ukončíte realizáciu. Táto akcia je nezvratná.")) {
-        this.challenge.status = 'Ukončené';
-      }
-    }
   }
 }
 </script>

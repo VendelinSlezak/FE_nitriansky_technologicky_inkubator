@@ -103,20 +103,6 @@
       </div>
     </section>
 
-    <section class="py-16 bg-white">
-      <div class="container mx-auto px-4 text-center">
-        <h2 class="text-3xl font-bold mb-12">Príklady úspešných projektov</h2>
-        <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto text-left">
-          <div v-for="(story, index) in successStories" :key="'story-' + index" 
-               class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-            <h4 class="text-lg font-bold text-slate-800 mb-1">{{ story.title }}</h4>
-            <p class="text-sm font-medium text-green-600 mb-4">{{ story.subtitle }}</p>
-            <p class="text-sm text-slate-600 leading-relaxed">{{ story.text }}</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section class="py-20 bg-gradient-to-r from-green-700 to-green-900 text-white text-center">
       <div class="container mx-auto px-4">
         <h2 class="text-4xl font-bold mb-6 tracking-tight">Zapojte sa do Programu B</h2>

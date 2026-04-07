@@ -148,11 +148,11 @@
                 <tr v-for="member in tim.clenovia" :key="member.email">
                   <td class="p-4 text-gray-700">{{ member.email }}</td>
                   <td class="p-4 text-center">
-                    <div v-if="member.status === 'prijate'" class="inline-flex items-center gap-1.5 bg-green-100 text-green-700 text-[9px] font-black uppercase px-3 py-1 rounded-full text-nowrap">
-                      <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span> Prijaté
+                    <div v-if="member.status === 'clen'" class="inline-flex items-center gap-1.5 bg-green-100 text-green-700 text-[9px] font-black uppercase px-3 py-1 rounded-full text-nowrap">
+                      <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span> Člen
                     </div>
                     <div v-else class="inline-flex items-center gap-1.5 bg-gray-100 text-gray-500 text-[9px] font-black uppercase px-3 py-1 rounded-full text-nowrap">
-                      <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-pulse"></span> Čaká sa
+                      <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-pulse"></span> Pozvánka odoslaná
                     </div>
                   </td>
                   <td v-if="statusTimu === 'draft'" class="p-4 text-right">
@@ -197,7 +197,7 @@ export default {
   name: "StudentTeamleaderDashboardView",
   data() {
     return {
-      statusTimu: "draft",
+      statusTimu: "schvaleny",
       novyClenEmail: "",
       
       tim: {
@@ -205,8 +205,8 @@ export default {
         vyzvaNazov: "Smart City Osvetlenie",
         maxClenov: 10,
         clenovia: [
-          { email: "peter.mrkva@student.sk", status: "prijate" },
-          { email: "matej.novak@student.sk", status: "prijate" }
+          { email: "peter.mrkva@student.sk", status: "clen" },
+          { email: "matej.novak@student.sk", status: "clen" }
         ]
       },
 
@@ -244,10 +244,10 @@ export default {
   },
   computed: {
     schvaleniClenoviaPocet() {
-      return 1 + this.tim.clenovia.filter(m => m.status === 'prijate').length;
+      return 1 + this.tim.clenovia.filter(m => m.status === 'clen').length;
     },
     vsetciPozvaniPrijali() {
-      return this.tim.clenovia.every(member => member.status === 'prijate');
+      return this.tim.clenovia.every(member => member.status === 'clen');
     },
     mozeOdoslat() {
       return this.statusTimu === 'draft' && this.schvaleniClenoviaPocet >= 2 && this.vsetciPozvaniPrijali;

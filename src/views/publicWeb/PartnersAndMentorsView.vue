@@ -88,41 +88,6 @@
       </div>
     </section>
 
-    <section class="py-16 bg-slate-50">
-      <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold mb-12 text-center">Referencie partnerov</h2>
-        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          <div class="bg-white p-8 rounded-2xl border-l-4 border-l-purple-500 shadow-sm">
-            <h4 class="text-lg font-bold mb-4 italic text-slate-800">"Výborná spolupráca s talentovanými študentmi"</h4>
-            <p class="text-slate-600 mb-6 leading-relaxed">
-              NTI nám pomohol nájsť skvelý tím študentov, ktorí zrealizovali náš projekt na vysokej úrovni. Určite budeme pokračovať v spolupráci.
-            </p>
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 font-bold">MS</div>
-              <div>
-                <div class="font-bold text-sm">Ing. Martin Svoboda</div>
-                <div class="text-xs text-slate-500 font-medium">CTO, TechCorp Slovakia</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-white p-8 rounded-2xl border-l-4 border-l-blue-500 shadow-sm">
-            <h4 class="text-lg font-bold mb-4 italic text-slate-800">"Prístup k najlepším talentom v regióne"</h4>
-            <p class="text-slate-600 mb-6 leading-relaxed">
-              Vďaka NTI sme našli niekoľko výborných študentov, ktorí teraz pracujú v našej firme. Program B je skvelá príležitosť pre obe strany.
-            </p>
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">AK</div>
-              <div>
-                <div class="font-bold text-sm">Mgr. Anna Kubíková</div>
-                <div class="text-xs text-slate-500 font-medium">HR Manager, InnoSoft Solutions</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section class="py-16 bg-gradient-to-r from-purple-700 to-purple-900 text-white text-center">
       <div class="container mx-auto px-4">
         <div class="max-w-3xl mx-auto">

@@ -203,7 +203,7 @@ export default {
   data() {
     return {
       studentName: "Ján",
-      stavStudenta: "zaklad", // 'zaklad', 'pozvany', 'clen_timu'
+      stavStudenta: "clen_timu", // 'zaklad', 'pozvany', 'clen_timu'
       otvorenyProjektId: null,
       
       posledneProjekty: [

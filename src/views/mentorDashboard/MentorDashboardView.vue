@@ -31,7 +31,6 @@
                 >
                   {{ project.program }}
                 </span>
-                <span class="text-xs text-gray-400 font-medium italic">Posledná aktivita: {{ project.lastActivity }}</span>
               </div>
               <h3 class="text-xl font-bold text-gray-900 leading-tight mb-2 mt-2">
                 {{ project.title }}
