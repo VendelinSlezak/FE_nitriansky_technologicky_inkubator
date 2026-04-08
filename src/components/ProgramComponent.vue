@@ -32,7 +32,7 @@ export default defineComponent({
     name: 'ProgramComponent',
     props: {
         programInfo:{
-            type: Object,
+            type: Array,
             required: true
         } 
     }

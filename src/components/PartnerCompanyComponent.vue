@@ -5,7 +5,7 @@ export default defineComponent({
     name: 'PartnerCompanyComponent',
     props: {
         partners: {
-            type: Object,
+            type: Array,
             required: true
         }
     }

@@ -31,18 +31,7 @@
     <section class="py-16 bg-slate-50">
       <div class="container mx-auto px-4">
         <h2 class="text-3xl font-bold mb-12 text-center">Ako to funguje</h2>
-        <div class="max-w-4xl mx-auto space-y-4">
-          <div v-for="(step, index) in processSteps" :key="'step-' + index" 
-               class="bg-white p-6 rounded-xl border-l-4 border-l-green-500 shadow-sm flex items-start gap-4">
-            <div class="w-12 h-12 rounded-lg bg-green-100 text-green-600 flex items-center justify-center flex-shrink-0" v-html="getIcon(step.icon)">
-            </div>
-            <div>
-              <span class="text-xs font-bold text-green-600 uppercase tracking-wide">Krok {{ index + 1 }}</span>
-              <h4 class="text-xl font-bold mb-1 text-slate-800">{{ step.title }}</h4>
-              <p class="text-slate-600">{{ step.description }}</p>
-            </div>
-          </div>
-        </div>
+        <ProgramStepComponent :steps="processSteps" :get-icon="getIcon"/>
       </div>
     </section>
 
@@ -123,8 +112,12 @@
 </template>
 
 <script>
+import ProgramStepComponent from '@/components/ProgramStepComponent.vue';
 export default {
   name: "ProgramBView",
+  components: {
+    ProgramStepComponent
+  },
   data() {
     return {
       benefits: {
