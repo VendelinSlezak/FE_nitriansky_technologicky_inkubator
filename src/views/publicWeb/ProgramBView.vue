@@ -108,15 +108,18 @@
         </div>
       </div>
     </section>
+    <FAQComponent/>
   </div>
 </template>
 
 <script>
 import ProgramStepComponent from '@/components/ProgramStepComponent.vue';
+import FAQComponent from '@/components/FAQComponent.vue';
 export default {
   name: "ProgramBView",
   components: {
-    ProgramStepComponent
+    ProgramStepComponent,
+    FAQComponent
   },
   data() {
     return {

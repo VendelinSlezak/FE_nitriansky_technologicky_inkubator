@@ -111,15 +111,19 @@
         </div>
       </div>
     </section>
+    <FAQComponent/>
   </div>
 </template>
 
 <script>
 import ProgramStepComponent from '@/components/ProgramStepComponent.vue';
+import FAQComponent from '@/components/FAQComponent.vue';
 export default {
   name: "ProgramAView",
   components: {
-    ProgramStepComponent
+    ProgramStepComponent,
+    FAQComponent
+
   },
   data() {
     return {
@@ -167,7 +171,7 @@ export default {
         userGroup:'<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
         award: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>',
         handshake: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17 2 2 6-6"/><path d="M18 9V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7"/></svg>',
-      }
+      },
     };
   },
   methods: {
