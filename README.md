@@ -26,15 +26,15 @@ This repository contains the **frontend** for the **Nitra Technology Incubator f
 
 ## Installation
 
-# Clone Repository
+### Clone Repository
 ```bash
 git clone https://github.com/VendelinSlezak/FE_nitriansky_technologicky_inkubator.git <folder_name>
 ```
-# Navigate To Project Folder
+### Navigate To Project Folder
 ```bash
 cd <folder_name>
 ```
-# Install dependencies
+### Install dependencies
 ```bash
 npm install
 ```
