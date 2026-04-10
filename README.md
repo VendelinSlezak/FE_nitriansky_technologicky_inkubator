@@ -15,12 +15,13 @@ This repository contains the **frontend** for the **Nitra Technology Incubator f
 ## Demo Screenshots
 > [!NOTE]  
 > Some section text are temporary placeholders which will be soon replaced with real information
+### Home page
 ![NTI_home](https://github.com/user-attachments/assets/7b22de3d-1654-4a7f-83d1-02b254ccc4d6)
-
+### Program A page
 ![NTI_program_a](https://github.com/user-attachments/assets/9ed49bb3-ff6a-450d-afed-f60f84049e96)
-
+### Program B page
 ![NTI_program_b](https://github.com/user-attachments/assets/ab56b9b7-97b8-4fc5-9e6d-01e513bc0072)
-
+### News page
 ![NTI_news](https://github.com/user-attachments/assets/9f76112f-4140-4563-b42f-506f18dd03ab)
 
 ## Installation
