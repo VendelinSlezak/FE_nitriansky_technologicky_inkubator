@@ -43,6 +43,29 @@
       </div>
     </section>
 
+    <section class="py-24 bg-white border-t border-slate-100">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+          <div class="text-left">
+            <h2 class="text-3xl md:text-4xl font-black mb-4 text-slate-800 tracking-tight">Aktuálne výzvy</h2>
+            <p class="text-lg text-slate-500 italic">
+              Zapojte sa do inovatívnych projektov a získajte cenné skúsenosti od mentorov a finančnú podporu.
+            </p>
+          </div>
+          <router-link to="/challenges" class="text-blue-600 font-bold hover:text-blue-800 flex items-center transition-colors">
+            Zobraziť všetky výzvy 
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+          </router-link>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div v-for="challenge in challenges" :key="challenge.id">
+            <ChallengeComponent :challenge="challenge" />
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="py-16 bg-slate-50">
       <div class="container mx-auto px-4">
       <h2 class="text-3xl font-bold mb-12 text-center text-slate-800">Partnerské firmy</h2>
@@ -56,12 +79,14 @@
 <script>
 import ProgramComponent from '@/components/ProgramComponent.vue';
 import PartnerCompanyComponent from '@/components/PartnerCompanyComponent.vue';
+import ChallengeComponent from '@/components/ChallengeComponent.vue';
 
 export default {
   name: "HomeView",
   components: {
     ProgramComponent,
-    PartnerCompanyComponent
+    PartnerCompanyComponent,
+    ChallengeComponent,
   },
   data() {
     return {
@@ -95,35 +120,62 @@ export default {
         lightbulb: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>',
         users: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>'
       },
-      partners: [{
-        name: 'Colnago',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Colnago_logo_2021.svg/640px-Colnago_logo_2021.svg.png'
-      },
-      {
-        name: 'ebay',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/EBay_logo.svg/640px-EBay_logo.svg.png'
-      },
-      {
-        name: 'Ensoniq',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Ensoniq_Logo_1993-2003.svg/640px-Ensoniq_Logo_1993-2003.svg.png'
-      },
-      {
-        name: 'cognizant',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Cognizant_logo_2022.svg/640px-Cognizant_logo_2022.svg.png'
-      },
-      {
-        name: 'Moser',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Moser_logo_2024.svg/640px-Moser_logo_2024.svg.png'
-      },
-      {
-        name: 'Panasonic',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Panasonic_logo_%28Blue%29.svg/640px-Panasonic_logo_%28Blue%29.svg.png'
-      },
-      {
-        name: 'OpenAI',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/OpenAI_logo_2025_%28wordmark%29.svg/640px-OpenAI_logo_2025_%28wordmark%29.svg.png'
-      }
-    ]
+      partners: [
+        {
+          name: 'Colnago',
+          logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Colnago_logo_2021.svg/640px-Colnago_logo_2021.svg.png'
+        },
+        {
+          name: 'ebay',
+          logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/EBay_logo.svg/640px-EBay_logo.svg.png'
+        },
+        {
+          name: 'Ensoniq',
+          logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Ensoniq_Logo_1993-2003.svg/640px-Ensoniq_Logo_1993-2003.svg.png'
+        },
+        {
+          name: 'cognizant',
+          logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Cognizant_logo_2022.svg/640px-Cognizant_logo_2022.svg.png'
+        },
+        {
+          name: 'Moser',
+          logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Moser_logo_2024.svg/640px-Moser_logo_2024.svg.png'
+        },
+        {
+          name: 'Panasonic',
+          logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Panasonic_logo_%28Blue%29.svg/640px-Panasonic_logo_%28Blue%29.svg.png'
+        },
+        {
+          name: 'OpenAI',
+          logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/OpenAI_logo_2025_%28wordmark%29.svg/640px-OpenAI_logo_2025_%28wordmark%29.svg.png'
+        },
+      ],
+      challenges: [
+        {
+          id: 1,
+          program: 'A',
+          title: 'AI v mestskej mobilite',
+          description: 'Hľadáme inovatívne projekty využívajúce strojové učenie na optimalizáciu dopravy v Nitre.',
+          category: 'AI a dátové technológie', // Pre Program A 
+          path: '/challenges/ai-mobility'
+        },
+        {
+          id: 2,
+          program: 'B',
+          title: 'E-commerce analytika pre eBay',
+          description: 'Vývoj dashboardov pre vizualizáciu trendov v predaji na globálnej platforme.',
+          reward: 1200, // Odmena pre Program B v EUR 
+          path: '/challenges/ebay-analytics'
+        },
+        {
+          id: 3,
+          program: 'B',
+          title: 'Senzorická sieť pre Smart City',
+          description: 'Implementácia IoT riešenia pre monitorovanie kvality ovzdušia v priemyselnej zóne.',
+          reward: 950,
+          path: '/challenges/iot-nitra'
+        }
+      ],
     };
   },
   methods: {

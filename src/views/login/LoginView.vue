@@ -110,6 +110,12 @@ export default {
         avatar: null,
         dashboard: '/firm-dashboard',
       },
+      clen_firmy: {
+        name: 'Ján Nový',
+        role: 'Člen firmy',
+        avatar: null,
+        dashboard: '/firm-member-dashboard',
+      },
       editor_webu: {
         name: 'Ján Nový',
         role: 'Editor webu',
@@ -135,8 +141,8 @@ export default {
 
       setTimeout(() => {
         this.loading = false;
-        this.login(this.student);
-        this.$router.push(this.student.dashboard);
+        this.login(this.admin);
+        this.$router.push(this.admin.dashboard);
       }, 300);
     }
   }

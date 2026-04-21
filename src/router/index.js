@@ -7,6 +7,8 @@ import ProgramBView from '../views/publicWeb/ProgramBView.vue'
 import PartnersAndMentorsView from '../views/publicWeb/PartnersAndMentorsView.vue'
 import NewsView from '../views/publicWeb/NewsView.vue'
 import ArticleView from '../views/publicWeb/ArticleView.vue'
+import ChallengesView from '@/views/publicWeb/ChallengesView.vue'
+import ChallengeView from '@/views/publicWeb/ChallengeView.vue'
 
 import LoginView from '../views/login/LoginView.vue'
 import ResetPasswordView from '../views/login/ResetPasswordView.vue'
@@ -87,6 +89,17 @@ const router = createRouter({
             name: 'article',
             props: true,
             component: ArticleView,
+        },
+        {
+            path: '/challenges',
+            name: 'challenges',
+            component: ChallengesView
+        },
+        {
+            path: '/challenges/:id',
+            name: 'challenge',
+            props: true,
+            component: ChallengeView
         },
 
         {

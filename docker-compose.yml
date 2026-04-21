@@ -1,0 +1,23 @@
+services:
+  # VÝVOJOVÁ VERZIA
+  vue-dev:
+    build:
+      context: .
+      target: development  # Povie Dockeru, aby skončil pri fáze 'development'
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+
+  # PRODUKČNÁ VERZIA
+  vue-prod:
+    build:
+      context: .
+      target: production   # Povie Dockeru, aby prešiel až k Nginxu
+    ports:
+      - "8080:80"
+    environment:
+      - NODE_ENV=production
