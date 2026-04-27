@@ -11,6 +11,12 @@ export default defineConfig({
     vueDevTools(),
   ],
   server: {
+    proxy: {
+      '/api': {
+        target: 'http://app:80',
+        changeOrigin: true,
+      }
+    },
     host: '0.0.0.0',
     port: 5173,
     watch: {
