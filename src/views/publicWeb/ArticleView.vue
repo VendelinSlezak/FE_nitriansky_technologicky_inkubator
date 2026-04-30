@@ -104,19 +104,17 @@ export default {
     };
   },
   computed: {
-    // Táto funkcia zoberie article.content (String) a rozbije ho na pole paragrafov
     formattedParagraphs() {
       if (!this.article || !this.article.content) return [];
       
-      // Ak je content už pole, vrátime ho, inak ho rozdelíme podľa \n
       if (Array.isArray(this.article.content)) {
         return this.article.content;
       }
       
       return this.article.content
-        .split('\n')                // Rozdelenie podľa nového riadku
-        .map(p => p.trim())         // Odstránenie bielych znakov na krajoch
-        .filter(p => p.length > 0); // Odstránenie úplne prázdnych riadkov
+        .split('\n')
+        .map(p => p.trim())
+        .filter(p => p.length > 0);
     }
   },
   mounted() {
@@ -128,7 +126,6 @@ export default {
       try {
         const url = "http://localhost:8080/api/articles/" + this.id;
         const response = await axios.get(url);
-        // Očakávame, že response.data.data.content je String s odriadkovaním
         this.article = response.data.data;
       }
       catch (error) {

@@ -92,6 +92,13 @@
       </div>
     </section>
 
+    <section class="py-24 bg-white">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-black mb-16 text-center text-slate-900 tracking-tight">FAQ</h2>
+        <FAQComponent/>
+      </div>
+    </section>
+
     <section class="py-20 bg-gradient-to-r from-green-700 to-green-900 text-white text-center">
       <div class="container mx-auto px-4">
         <h2 class="text-4xl font-bold mb-6 tracking-tight">Zapojte sa do Programu B</h2>
@@ -108,7 +115,6 @@
         </div>
       </div>
     </section>
-    <FAQComponent/>
   </div>
 </template>
 
