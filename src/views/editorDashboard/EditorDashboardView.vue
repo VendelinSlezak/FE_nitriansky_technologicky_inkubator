@@ -33,19 +33,6 @@
             </router-link>
 
             <router-link 
-              to="/editor-dashboard/edit-logos" 
-              class="flex items-center gap-3 px-5 py-4 bg-white border border-slate-200 rounded-2xl shadow-sm transition-all hover:shadow-md hover:border-emerald-300 group"
-              active-class="!border-emerald-500 !bg-emerald-50 ring-2 ring-emerald-500/10"
-            >
-              <div class="p-2 bg-emerald-100 text-emerald-600 rounded-lg group-hover:bg-emerald-600 group-hover:text-white transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <span class="font-bold text-slate-700">Upraviť logá</span>
-            </router-link>
-
-            <router-link 
               to="/editor-dashboard/edit-faq" 
               class="flex items-center gap-3 px-5 py-4 bg-white border border-slate-200 rounded-2xl shadow-sm transition-all hover:shadow-md hover:border-purple-300 group"
               active-class="!border-purple-500 !bg-purple-50 ring-2 ring-purple-500/10"
