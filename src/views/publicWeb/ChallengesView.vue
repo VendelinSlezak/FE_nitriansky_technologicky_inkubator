@@ -31,23 +31,26 @@
           Program B
         </button>
       </div>
-
-      <div v-if="filteredChallenges.length > 0" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div v-for="challenge in filteredChallenges" :key="challenge.id">
-          <ChallengeComponent :challenge="challenge" />
+      <div v-if="challenges">
+        <div v-if="filteredChallenges.length > 0" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div v-for="challenge in filteredChallenges" :key="challenge.id">
+            <ChallengeComponent :challenge="challenge"/>
+          </div>
         </div>
       </div>
 
       <div v-else class="text-center py-20 bg-white rounded-3xl border border-dashed border-slate-300">
-        <p class="text-slate-400 text-lg italic">Momentálne nie sú v tejto kategórii žiadne otvorené výzvy.</p>
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-slate-200 border-t-blue-600 mb-4"></div>
+        <h2 class="text-xl font-bold text-slate-400 tracking-tight">Hľadám aktuálne výzvy...</h2>
+        </div>
       </div>
 
     </div>
-  </div>
 </template>
 
 <script>
 import ChallengeComponent from '@/components/ChallengeComponent.vue';
+import axios from 'axios';
 
 export default {
   name: "ChallengesView",
@@ -60,48 +63,8 @@ export default {
       filterBtnClass: 'px-6 py-3 rounded-xl font-bold transition-all duration-200 active:scale-95 border-2',
       activeClass: 'bg-slate-900 text-white border-slate-900 shadow-xl',
       inactiveClass: 'bg-white text-slate-600 border-slate-200 hover:border-slate-400',
-      challenges: [
-        {
-          id: 1,
-          program: 'A',
-          title: 'AI v mestskej mobilite',
-          description: 'Hľadáme inovatívne projekty využívajúce strojové učenie na optimalizáciu dopravy v Nitrianskom kraji.',
-          category: 'AI a dátové technológie',
-          path: '/challenges/ai-mobility'
-        },
-        {
-          id: 2,
-          program: 'B',
-          title: 'E-commerce analytika pre eBay',
-          description: 'Vývoj dashboardov pre vizualizáciu trendov v predaji použitých bicyklov na platforme eBay.',
-          reward: 1200,
-          path: '/challenges/ebay-analytics'
-        },
-        {
-          id: 3,
-          program: 'B',
-          title: 'Senzorická sieť pre Smart City',
-          description: 'Implementácia IoT riešenia pre monitorovanie kvality ovzdušia v priemyselnej zóne pod Zoborom.',
-          reward: 950,
-          path: '/challenges/iot-nitra'
-        },
-        {
-          id: 4,
-          program: 'A',
-          title: 'Zelená energia pre domy',
-          description: 'Platforma na zdieľanie prebytočnej energie z fotovoltických panelov v rámci komunity.',
-          category: 'GreenTech',
-          path: '/challenges/green-energy'
-        },
-        {
-          id: 5,
-          program: 'B',
-          title: 'AR navigácia v budovách',
-          description: 'Vývoj prototypu rozšírenej reality pre navigáciu návštevníkov v komplexných administratívnych budovách.',
-          reward: 1500,
-          path: '/challenges/ar-navigation'
-        }
-      ]
+      challenges: null,
+      errorMessage: null
     };
   },
   computed: {
@@ -115,6 +78,35 @@ export default {
   mounted() {
     window.scrollTo(0, 0);
     document.title = "Aktuálne výzvy | Nitriansky technologický inkubátor";
+  },
+  created() {
+    if (!sessionStorage.getItem("challenges")) {
+      this.fetchData();
+    } else {
+      this.retrieveData()
+    }
+    
+  },
+  methods: {
+    async fetchData() {
+      try {
+        const response = await axios.get('http://127.0.0.1:8080/api/challenges/preview');
+        sessionStorage.setItem('challenges',JSON.stringify(response.data.data))
+        this.challenges = JSON.parse(sessionStorage.getItem('challenges'))
+      } catch (err) {
+        this.errorMessage = err
+      }
+    },
+    retrieveData() {
+      try {
+        this.challenges = JSON.parse(sessionStorage.getItem('challenges'))
+        console.log(sessionStorage)
+        console.log(this.challenges)
+      } catch (err) {
+        this.fetchData()
+      }
+      
+    }
   }
 };
 </script>
