@@ -67,19 +67,12 @@ export default {
       
       // Dáta pre nové otázky (každá sekcia má svoj buffer)
       newFaqs: {
-        intro: { question: "", answer: "" },
         programA: { question: "", answer: "" },
         programB: { question: "", answer: "" }
       },
 
       // Hlavné dáta
       faqData: {
-        intro: {
-          title: "Úvodná stránka",
-          items: [
-            { question: "Čo je to NTI?", answer: "Národný technologický inštitút je platforma pre rozvoj talentov." }
-          ]
-        },
         programA: {
           title: "Program A",
           items: [

@@ -51,6 +51,9 @@ import AdminEditChallengeView from '@/views/adminDashboard/AdminEditChallengeVie
 import AdminCreateTeamView from '@/views/adminDashboard/AdminCreateTeamView.vue'
 import AdminEditTeamView from '@/views/adminDashboard/AdminEditTeamView.vue'
 
+import CompanyAdminDashboardView from '@/views/firmDashboard/CompanyAdminDashboardView.vue'
+import CompanyMemberDashboardView from '@/views/firmMemberDashboard/CompanyMemberDashboardView.vue'
+
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
@@ -319,6 +322,17 @@ const router = createRouter({
             props: true,
             name: 'firm-challenge',
             component: FirmChallengeView,
+        },
+
+        {
+            path: '/company-admin-dashboard',
+            name: 'company-admin-dashboard',
+            component: CompanyAdminDashboardView,
+        },
+        {
+            path: '/company-member-dashboard',
+            name: 'company-member-dashboard',
+            component: CompanyMemberDashboardView,
         },
     ],
     scrollBehavior(to, from, savedPosition) {
