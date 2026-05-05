@@ -5,7 +5,7 @@ export default defineComponent({
     name: 'ChallengeComponent',
     props: {
         challenge: {
-            type: Array,
+            type: Object,
             required: true
         }
     }
@@ -60,7 +60,7 @@ export default defineComponent({
         </div>
     </div>
 
-    <router-link :to="challenge.path" class="mt-4 block">
+    <router-link :to="{name: 'challenge', params: {id: challenge.id}}" class="mt-4 block">
         <button class="w-full py-4 bg-slate-900 text-white font-bold rounded-2xl hover:bg-blue-600 transition-all active:scale-95 shadow-lg">
         Zobraziť detaily
         </button>

@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-white font-sans text-slate-900 pt-24 pb-20">
-    <div v-if="challenge" class="container mx-auto px-4 max-w-4xl">
+    <div v-if="items" class="container mx-auto px-4 max-w-4xl">
       
       <router-link to="/challenges" class="inline-flex items-center text-slate-400 hover:text-blue-600 mb-12 transition-colors group text-sm font-medium">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -13,23 +13,23 @@
         <div class="flex items-center gap-3 mb-6">
           <span :class="[
             'px-3 py-1 rounded-md text-[10px] font-black tracking-[0.2em] uppercase',
-            challenge.program === 'A' ? 'bg-blue-600 text-white' : 'bg-emerald-600 text-white'
+            items.program === 'A' ? 'bg-blue-600 text-white' : 'bg-emerald-600 text-white'
           ]">
-            Program {{ challenge.program }}
+            Program {{ items.program }}
           </span>
-          <span v-if="challenge.program === 'A'" class="text-slate-400 text-xs font-bold uppercase tracking-wider">
-            {{ challenge.category }}
+          <span v-if="items.program === 'A'" class="text-slate-400 text-xs font-bold uppercase tracking-wider">
+            {{ items.category }}
           </span>
         </div>
         
         <h1 class="text-4xl md:text-6xl font-black text-slate-900 leading-[1.1] mb-6">
-          {{ challenge.title }}
+          {{ items.name }}
         </h1>
 
-        <div v-if="challenge.program === 'B'" class="flex items-center py-6 border-y border-slate-100">
+        <div v-if="items.program === 'B'" class="flex items-center py-6 border-y border-slate-100">
           <div>
             <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Finančná odmena pre tím</span>
-            <span class="text-3xl font-black text-emerald-600">{{ challenge.reward }} €</span>
+            <span class="text-3xl font-black text-emerald-600">{{ items.reward }} €</span>
           </div>
         </div>
       </header>
@@ -37,13 +37,13 @@
       <article class="prose prose-slate prose-lg max-w-none mb-16">
         <h3 class="text-slate-900 font-bold">O projekte</h3>
         <p class="text-slate-600 leading-relaxed">
-          {{ challenge.description }}
+          {{ items.description }}
         </p>
 
-        <div v-if="challenge.program === 'A'" class="mt-10 p-8 bg-slate-50 rounded-3xl border border-slate-100">
+        <div v-if="items.program === 'A'" class="mt-10 p-8 bg-slate-50 rounded-3xl border border-slate-100">
           <h3 class="text-slate-900 font-bold mt-0">Požadované zručnosti</h3>
           <p class="text-slate-600 mb-0">
-            {{ challenge.skillsDescription }}
+            {{ items.skillsDescription }}
           </p>
         </div>
       </article>
@@ -51,7 +51,7 @@
       <section class="mb-16">
         <h3 class="text-xl font-bold mb-6 text-slate-900">Dokumentácia k výzve</h3>
         <div class="grid sm:grid-cols-2 gap-4">
-          <a v-for="(file, index) in challenge.attachments" :key="index" :href="file.url" 
+          <a v-for="(file, index) in items.attachments" :key="index" :href="file.url" 
              class="flex items-center p-5 bg-white border border-slate-200 rounded-2xl hover:border-blue-500 hover:shadow-md transition-all group">
             <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center mr-4 group-hover:bg-blue-50 transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-400 group-hover:text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -85,6 +85,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "ChallengeView",
   props: {
@@ -92,40 +93,32 @@ export default {
   },
   data() {
     return {
+      items: null,
+      isLoading: false,
+      errorMessage: null,
       challenge: null,
-      mockDatabase: [
-        {
-          id: 1,
-          program: 'A',
-          title: 'AI v mestskej mobilite',
-          description: 'Cieľom výzvy je navrhnúť systém využívajúci umelú inteligenciu na predikciu dopravných kolapsov v Nitre na základe dát zo senzorov a verejnej dopravy. Projekt vyžaduje inovatívny prístup k spracovaniu veľkých dát v reálnom čase.',
-          category: 'AI a dátové technológie',
-          skillsDescription: 'Vyžadujeme znalosť jazyka Python a knižníc ako TensorFlow alebo PyTorch. Skúsenosti s prácou s GIS dátami a API verejnej správy sú výhodou.',
-          attachments: [
-            { name: 'Technicka_specifikacia_dat.pdf', size: '2.4 MB', url: '#' },
-            { name: 'Mapa_senzorov_Nitra.zip', size: '15 MB', url: '#' }
-          ]
-        },
-        {
-          id: 2,
-          program: 'B',
-          title: 'E-commerce analytika pre eBay',
-          description: 'Spoločnosť eBay hľadá tím študentov na vývoj pokročilých analytických dashboardov, ktoré pomôžu predajcom v segmente cyklistiky lepšie identifikovať sezónne trendy.',
-          reward: 1200,
-          attachments: [
-            { name: 'Zadanie_projektu_eBay.pdf', size: '1.1 MB', url: '#' },
-            { name: 'Brand_manual.pdf', size: '4.5 MB', url: '#' }
-          ]
-        }
-      ]
     };
   },
-  mounted() {
-    this.challenge = this.mockDatabase.find(c => c.id == this.id);
-    if (this.challenge) {
-      document.title = `${this.challenge.title} | NTI`;
-      window.scrollTo(0, 0);
+  created() {
+    console.log(this.id)
+    this.fetchData(this.id)
+  },
+  methods: {
+    async fetchData(id) {
+      this.isLoading = true,
+      this.errorMessage = null
+
+      try {
+        const response = await axios.get(`http://127.0.0.1:8080/api/challenges/${id}`);
+        this.items = response.data.data; 
+        console.log(this.items)
+      } catch (error) {
+        this.errorMessage = 'Nepodarilo sa načítať data';
+        console.log(error);
+      } finally {
+        this.isLoading = false
+      }
     }
   }
-};
+}
 </script>
