@@ -95,12 +95,6 @@
                     </a>
                   </div>
                 </div>
-
-                <div class="pt-4">
-                  <button class="bg-slate-900 text-white px-8 py-3 rounded-2xl text-xs font-black hover:bg-blue-600 transition-all shadow-lg shadow-slate-100">
-                    Vstúpiť do pracovného priestoru
-                  </button>
-                </div>
               </div>
             </transition>
           </div>

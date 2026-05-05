@@ -141,8 +141,8 @@ export default {
 
       setTimeout(() => {
         this.loading = false;
-        this.login(this.clen_firmy);
-        this.$router.push(this.clen_firmy.dashboard);
+        this.login(this.admin);
+        this.$router.push(this.admin.dashboard);
       }, 300);
     }
   }
