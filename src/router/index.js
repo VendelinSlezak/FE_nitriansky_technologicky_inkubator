@@ -44,6 +44,7 @@ import AdminDashboardView from '@/views/adminDashboard/AdminDashboardView.vue'
 import AdminManageAccountsView from '@/views/adminDashboard/AdminManageAccountsView.vue'
 import AdminManageTeamsView from '@/views/adminDashboard/AdminManageTeamsView.vue'
 import AdminManageChallengesView from '@/views/adminDashboard/AdminManageChallengesView.vue'
+import AdminManageCategoriesView from '@/views/adminDashboard/AdminManageCategoriesView.vue'
 import AdminCreateAccountView from '@/views/adminDashboard/AdminCreateAccountView.vue'
 import AdminEditAccountView from '@/views/adminDashboard/AdminEditAccountView.vue'
 import AdminCreateChallengeView from '@/views/adminDashboard/AdminCreateChallengeView.vue'
@@ -260,6 +261,11 @@ const router = createRouter({
                     name: 'admin-manage-accounts',
                     component: AdminManageAccountsView,
 
+                },
+                {
+                    path: '/admin-dashboard/manage-categories',
+                    name: 'admin-manage-categories',
+                    component: AdminManageCategoriesView
                 },
                 {
                     path: '/admin-dashboard/manage-teams',

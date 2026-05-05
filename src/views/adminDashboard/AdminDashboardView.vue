@@ -25,8 +25,8 @@
             >
               <div class="p-2 bg-blue-100 text-blue-600 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l4 4v10a2 2 0 01-2 2z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 2v6h6" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a2 2 0 00-.586-1.414l-4.414-4.414A2 2 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 3v4a2 2 0 002 2h4" />
                 </svg>
               </div>
               <span class="font-bold text-slate-700">Upraviť novinky</span>
@@ -44,6 +44,7 @@
               </div>
               <span class="font-bold text-slate-700">Upraviť FAQ</span>
             </router-link>
+
             <router-link 
                 to="/admin-dashboard/manage-accounts" 
                 class="flex items-center gap-3 px-5 py-4 bg-white border border-slate-200 rounded-2xl shadow-sm transition-all hover:shadow-md hover:border-indigo-300 group"
@@ -56,6 +57,7 @@
                 </div>
                 <span class="font-bold text-slate-700">Správa účtov</span>
             </router-link>
+
             <router-link 
                 to="/admin-dashboard/manage-teams" 
                 class="flex items-center gap-3 px-5 py-4 bg-white border border-slate-200 rounded-2xl shadow-sm transition-all hover:shadow-md hover:border-emerald-300 group"
@@ -68,6 +70,7 @@
                 </div>
                 <span class="font-bold text-slate-700">Správa tímov</span>
             </router-link>
+
             <router-link 
                 to="/admin-dashboard/manage-challenges" 
                 class="flex items-center gap-3 px-5 py-4 bg-white border border-slate-200 rounded-2xl shadow-sm transition-all hover:shadow-md hover:border-sky-300 group"
@@ -79,6 +82,21 @@
                     </svg>
                 </div>
                 <span class="font-bold text-slate-700">Správa výziev</span>
+            </router-link>
+
+            <router-link 
+              to="/admin-dashboard/manage-categories" 
+              class="flex items-center gap-3 px-5 py-4 bg-white border border-slate-200 rounded-2xl shadow-sm transition-all hover:shadow-md hover:border-indigo-300 group"
+              active-class="!border-indigo-500 !bg-indigo-50 ring-4 ring-indigo-500/5"
+            >
+              <div class="p-2 bg-indigo-50 text-indigo-600 rounded-xl group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                </svg>
+              </div>
+              <div class="flex flex-col">
+                <span class="font-bold text-slate-700 transition-colors group-hover:text-indigo-900">Správa kategórií</span>
+              </div>
             </router-link>
           </nav>
         </aside>
