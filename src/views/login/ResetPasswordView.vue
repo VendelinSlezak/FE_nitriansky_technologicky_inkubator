@@ -26,18 +26,10 @@
           />
         </div>
 
-        <div class="bg-gray-50 border border-gray-200 rounded-2xl p-5 flex items-center justify-between shadow-inner">
-          <label class="flex items-center gap-4 cursor-pointer">
-            <input 
-              type="checkbox"
-              class="w-6 h-6 border-gray-300 rounded-md text-blue-600 focus:ring-blue-500 cursor-pointer" 
-            />
-            <span class="text-sm font-bold text-gray-700 uppercase tracking-tight">Nie som robot</span>
-          </label>
-          <div class="flex flex-col items-center">
-            <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="recaptcha" class="w-8 h-8 opacity-40 grayscale" />
-            <span class="text-[8px] text-gray-400 font-bold mt-1 uppercase">reCAPTCHA</span>
-          </div>
+        <div class="text-center py-2">
+          <p class="text-[10px] text-gray-400">
+            Tento formulár je chránený službou reCAPTCHA v3.
+          </p>
         </div>
 
         <button 
@@ -64,6 +56,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'ResetPasswordView',
   data() {
@@ -73,17 +67,28 @@ export default {
     }
   },
   methods: {
-    handleReset() {
-      this.loading = true;
-      
-      console.log('Požiadavka na reset hesla pre:', this.email);
+    async handleReset() {
+      await this.$recaptchaLoaded();
+      const token = await this.$recaptcha('password_reset');
+      if (!token) {
+        throw new Error("Nepodarilo sa získať CAPTCHA token.");
+      }
 
-      // Simulácia odosielania emailu
-      setTimeout(() => {
-        this.loading = false;
+      try {
+        this.loading = true;
+        const response = await axios.post(`http://localhost:8080/api/auth/reset-password-request`, {
+          "email": this.email,
+          "g-recaptcha-response": token
+        });
         alert('Ak je tento email registrovaný, poslali sme naň inštrukcie na obnovu hesla.');
         this.$router.push('/login');
-      }, 1500);
+      }
+      catch (error) {
+        alert(error.response.data.message);
+      }
+      finally {
+        this.loading = false;
+      }
     }
   }
 }

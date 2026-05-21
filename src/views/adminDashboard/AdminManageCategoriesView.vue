@@ -210,7 +210,7 @@ export default {
         // const response = await axios.post('/api/categories', payload);
         
         this.categories.push({ ...payload, id: Date.now() });
-        this.newCategory = { name: "", skillsDescription: "", isVisible: false };
+        this.newCategory = { name: "", skillsDescription: "", isVisible: true };
         alert("Kategória úspešne vytvorená.");
       } catch (error) {
         alert("Chyba pri vytváraní.");

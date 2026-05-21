@@ -78,35 +78,18 @@ export default {
   mounted() {
     window.scrollTo(0, 0);
     document.title = "Aktuálne výzvy | Nitriansky technologický inkubátor";
-  },
-  created() {
-    if (!sessionStorage.getItem("challenges")) {
-      this.fetchData();
-    } else {
-      this.retrieveData()
-    }
-    
+    this.fetchData();
   },
   methods: {
     async fetchData() {
       try {
         const response = await axios.get('http://127.0.0.1:8080/api/challenges/preview');
-        sessionStorage.setItem('challenges',JSON.stringify(response.data.data))
-        this.challenges = JSON.parse(sessionStorage.getItem('challenges'))
-      } catch (err) {
+        this.challenges = response.data.data
+      }
+      catch (err) {
         this.errorMessage = err
       }
     },
-    retrieveData() {
-      try {
-        this.challenges = JSON.parse(sessionStorage.getItem('challenges'))
-        console.log(sessionStorage)
-        console.log(this.challenges)
-      } catch (err) {
-        this.fetchData()
-      }
-      
-    }
   }
 };
 </script>

@@ -76,6 +76,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'UpdateResettedPasswordView',
   props: {
@@ -90,8 +92,7 @@ export default {
     }
   },
   methods: {
-    handleUpdate() {
-      // Základná validácia
+    async handleUpdate() {
       if (this.password !== this.passwordConfirm) {
         alert("Heslá sa nezhodujú!");
         return;
@@ -102,13 +103,21 @@ export default {
         return;
       }
 
-      this.loading = true;
-      
-      // Simulácia uloženia nového hesla do databázy
-      setTimeout(() => {
+      try {
+        this.loading = true;
+        const response = await axios.post(`http://localhost:8080/api/auth/reset-password`, {
+          token: this.token,
+          password: this.password,
+          password_confirmation: this.passwordConfirm
+        });
+        this.isFinished = true;
+      }
+      catch (error) {
+        console.error(error);
+      }
+      finally {
         this.loading = false;
-        this.isFinished = true; // Prepne zobrazenie na úspešné dokončenie
-      }, 1500);
+      }
     }
   }
 }

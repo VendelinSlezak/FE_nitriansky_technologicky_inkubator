@@ -95,7 +95,7 @@
     <section class="py-24 bg-white">
       <div class="container mx-auto px-4">
         <h2 class="text-4xl font-black mb-16 text-center text-slate-900 tracking-tight">FAQ</h2>
-        <FAQComponent/>
+        <FAQComponent :faqItems="faqItems"/>
       </div>
     </section>
 
@@ -119,6 +119,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import ProgramStepComponent from '@/components/ProgramStepComponent.vue';
 import FAQComponent from '@/components/FAQComponent.vue';
 export default {
@@ -164,7 +165,6 @@ export default {
         { title: "Warehouse management system", subtitle: "Pre logistickú spoločnosť", text: "Realizácia WMS systému s QR kódmi, mobilným skenerovaním a reportingom." },
         { title: "CRM systém", subtitle: "Pre služby zákazníkom", text: "Vlastné CRM riešenie prispôsobené špecifickým potrebám klienta." }
       ],
-      // SVG cesty pre ikony v sekcii process
       iconPaths: {
         briefcase: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>',
         code: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
@@ -172,13 +172,26 @@ export default {
         award: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>',
         handshake: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17 2 2 6-6"/><path d="M18 9V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7"/></svg>',
         check: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>'
-      }
+      },
+      faqItems: [],
     };
   },
   methods: {
     getIcon(name) {
       return this.iconPaths[name] || '';
-    }
-  }
+    },
+    async fetchData() {
+      try {
+        const response = await axios.get('http://localhost:8080/api/faq/b');
+        this.faqItems = response.data.data
+      }
+      catch (error) {
+        console.error("Chyba pri načítaní výziev:", error);
+      }
+    },
+  },
+  mounted() {
+    this.fetchData();
+  },
 };
 </script>

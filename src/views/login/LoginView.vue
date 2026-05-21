@@ -69,6 +69,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import { useAuthStore } from '@/stores/auth.js'
 import { mapState, mapActions } from 'pinia'
 
@@ -130,20 +131,35 @@ export default {
   methods: {
     ...mapActions(useAuthStore, ['login']),
 
-    handleSubmit() {
-      this.loading = true;
-      
-      // Simulácia API volania
-      console.log('Prihlasujem užívateľa:', {
-        email: this.email,
-        password: this.password
-      });
+    async handleSubmit() {
+      try {
+        this.loading = true;
 
-      setTimeout(() => {
+        const formData = new FormData();
+        formData.append('email', this.email);
+        formData.append('password', this.password);
+        const response = await axios.post(`http://localhost:8080/api/auth/login`, formData);
+        
+        this.login(response.data);
+        this.$router.push(response.data.dashboard);
+      }
+      catch (error) {
+        console.error(error);
+      }
+      finally {
         this.loading = false;
-        this.login(this.admin);
-        this.$router.push(this.admin.dashboard);
-      }, 300);
+      }
+
+      // console.log('Prihlasujem užívateľa:', {
+      //   email: this.email,
+      //   password: this.password
+      // });
+
+      // setTimeout(() => {
+      //   this.loading = false;
+      //   this.login(this.admin);
+      //   this.$router.push(this.admin.dashboard);
+      // }, 300);
     }
   }
 }

@@ -77,6 +77,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import ProgramComponent from '@/components/ProgramComponent.vue';
 import PartnerCompanyComponent from '@/components/PartnerCompanyComponent.vue';
 import ChallengeComponent from '@/components/ChallengeComponent.vue';
@@ -120,71 +121,35 @@ export default {
         lightbulb: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>',
         users: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>'
       },
-      partners: [
-        {
-          name: 'Colnago',
-          logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Colnago_logo_2021.svg/640px-Colnago_logo_2021.svg.png'
-        },
-        {
-          name: 'ebay',
-          logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/EBay_logo.svg/640px-EBay_logo.svg.png'
-        },
-        {
-          name: 'Ensoniq',
-          logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Ensoniq_Logo_1993-2003.svg/640px-Ensoniq_Logo_1993-2003.svg.png'
-        },
-        {
-          name: 'cognizant',
-          logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Cognizant_logo_2022.svg/640px-Cognizant_logo_2022.svg.png'
-        },
-        {
-          name: 'Moser',
-          logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Moser_logo_2024.svg/640px-Moser_logo_2024.svg.png'
-        },
-        {
-          name: 'Panasonic',
-          logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Panasonic_logo_%28Blue%29.svg/640px-Panasonic_logo_%28Blue%29.svg.png'
-        },
-        {
-          name: 'OpenAI',
-          logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/OpenAI_logo_2025_%28wordmark%29.svg/640px-OpenAI_logo_2025_%28wordmark%29.svg.png'
-        },
-      ],
-      challenges: [
-        {
-          id: 1,
-          program: 'A',
-          title: 'AI v mestskej mobilite',
-          description: 'Hľadáme inovatívne projekty využívajúce strojové učenie na optimalizáciu dopravy v Nitre.',
-          category: 'AI a dátové technológie', // Pre Program A 
-          path: '/challenges/ai-mobility'
-        },
-        {
-          id: 2,
-          program: 'B',
-          title: 'E-commerce analytika pre eBay',
-          description: 'Vývoj dashboardov pre vizualizáciu trendov v predaji na globálnej platforme.',
-          reward: 1200, // Odmena pre Program B v EUR 
-          path: '/challenges/ebay-analytics'
-        },
-        {
-          id: 3,
-          program: 'B',
-          title: 'Senzorická sieť pre Smart City',
-          description: 'Implementácia IoT riešenia pre monitorovanie kvality ovzdušia v priemyselnej zóne.',
-          reward: 950,
-          path: '/challenges/iot-nitra'
-        }
-      ],
+      partners: [],
+      challenges: [],
     };
   },
   methods: {
     getIcon(name) {
       return this.iconPaths[name] || '';
+    },
+    async fetchData() {
+      try {
+        const response = await axios.get('http://localhost:8080/api/challenges/preview/three-random');
+        this.challenges = response.data
+      }
+      catch (error) {
+        console.error("Chyba pri načítaní výziev:", error);
+      }
+
+      try {
+        const response = await axios.get('http://localhost:8080/api/all-companies-logos');
+        this.partners = response.data
+      }
+      catch (error) {
+        console.error("Chyba pri načítaní log:", error);
+      }
     }
   },
   mounted() {
     document.title = "Domov | Nitriansky technologický inkubátor";
+    this.fetchData();
   },
 };
 </script>

@@ -164,6 +164,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import { useAuthStore } from '../stores/auth' // Uprav cestu podľa tvojho projektu
 import { mapState, mapActions } from 'pinia'
 
@@ -202,11 +203,17 @@ export default {
   methods: {
     ...mapActions(useAuthStore, ['logout']),
 
-    handleLogout() {
+    async handleLogout() {
       console.log("Odhlasujem cez Pinia Store...");
-      this.logout(); // Zavolá akciu v uložisku
-      this.closeMenu();
-      this.$router.push('/');
+      try {
+        await axios.post('http://localhost:8080/api/auth/logout');
+        this.logout();
+        this.closeMenu();
+        this.$router.push('/');
+      }
+      catch (error) {
+        console.error(error);
+      }
     },
 
     // UI pomocné metódy zostávajú nezmenené

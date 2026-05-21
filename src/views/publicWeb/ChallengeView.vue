@@ -23,7 +23,7 @@
         </div>
         
         <h1 class="text-4xl md:text-6xl font-black text-slate-900 leading-[1.1] mb-6">
-          {{ items.name }}
+          {{ items.title }}
         </h1>
 
         <div v-if="items.program === 'B'" class="flex items-center py-6 border-y border-slate-100">
@@ -51,7 +51,7 @@
       <section class="mb-16">
         <h3 class="text-xl font-bold mb-6 text-slate-900">Dokumentácia k výzve</h3>
         <div class="grid sm:grid-cols-2 gap-4">
-          <a v-for="(file, index) in items.attachments" :key="index" :href="file.url" 
+          <a :href="items.proposal_file_url" 
              class="flex items-center p-5 bg-white border border-slate-200 rounded-2xl hover:border-blue-500 hover:shadow-md transition-all group">
             <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center mr-4 group-hover:bg-blue-50 transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-400 group-hover:text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -59,20 +59,20 @@
               </svg>
             </div>
             <div class="overflow-hidden">
-              <span class="block font-bold text-slate-700 truncate">{{ file.name }}</span>
-              <span class="text-xs text-slate-400 font-medium">{{ file.size }}</span>
+              <span class="block font-bold text-slate-700 truncate">{{ items.proposal_file_name }}</span>
+              <span class="text-xs text-slate-400 font-medium">{{ items.poposal_file_size }}</span>
             </div>
           </a>
         </div>
       </section>
 
       <footer class="pt-10 border-t border-slate-100 text-center">
-        <button class="inline-flex items-center justify-center px-10 py-5 bg-slate-900 text-white font-black rounded-2xl hover:bg-blue-600 transition-all active:scale-95 shadow-xl text-lg mb-4 w-full sm:w-auto">
+        <a href="/login" class="inline-flex items-center justify-center px-10 py-5 bg-slate-900 text-white font-black rounded-2xl hover:bg-blue-600 transition-all active:scale-95 shadow-xl text-lg mb-4 w-full sm:w-auto">
           Zaregistrujte sa ešte dnes
           <svg xmlns="http://www.w3.org/2000/svg" class="ml-3 h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
             <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
           </svg>
-        </button>
+        </a>
       </footer>
 
     </div>
@@ -112,10 +112,12 @@ export default {
         const response = await axios.get(`http://127.0.0.1:8080/api/challenges/${id}`);
         this.items = response.data.data; 
         console.log(this.items)
-      } catch (error) {
+      }
+      catch (error) {
         this.errorMessage = 'Nepodarilo sa načítať data';
         console.log(error);
-      } finally {
+      }
+      finally {
         this.isLoading = false
       }
     }
