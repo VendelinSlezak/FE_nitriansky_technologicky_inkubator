@@ -60,7 +60,7 @@
               <div class="text-blue-600 mb-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
               </div>
-              <p class="text-sm font-medium text-slate-600">Kliknite pre nahranie</p>
+              <p class="text-sm font-medium text-slate-600">Kliknite pre nahranie nového obrázku</p>
             </template>
           </div>
         </div>
@@ -69,7 +69,7 @@
           <label class="text-sm font-bold text-slate-700 ml-1">Popis obrázka</label>
           <div class="flex-1 flex flex-col">
             <textarea 
-              v-model="article.imageAlt"
+              v-model="article.image_description"
               class="w-full flex-1 px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all resize-none"
             ></textarea>
             <p class="text-[11px] text-slate-400 italic px-1 mt-2">Popis pre čítačky obrazovky a vyhľadávače.</p>
@@ -80,7 +80,7 @@
       <div class="space-y-2">
         <label class="text-sm font-bold text-slate-700 ml-1">Perex</label>
         <textarea 
-          v-model="article.excerpt"
+          v-model="article.perex"
           rows="2"
           class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 outline-none transition-all resize-none"
         ></textarea>
@@ -114,6 +114,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "EditorEditArticleView",
   props: {
@@ -129,9 +130,9 @@ export default {
       imagePreview: null,
       article: {
         title: "",
-        excerpt: "",
+        perex: "",
         imageFile: null,
-        imageAlt: "",
+        image_description: "",
         content: ""
       }
     };
@@ -140,22 +141,18 @@ export default {
     this.fetchArticleData();
   },
   methods: {
-    fetchArticleData() {
-      // Simulácia API volania
-      setTimeout(() => {
-        // Tu by prišli dáta z DB podľa this.id
-        const mockData = {
-          title: "Existujúci článok o NTI",
-          excerpt: "Toto je pôvodný perex, ktorý sme načítali z databázy.",
-          content: "Tu je dlhý text článku, ktorý editor teraz upravuje...",
-          imageAlt: "Tím programátorov v kancelárii",
-          imageUrl: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=400"
-        };
-        
-        this.article = { ...this.article, ...mockData };
-        this.imagePreview = mockData.imageUrl;
+    async fetchArticleData() {
+      try {
+        this.loading = true;
+        const response = await axios.get(`http://localhost:8080/api/articles/${this.id}`);
+        this.article = response.data.data;
+      }
+      catch (error) {
+        console.error("Fetch error:", error);
+      }
+      finally {
         this.loading = false;
-      }, 600);
+      }
     },
     handleFileSelect(event) {
       const file = event.target.files[0];
@@ -175,15 +172,34 @@ export default {
       this.imagePreview = null;
       if (this.$refs.fileInput) this.$refs.fileInput.value = "";
     },
-    updateArticle() {
-      console.log("Aktualizujem článok s ID:", this.id, this.article);
-      alert("Zmeny boli uložené.");
-      this.$router.push('/editor-dashboard/edit-news');
+    async updateArticle() {
+      try {
+        const formData = new FormData();
+        formData.append("title", this.article.title);
+        formData.append("perex", this.article.perex);
+        if(this.article.imageFile) {
+          formData.append("image", this.article.imageFile);
+        }
+        formData.append("image_description", this.article.image_description);
+        formData.append("content", this.article.content);
+        await axios.post(`http://localhost:8080/api/auth/article/${this.id}`, formData);
+        alert("Zmeny boli úspešne uložené.");
+        this.$router.push("/editor-dashboard/edit-news");
+      }
+      catch (error) {
+        console.error("Update error:", error);
+      }
     },
-    deleteArticle() {
+    async deleteArticle() {
       if (confirm("Naozaj chcete tento článok nenávratne odstrániť?")) {
-        console.log("Mažem článok:", this.id);
-        this.$router.push('/editor-dashboard/edit-news');
+        try {
+          await axios.delete(`http://localhost:8080/api/auth/article/${this.id}`);
+          alert("Článok bol úspešne odstránený.");
+          this.$router.push("/editor-dashboard/edit-news");
+        }
+        catch (error) {
+          console.error("Delete error:", error);
+        }
       }
     }
   }

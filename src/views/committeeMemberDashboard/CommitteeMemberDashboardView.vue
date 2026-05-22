@@ -27,12 +27,12 @@
             >
               <div class="space-y-2">
                 <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-700 transition-colors">
-                  {{ project.title }}
+                  {{ project.name_of_challenge }}
                 </h3>
                 <div class="flex items-center gap-4 text-sm text-slate-500">
                   <span class="flex items-center gap-1.5">
                     <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                    Tím: <span class="text-slate-700 font-medium">{{ project.teamName }}</span>
+                    Tím: <span class="text-slate-700 font-medium">{{ project.name_of_team }}</span>
                   </span>
                   <span class="bg-blue-50 text-blue-700 text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider">ID: #{{ project.id }}</span>
                 </div>
@@ -69,12 +69,12 @@
             >
               <div class="space-y-2">
                 <h3 class="text-lg font-bold text-slate-900 group-hover:text-emerald-700 transition-colors">
-                  {{ project.title }}
+                  {{ project.name_of_challenge }}
                 </h3>
                 <div class="flex items-center gap-4 text-sm text-slate-500">
                   <span class="flex items-center gap-1.5">
                     <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                    Tím: <span class="text-slate-700 font-medium">{{ project.teamName }}</span>
+                    Tím: <span class="text-slate-700 font-medium">{{ project.name_of_team }}</span>
                   </span>
                   <span class="bg-emerald-50 text-emerald-700 text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider">ID: #{{ project.id }}</span>
                 </div>
@@ -104,38 +104,34 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "CommitteeMemberDashboardView",
   data() {
     return {
-      rozpracovaneProjekty: [
-        { 
-          id: 501, 
-          title: "Vývoj mobilnej aplikácie pre seniorov", 
-          teamName: "SilverTech", 
-          program: "Program A", 
-        },
-        { 
-          id: 502, 
-          title: "Analýza dopadu obnoviteľných zdrojov", 
-          teamName: "EcoLogic", 
-          program: "Program B", 
-        },
-        { 
-          id: 503, 
-          title: "UI/UX Redizajn AiS2 portálu", 
-          teamName: "Designers Hub", 
-          program: "Program A", 
-        },
-      ],
+      rozpracovaneProjekty: [],
     };
   },
   computed: {
     projektyA() {
-      return this.rozpracovaneProjekty.filter(p => p.program === 'Program A');
+      return this.rozpracovaneProjekty.filter(p => p.program === 'A');
     },
     projektyB() {
-      return this.rozpracovaneProjekty.filter(p => p.program === 'Program B');
+      return this.rozpracovaneProjekty.filter(p => p.program === 'B');
+    }
+  },
+  mounted() {
+    this.fetchProjects();
+  },
+  methods: {
+    async fetchProjects() {
+      try {
+        const response = await axios.get('http://localhost:8080/api/auth/commission-member/all-challenges');
+        this.rozpracovaneProjekty = response.data;
+      }
+      catch (error) {
+        console.error(error);
+      }
     }
   }
 };

@@ -34,7 +34,6 @@ import EditorDashboardView from '@/views/editorDashboard/EditorDashboardView.vue
 import EditorEditNewsView from '@/views/editorDashboard/EditorEditNewsView.vue'
 import EditorCreateArticleView from '@/views/editorDashboard/EditorCreateArticleView.vue'
 import EditorEditArticleView from '@/views/editorDashboard/EditorEditArticleView.vue'
-import EditorEditLogosView from '@/views/editorDashboard/EditorEditLogosView.vue'
 import EditorEditFAQView from '@/views/editorDashboard/EditorEditFAQView.vue'
 
 import FirmDashboardView from '@/views/firmDashboard/FirmDashboardView.vue'
@@ -214,11 +213,6 @@ const router = createRouter({
                     component: EditorEditArticleView,
                 },
                 {
-                    path: '/editor-dashboard/edit-logos',
-                    name: 'editor-edit-logos',
-                    component: EditorEditLogosView,
-                },
-                {
                     path: '/editor-dashboard/edit-faq',
                     name: 'editor-edit-faq',
                     component: EditorEditFAQView,
@@ -245,11 +239,6 @@ const router = createRouter({
                     name: 'admin-edit-article',
                     props: true,
                     component: EditorEditArticleView,
-                },
-                {
-                    path: '/admin-dashboard/edit-logos',
-                    name: 'admin-edit-logos',
-                    component: EditorEditLogosView,
                 },
                 {
                     path: '/admin-dashboard/edit-faq',

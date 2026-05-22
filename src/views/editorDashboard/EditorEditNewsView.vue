@@ -23,7 +23,9 @@
         :key="item.id" 
         class="group bg-white border border-slate-200 rounded-2xl p-3 flex flex-col lg:flex-row items-center gap-4 hover:border-blue-300 hover:shadow-sm transition-all"
       >
-        <div :class="[item.image, 'w-full lg:w-32 h-24 lg:h-20 rounded-xl flex-shrink-0 shadow-inner']"></div>
+        <div class="w-full lg:w-32 h-24 lg:h-20 rounded-xl flex-shrink-0 shadow-inner">
+          <img :src="item.image_url" :alt="item.image_description" class="w-full h-full object-cover" />
+        </div>
         
         <div class="flex-1 min-w-0 w-full text-center lg:text-left">
           <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2 mb-1">
@@ -31,14 +33,14 @@
               #{{ item.id }}
             </span>
             <span class="text-xs text-slate-400 font-semibold">
-              {{ formatDate(item.date) }}
+              {{ formatDate(item.created_at) }}
             </span>
           </div>
           <h3 class="text-base font-bold text-slate-800 truncate leading-tight mb-1">
             {{ item.title }}
           </h3>
           <p class="text-xs text-slate-500 truncate opacity-80">
-            {{ item.excerpt }}
+            {{ item.perex }}
           </p>
         </div>
 
@@ -59,34 +61,16 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "EditorEditNewsView",
   data() {
     return {
-      newsItems: [
-        {
-          id: 1,
-          title: "NTI spúšťa nové kolo Programu A pre jesenný semester 2026",
-          date: "2026-03-10",
-          image: "bg-gradient-to-br from-blue-400 to-blue-600",
-          excerpt: "Otvárame nové hodnotiace kolo pre grantový inkubačný program.",
-        },
-        {
-          id: 2,
-          title: "Úspešný projekt od tímu CodeMasters pre firmu TechCorp",
-          date: "2026-03-05",
-          image: "bg-gradient-to-br from-green-400 to-green-600",
-          excerpt: "Študentský tím CodeMasters úspešne dokončil e-commerce platformu.",
-        },
-        {
-          id: 3,
-          title: "NTI víta nových partnerov z IT sektora",
-          date: "2026-02-28",
-          image: "bg-gradient-to-br from-purple-400 to-purple-600",
-          excerpt: "Tri nové technologické firmy sa pridali k NTI ako partneri.",
-        }
-      ],
+      newsItems: [],
     };
+  },
+  mounted() {
+    this.fetchNewsData();
   },
   methods: {
     formatDate(dateString) {
@@ -99,6 +83,15 @@ export default {
     editArticle(id) { 
         this.$router.push(`/editor-dashboard/edit-article/${id}`);
     },
+    async fetchNewsData() {
+      try {
+        const response = await axios.get('http://localhost:8080/api/articles');
+        this.newsItems = response.data.data;
+      }
+      catch (error) {
+        console.error("Fetch error:", error);
+      }
+    }
   }
 };
 </script>

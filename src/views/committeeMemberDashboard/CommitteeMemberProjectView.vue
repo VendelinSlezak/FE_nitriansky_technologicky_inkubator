@@ -10,41 +10,52 @@
     <div class="bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-200 overflow-hidden">
       <div class="p-8 md:p-10 border-b border-slate-100 bg-slate-50/50">
         <div class="flex items-center gap-3 mb-4">
-          <span :class="project.program === 'Program A' ? 'bg-blue-600 text-white' : 'bg-emerald-600 text-white'" class="px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest">
-            {{ project.program }}
+          <span :class="project.program === 'A' ? 'bg-blue-600 text-white' : 'bg-emerald-600 text-white'" class="px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest">
+            Program {{ project.program }}
           </span>
           <span class="text-slate-400 text-sm font-bold text-left">ID: #{{ project.id }}</span>
         </div>
-        <h1 class="text-3xl md:text-4xl font-black text-slate-900 leading-tight text-left">{{ project.title }}</h1>
+        <h1 class="text-3xl md:text-4xl font-black text-slate-900 leading-tight text-left">{{ project.name_of_challenge }}</h1>
         <p class="mt-4 text-slate-400 flex items-center gap-2 text-lg font-medium text-left">
-          Tím: <span class="text-slate-700">{{ project.teamName }}</span>
+          Tím: <span class="text-slate-700">{{ project.name_of_team }}</span>
         </p>
       </div>
 
       <div class="p-8 md:p-10 space-y-12">
-        <section class="grid md:grid-cols-2 gap-8 font-medium">
+        <section class="grid gap-8 font-medium" :class="project.program === 'A' ? 'md:grid-cols-2' : 'grid-cols-1'">
           <div class="space-y-4">
             <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-2 text-left">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
               Zadanie projektu
             </h3>
-            <p class="text-slate-700 leading-relaxed text-lg text-left">{{ project.description }}</p>
+            <p class="text-slate-700 leading-relaxed text-lg text-left">{{ project.challenge_description }}</p>
           </div>
-          <div class="space-y-4">
+          
+          <div v-if="project.program === 'A'" class="space-y-4">
             <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-2 text-left">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M13.488 20.93a2 2 0 01-2.827 0l-7.588-7.588a2 2 0 010-2.827l7.588-7.588a2 2 0 012.827 0l7.588 7.588a2 2 0 010 2.827l-7.588 7.588z" />
               </svg>
               Kategória: <span class="text-slate-600 text-left">{{ project.category }}</span>
             </h3>
-            <p class="text-slate-500 italic leading-relaxed text-left">{{ project.categoryDescription }}</p>
+            <p class="text-slate-500 italic leading-relaxed text-left">{{ project.category_skills }}</p>
           </div>
         </section>
 
-        <section v-if="project.program === 'Program B'" class="space-y-4 text-left">
+        <section v-if="project.program === 'B'" class="space-y-4 text-left">
           <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest text-left">Plánovaný rozpočet</h3>
-          <div class="p-6 bg-emerald-50 border border-emerald-100 rounded-2xl text-emerald-900 font-medium leading-relaxed text-left">
-            {{ project.budgetPlan }}
+          <div class="inline-flex items-center gap-4 p-5 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-100 rounded-2xl text-emerald-900 font-medium text-left shadow-sm">
+            <div class="p-3 bg-emerald-600 text-white rounded-xl shadow-md shadow-emerald-600/20">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div>
+              <div class="text-2xl font-black text-emerald-700 tracking-tight">
+                {{ formatCurrency(project.reward) }}
+              </div>
+              <div class="text-[11px] font-bold uppercase tracking-wider text-emerald-600/70 mt-0.5">Finančná dotácia</div>
+            </div>
           </div>
         </section>
 
@@ -57,7 +68,7 @@
           <div v-if="hasAnyFiles" class="flex flex-col gap-5">
             <div v-for="(file, label) in mappedFiles" :key="label">
               <label class="block text-[10px] font-black text-slate-400 uppercase mb-2 ml-1 tracking-wider text-left">{{ label }}</label>
-              <a :href="file.url" class="flex items-center justify-between p-4 bg-white border-2 border-slate-100 rounded-2xl hover:border-blue-500 hover:shadow-lg transition-all group">
+              <a :href="file.url" target="_blank" class="flex items-center justify-between p-4 bg-white border-2 border-slate-100 rounded-2xl hover:border-blue-500 hover:shadow-lg transition-all group">
                 <span class="font-bold text-slate-700">{{ file.name }}</span>
                 <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
               </a>
@@ -68,9 +79,9 @@
         <section class="space-y-4 text-left">
           <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest text-left">Členovia tímu</h3>
           <div class="grid sm:grid-cols-2 gap-3 font-medium text-left">
-            <div v-for="member in project.members" :key="member.id" class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
+            <div v-for="member in project.team_members" :key="member.id" class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
               <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center font-bold text-blue-600 shadow-sm text-xs">
+                <div class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center font-bold text-blue-600 shadow-sm text-xs select-none">
                   {{ member.initials }}
                 </div>
                 <div>
@@ -85,32 +96,32 @@
     </div>
 
     <section v-if="project.decision" class="mt-16 p-8 md:p-10 border-2 rounded-[2.5rem] relative overflow-hidden text-left transition-all"
-      :class="project.decision.status === 'approved' ? 'bg-emerald-50/50 border-emerald-100' : 'bg-amber-50/50 border-amber-100'">
+      :class="project.decision.status === 'accepted' ? 'bg-emerald-50/50 border-emerald-100' : 'bg-amber-50/50 border-amber-100'">
       
       <div class="space-y-8">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-3">
-            <div class="p-2 bg-white rounded-lg shadow-sm border border-slate-200" :class="project.decision.status === 'approved' ? 'text-emerald-600' : 'text-amber-600'">
-              <svg v-if="project.decision.status === 'approved'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <div class="p-2 bg-white rounded-lg shadow-sm border border-slate-200" :class="project.decision.status === 'accepted' ? 'text-emerald-600' : 'text-amber-600'">
+              <svg v-if="project.decision.status === 'accepted'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
               <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" /></svg>
             </div>
             <h2 class="text-xl font-black text-slate-900 uppercase tracking-tight">
-              {{ project.decision.status === 'approved' ? 'Projekt Schválený' : 'Vrátené na dopracovanie' }}
+              {{ project.decision.status === 'accepted' ? 'Projekt Schválený' : 'Vrátené na dopracovanie' }}
             </h2>
           </div>
         </div>
 
-        <div v-if="project.decision.status === 'approved'" class="grid md:grid-cols-2 gap-6 font-medium">
-          <div :class="(!project.decision.poEmail || project.program !== 'Program B') ? 'md:col-span-2' : ''" class="space-y-2">
+        <div v-if="project.decision.status === 'accepted'" class="grid md:grid-cols-2 gap-6 font-medium">
+          <div :class="(!project.decision.product_owner_email || project.program !== 'B') ? 'md:col-span-2' : ''" class="space-y-2">
             <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Pridelený mentor</label>
             <div class="flex items-center gap-3 p-4 bg-white border border-slate-200 rounded-2xl shadow-sm">
-              <span class="font-bold text-slate-700">{{ project.decision.mentorEmail }}</span>
+              <span class="font-bold text-slate-700">{{ project.decision.mentor_email }}</span>
             </div>
           </div>
-          <div v-if="project.program === 'Program B' && project.decision.poEmail" class="space-y-2">
+          <div v-if="project.program === 'B' && project.decision.product_owner_email" class="space-y-2">
             <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Product owner</label>
             <div class="flex items-center gap-3 p-4 bg-white border border-slate-200 rounded-2xl shadow-sm text-emerald-700 font-bold">
-              {{ project.decision.poEmail }}
+              {{ project.decision.product_owner_email }}
             </div>
           </div>
         </div>
@@ -118,7 +129,7 @@
         <div class="space-y-2 pt-4 border-t border-slate-200/60">
           <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Vyjadrenie komisie</label>
           <div class="p-6 bg-white border border-slate-200 rounded-3xl italic text-slate-600 leading-relaxed shadow-sm font-medium">
-            "{{ project.decision.committeeComment }}"
+            "{{ project.decision.commission_comment }}"
           </div>
         </div>
       </div>
@@ -129,44 +140,41 @@
         <h2 class="text-2xl font-black text-slate-900 tracking-tight italic text-left">Rozhodnutie komisie</h2>
 
         <div class="p-2 bg-slate-100 rounded-2xl flex gap-2">
-          <button @click="form.status = 'approved'" class="flex-1 py-3 rounded-xl font-black uppercase text-xs tracking-widest transition-all" :class="form.status === 'approved' ? 'bg-white text-emerald-600 shadow-md' : 'text-slate-500'">
+          <button @click="form.status = 'accepted'" class="flex-1 py-3 rounded-xl font-black uppercase text-xs tracking-widest transition-all" :class="form.status === 'accepted' ? 'bg-white text-emerald-600 shadow-md' : 'text-slate-500'">
             Schváliť
           </button>
-          <button @click="form.status = 'returned'" class="flex-1 py-3 rounded-xl font-black uppercase text-xs tracking-widest transition-all" :class="form.status === 'returned' ? 'bg-white text-amber-600 shadow-md' : 'text-slate-500'">
+          <button @click="form.status = 'rejected'" class="flex-1 py-3 rounded-xl font-black uppercase text-xs tracking-widest transition-all" :class="form.status === 'rejected' ? 'bg-white text-amber-600 shadow-md' : 'text-slate-500'">
             Vrátiť
           </button>
         </div>
 
         <div class="space-y-8"> 
-          <template v-if="form.status === 'approved'">
-            <div class="grid md:grid-cols-2 gap-6">
+          <template v-if="form.status === 'accepted'">
+            <div class="grid gap-6">
               <div> 
-                <label class="block mb-3 text-[11px] font-black uppercase tracking-widest ml-1" :class="errors.mentorEmail ? 'text-red-500' : 'text-slate-400'">Pridelený Mentor</label>
-                <select v-model="form.mentorEmail" class="w-full p-4 bg-slate-50 border rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium" :class="errors.mentorEmail ? 'border-red-300' : 'border-slate-200'">
+                <label class="block mb-3 text-[11px] font-black uppercase tracking-widest ml-1" :class="errors.mentor_id ? 'text-red-500' : 'text-slate-400'">Pridelený Mentor</label>
+                <select v-model="form.mentor_id" class="w-full p-4 bg-slate-50 border rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium" :class="errors.mentor_id ? 'border-red-300' : 'border-slate-200'">
                   <option value="">Vyberte mentora...</option>
-                  <option v-for="m in dostupniMentori" :key="m" :value="m">{{ m }}</option>
-                </select>
-              </div>
-              <div v-if="project.program === 'Program B'">
-                <label class="block mb-3 text-[11px] font-black uppercase tracking-widest ml-1" :class="errors.productOwnerEmail ? 'text-red-500' : 'text-slate-400'">Product Owner</label>
-                <select v-model="form.poEmail" class="w-full p-4 bg-slate-50 border rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all font-medium text-left" :class="errors.productOwnerEmail ? 'border-red-300' : 'border-slate-200'">
-                  <option value="">Vyberte Product Ownera...</option>
-                  <option v-for="po in dostupniPO" :key="po" :value="po">{{ po }}</option>
+                  <option v-for="m in dostupniMentori" :key="m.mentor_id" :value="m.mentor_id">{{ m.email }}</option>
                 </select>
               </div>
             </div>
           </template>
 
           <div>
-            <label class="block mb-3 text-[11px] font-black uppercase tracking-widest ml-1" :class="errors.committeeComment ? 'text-red-500' : 'text-slate-400'">
-              {{ form.status === 'approved' ? 'Záverečné vyjadrenie' : 'Dôvod vrátenia' }}
+            <label class="block mb-3 text-[11px] font-black uppercase tracking-widest ml-1" :class="errors.commission_comment ? 'text-red-500' : 'text-slate-400'">
+              {{ form.status === 'accepted' ? 'Záverečné vyjadrenie' : 'Dôvod vrátenia' }}
             </label>
-            <textarea v-model="form.committeeComment" rows="5" class="w-full p-5 bg-slate-50 border rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition-all resize-none font-medium" :class="errors.committeeComment ? 'border-red-300' : 'border-slate-200'"></textarea>
+            <textarea v-model="form.commission_comment" rows="5" class="w-full p-5 bg-slate-50 border rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition-all resize-none font-medium" :class="errors.commission_comment ? 'border-red-300' : 'border-slate-200'"></textarea>
           </div>
         </div>
 
-        <button @click="ulozitRozhodnutie" class="w-full py-4 bg-slate-900 hover:bg-blue-600 text-white font-black uppercase tracking-widest rounded-2xl transition-all shadow-xl flex items-center justify-center gap-3">
-          Uložiť zápis
+        <button 
+          @click="ulozitRozhodnutie" 
+          :disabled="isSubmitting"
+          class="w-full py-4 bg-slate-900 hover:bg-blue-600 disabled:bg-slate-400 text-white font-black uppercase tracking-widest rounded-2xl transition-all shadow-xl flex items-center justify-center gap-3"
+        >
+          {{ isSubmitting ? 'Odosiela sa...' : 'Uložiť zápis' }}
         </button>
       </div>
     </section>
@@ -174,77 +182,135 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
-  props: { id: { type: [String, Number], required: true } },
+  props: {
+    id: { type: [String, Number], required: true }
+  },
   data() {
     return {
       isZapisovatel: true,
+      isSubmitting: false,
       project: null,
-      dostupniMentori: ['mentor.hlavny@uniba.sk', 'mentor.druhy@uniba.sk'],
-      dostupniPO: ['po.firma@startup.sk', 'martin.owner@tech.sk'],
-      form: { status: 'approved', mentorEmail: '', poEmail: '', committeeComment: '' },
-      errors: { mentorEmail: false, productOwnerEmail: false, committeeComment: false }
+      dostupniMentori: [],
+      form: { 
+        status: 'accepted', 
+        mentor_id: null,
+        product_owner_email: '', 
+        commission_comment: '' 
+      },
+      errors: { 
+        mentor_id: false, 
+        productOwnerEmail: false, 
+        commission_comment: false 
+      }
     };
   },
   computed: {
     hasAnyFiles() {
-      return this.project && (this.project.files.techSpec || this.project.files.implementation || this.project.attachments?.length);
+      return !!(this.project && (this.project.proposal_file || this.project.implementation_file));
     },
     mappedFiles() {
+      if (!this.project) return {};
+      
       const files = {};
-      if (this.project.files.techSpec) files['Technická špecifikácia'] = this.project.files.techSpec;
-      if (this.project.files.implementation) files['Návrh realizácie'] = this.project.files.implementation;
+      if (this.project.proposal_file) {
+        files['Technická špecifikácia'] = this.project.proposal_file;
+      }
+      if (this.project.implementation_file) {
+        files['Implementácia'] = this.project.implementation_file;
+      }
       return files;
     }
   },
-  created() { this.fetchProjectData(); },
+  mounted() {
+    this.fetchProjectData();
+  },
   methods: {
-    fetchProjectData() {
-      this.project = {
-        id: this.id || 123,
-        title: "Inovatívny systém recyklácie odpadu",
-        teamName: "GreenFuture",
-        program: "Program A",
-        category: "Ekológia",
-        categoryDescription: "Zamerané na technologické riešenia udržateľnosti.",
-        description: "Vývoj inteligentných senzorov pre smetné nádoby.",
-        budgetPlan: "Celkový rozpočet 2 500€ na prototypy.",
-        members: [
-          { id: 1, name: "Peter Malý", initials: "PM", email: "maly@student.uniba.sk" },
-          { id: 2, name: "Lucia Krátka", initials: "LK", email: "kratka@student.uniba.sk" }
-        ],
-        files: {
-          techSpec: { name: "specifikacia.pdf", url: "#" },
-          implementation: { name: "navrh.pdf", url: "#" }
-        },
-        decision: null,
-      };
-      if (this.project.decision) this.form = { ...this.project.decision };
-    },
-    ulozitRozhodnutie() {
-      this.errors.committeeComment = this.form.committeeComment.length == 0;
-      this.errors.mentorEmail = (this.form.status === 'approved' && !this.form.mentorEmail);
-      this.errors.productOwnerEmail = (this.form.status === 'approved' && this.project.program === 'Program B' && !this.form.poEmail);
-      
-      const hasErrors = 
-        this.errors.committeeComment || 
-        this.errors.mentorEmail || 
-        (this.project.program === 'Program B' && this.errors.productOwnerEmail);
+    async fetchProjectData() {
+      try {
+        const responseMentors = await axios.get(`http://localhost:8080/api/auth/accounts/mentors`);
+        this.dostupniMentori = responseMentors.data.data;
 
+        const responseChallenge = await axios.get(`http://localhost:8080/api/auth/challenge/${this.id}`);
+        const data = responseChallenge.data;
+
+        if (data && data.team_members) {
+          data.team_members = data.team_members.map(member => ({
+            ...member,
+            initials: member.initials || this.generateInitials(member.name)
+          }));
+        }
+
+        this.project = data;
+
+        if (this.project.decision) {
+          this.form = { ...this.project.decision };
+        }
+      }
+      catch (error) {
+        console.error("Chyba pri načítaní projektu:", error);
+      }
+    },
+
+    async ulozitRozhodnutie() {
+      this.errors.commission_comment = this.form.commission_comment.trim().length === 0;
+      this.errors.mentor_id = (this.form.status === 'accepted' && !this.form.mentor_id);
+      this.errors.productOwnerEmail = (this.form.status === 'accepted' && this.project.program === 'B');
+      
+      const hasErrors = this.errors.commission_comment || this.errors.mentor_id;
       if (hasErrors) {
-        console.error("Formulár obsahuje chyby");
+        alert("Formulár obsahuje chyby");
         return;
       }
 
-      const finalData = { ...this.form };
-      if (this.form.status === 'returned') { 
-        finalData.mentorEmail = ''; 
-        finalData.poEmail = ''; 
+      try {
+        this.isSubmitting = true;
+        const formData = new FormData();
+        formData.append('decision', this.form.status);
+        formData.append('comment', this.form.commission_comment);
+        formData.append('mentor_id', this.form.mentor_id);
+        console.log(formData);
+        await axios.post(`http://localhost:8080/api/auth/challenge/${this.id}/set-commission-decision`, formData);
+        Object.keys(this.errors).forEach(key => this.errors[key] = false);
+      }
+      catch (error) {
+        console.error("Chyba pri ukladaní rozhodnutia:", error);
+        alert('Nepodarilo sa uložiť rozhodnutie.');
+      }
+      finally {
+        this.isSubmitting = false;
       }
 
-      this.project = { ...this.project, decision: finalData };
-      
-      Object.keys(this.errors).forEach(key => this.errors[key] = false);
+      this.fetchProjectData();
+    },
+
+    generateInitials(name) {
+      if (!name) return '?';
+      return name
+        .trim()
+        .split(/\s+/)
+        .map(n => n[0])
+        .join('')
+        .toUpperCase();
+    },
+
+    formatCurrency(value) {
+      if (value === undefined || value === null) return '0 €';
+
+      const cleanNumber = typeof value === 'string' 
+        ? parseFloat(value.replace(/[^0-9.]/g, '')) 
+        : value;
+
+      if (isNaN(cleanNumber)) return value;
+
+      return new Intl.NumberFormat('sk-SK', {
+        style: 'currency',
+        currency: 'EUR',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(cleanNumber);
     }
   }
 };

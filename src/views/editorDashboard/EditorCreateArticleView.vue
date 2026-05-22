@@ -92,7 +92,7 @@
       <div class="space-y-2">
         <label class="text-sm font-bold text-slate-700 ml-1">Perex</label>
         <textarea 
-          v-model="article.excerpt"
+          v-model="article.perex"
           rows="2"
           class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 outline-none transition-all resize-none"
         ></textarea>
@@ -117,6 +117,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "EditorCreateArticleView",
   data() {
@@ -125,7 +126,7 @@ export default {
       imagePreview: null,
       article: {
         title: "",
-        excerpt: "",
+        perex: "",
         imageFile: null,
         imageAlt: "",
         content: ""
@@ -156,14 +157,20 @@ export default {
       this.$refs.fileInput.value = "";
     },
     saveArticle() {
-      // V reálnej aplikácii by si použil FormData pre nahrávanie súboru:
-      // const formData = new FormData();
-      // formData.append('image', this.article.imageFile);
-      // formData.append('title', this.article.title);
-      
-      console.log("Odosielam článok:", this.article);
-      alert("Článok pripravený na odoslanie na server.");
-      this.$router.push('/editor-dashboard/edit-news');
+      try {
+        const formData = new FormData();
+        formData.append('title', this.article.title);
+        formData.append('perex', this.article.perex);
+        formData.append('content', this.article.content);
+        formData.append('image', this.article.imageFile);
+        formData.append('image_description', this.article.imageAlt);
+        axios.post('http://localhost:8080/api/auth/article/create', formData);
+        alert("Článok bol úspešne vytvorený");
+        this.$router.push('/editor-dashboard/edit-news');
+      }
+      catch (error) {
+        console.error(error);
+      }
     }
   }
 };

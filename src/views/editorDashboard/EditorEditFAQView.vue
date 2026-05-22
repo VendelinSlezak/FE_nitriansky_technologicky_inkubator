@@ -22,7 +22,7 @@
               <button @click="startEdit(sectionKey, index, faq)" class="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
               </button>
-              <button @click="deleteFaq(sectionKey, index)" class="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors">
+              <button @click="deleteFaq(faq.id, sectionKey, index)" class="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
               </button>
             </div>
@@ -33,7 +33,7 @@
             <textarea v-model="editForm.answer" rows="3" class="w-full px-4 py-2 rounded-xl border border-blue-300 focus:ring-2 focus:ring-blue-100 outline-none" placeholder="Odpoveď"></textarea>
             <div class="flex justify-end gap-2">
               <button @click="editingIndex = null" class="px-4 py-1.5 text-sm font-bold text-slate-500">Zrušiť</button>
-              <button @click="saveEdit(sectionKey, index)" class="px-4 py-1.5 text-sm font-bold bg-blue-600 text-white rounded-lg">Uložiť</button>
+              <button @click="saveEdit(editForm.id, sectionKey, index)" class="px-4 py-1.5 text-sm font-bold bg-blue-600 text-white rounded-lg">Uložiť</button>
             </div>
           </div>
         </div>
@@ -58,57 +58,89 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "EditorEditFAQView",
   data() {
     return {
-      editingIndex: null, // Formát: "sectionKey-index"
-      editForm: { question: "", answer: "" },
-      
-      // Dáta pre nové otázky (každá sekcia má svoj buffer)
+      editingIndex: null,
+      editForm: { id: null, question: "", answer: "" },
       newFaqs: {
-        programA: { question: "", answer: "" },
-        programB: { question: "", answer: "" }
+        A: { id: null, question: "", answer: "" },
+        B: { id: null, question: "", answer: "" }
       },
-
-      // Hlavné dáta
       faqData: {
-        programA: {
+        A: {
           title: "Program A",
-          items: [
-            { question: "Kedy sa môžem prihlásiť?", answer: "Prihlášky prijímame do konca marca 2026." }
-          ]
+          items: []
         },
-        programB: {
+        B: {
           title: "Program B",
-          items: [
-            { question: "Je program platený?", answer: "Nie, účasť v programe B je pre vybraných študentov zdarma." }
-          ]
+          items: []
         }
       }
     };
+  },
+  mounted() {
+    this.fetchData();
   },
   methods: {
     startEdit(sectionKey, index, faq) {
       this.editingIndex = `${sectionKey}-${index}`;
       this.editForm = { ...faq };
     },
-    saveEdit(sectionKey, index) {
-      this.faqData[sectionKey].items[index] = { ...this.editForm };
-      this.editingIndex = null;
-      console.log(`Uložená zmena v sekcii ${sectionKey}`);
-    },
-    deleteFaq(sectionKey, index) {
-      if (confirm("Naozaj chcete vymazať túto otázku?")) {
-        this.faqData[sectionKey].items.splice(index, 1);
+    async saveEdit(id, sectionKey, index) {
+      try {
+        await axios.post(`http://localhost:8080/api/auth/faq/${id}`, this.editForm);
+        this.faqData[sectionKey].items[index] = { ...this.editForm };
+        this.editingIndex = null;
+      }
+      catch (error) {
+        alert("Chyba pri ukladaní.");
+        console.error("Chyba pri ukladaní FAQ otázky ", error);
       }
     },
-    addFaq(sectionKey) {
-      this.faqData[sectionKey].items.push({ ...this.newFaqs[sectionKey] });
-      // Reset formulára pre danú sekciu
-      this.newFaqs[sectionKey].question = "";
-      this.newFaqs[sectionKey].answer = "";
-      console.log(`Pridaná nová otázka do ${sectionKey}`);
+    async deleteFaq(id, sectionKey, index) {
+      if (confirm("Naozaj chcete vymazať túto otázku?")) {
+        try {
+          await axios.delete(`http://localhost:8080/api/auth/faq/${id}`);
+          this.faqData[sectionKey].items.splice(index, 1);
+        }
+        catch (error) {
+          alert("Chyba pri vymazaní.");
+          console.error("Chyba pri vymazaní FAQ otázky ", error);
+        }
+      }
+    },
+    async addFaq(sectionKey) {
+      try {
+        const formData = new FormData();
+        formData.append('question', this.newFaqs[sectionKey].question);
+        formData.append('answer', this.newFaqs[sectionKey].answer);
+        formData.append('type', sectionKey);
+        const response = await axios.post(`http://localhost:8080/api/auth/faq/create`, formData);
+        this.newFaqs[sectionKey].id = response.data.id;
+        this.faqData[sectionKey].items.push({ ...this.newFaqs[sectionKey] });
+        this.newFaqs[sectionKey].id = null;
+        this.newFaqs[sectionKey].question = "";
+        this.newFaqs[sectionKey].answer = "";
+      }
+      catch (error) {
+        alert("Chyba pri pridaní.");
+        console.error("Chyba pri pridaní FAQ otázky ", error);
+      }
+    },
+    async fetchData() {
+      try {
+        const response = await axios.get('http://localhost:8080/api/faq/a');
+        this.faqData.A.items = response.data.data;
+
+        const responseB = await axios.get('http://localhost:8080/api/faq/b');
+        this.faqData.B.items = responseB.data.data;
+      }
+      catch (error) {
+        console.error("Chyba pri načítaní výziev:", error);
+      }
     }
   }
 };
