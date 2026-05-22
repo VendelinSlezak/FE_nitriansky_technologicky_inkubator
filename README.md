@@ -34,15 +34,20 @@ git clone https://github.com/VendelinSlezak/FE_nitriansky_technologicky_inkubato
 ```bash
 cd <folder_name>
 ```
-### Install dependencies
+### Start docker
+If you want developer mode:
+
 ```bash
-npm install
+docker compose up vue-dev
 ```
+
+If you want production ready version:
 
 ## Usage
 ```bash
-npm run dev
+docker compose up vue-prod
 ```
+
 ### Authors
 Vendelín Slezák
 Pavol Marko
