@@ -43,7 +43,6 @@ docker compose up vue-dev
 
 If you want production ready version:
 
-## Usage
 ```bash
 docker compose up vue-prod
 ```
