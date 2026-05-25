@@ -24,12 +24,12 @@
           <div class="flex gap-5">
             <div 
               class="mt-1 w-3 h-3 rounded-full flex-shrink-0" 
-              :class="category.isVisible ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]' : 'bg-slate-300'"
+              :class="category.status === 'visible' ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]' : 'bg-slate-300'"
             ></div>
             <div>
-              <h3 class="font-bold text-lg text-slate-800 leading-tight">{{ category.name }}</h3>
+              <h3 class="font-bold text-lg text-slate-800 leading-tight">{{ category.title }}</h3>
               <p class="text-slate-500 text-sm mt-2 line-clamp-1 italic">
-                {{ category.skillsDescription || 'Bez popisu zručností...' }}
+                {{ category.skills_description || 'Bez popisu zručností...' }}
               </p>
             </div>
           </div>
@@ -38,10 +38,10 @@
             <span 
               :class="[
                 'hidden sm:block px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-widest border',
-                category.isVisible ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-slate-50 text-slate-400 border-slate-200'
+                category.status === 'visible' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-slate-50 text-slate-400 border-slate-200'
               ]"
             >
-              {{ category.isVisible ? 'Verejná' : 'Skrytá' }}
+              {{ category.status === 'visible' ? 'Verejná' : 'Skrytá' }}
             </span>
             <svg 
               class="h-5 w-5 text-slate-400 transition-transform duration-300" 
@@ -58,20 +58,20 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div class="flex flex-col gap-2">
                 <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest">Názov kategórie</label>
-                <input v-model="category.name" type="text" class="px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none font-bold transition-all" />
+                <input v-model="category.title" type="text" class="px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none font-bold transition-all" />
               </div>
               
               <div class="flex flex-col gap-2">
                 <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest">Viditeľnosť pre verejnosť</label>
                 <div class="flex p-1 bg-slate-100 rounded-xl">
                    <button 
-                    @click="category.isVisible = true"
-                    :class="category.isVisible ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500'"
+                    @click="category.status = 'visible'"
+                    :class="category.status === 'visible' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500'"
                     class="flex-1 py-2 rounded-lg text-xs font-bold transition-all"
                    >Aktívna</button>
                    <button 
-                    @click="category.isVisible = false"
-                    :class="!category.isVisible ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500'"
+                    @click="category.status = 'invisible'"
+                    :class="category.status === 'invisible' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500'"
                     class="flex-1 py-2 rounded-lg text-xs font-bold transition-all"
                    >Skrytá</button>
                 </div>
@@ -81,7 +81,7 @@
             <div class="flex flex-col gap-2">
               <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest">Popis potrebných zručností</label>
               <textarea 
-                v-model="category.skillsDescription" 
+                v-model="category.skills_description" 
                 rows="4"
                 placeholder="Popíšte, čo by mal uchádzač ovládať..."
                 class="px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none text-sm font-medium leading-relaxed transition-all"
@@ -120,7 +120,7 @@
           <div class="flex flex-col gap-2">
             <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Názov</label>
             <input 
-              v-model="newCategory.name" 
+              v-model="newCategory.title" 
               type="text" 
               class="px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all placeholder:text-slate-400 font-bold text-lg"
               placeholder="Napr. Projektový manažment"
@@ -129,7 +129,7 @@
           <div class="flex flex-col gap-2">
             <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Zručnosti a požiadavky</label>
             <textarea 
-              v-model="newCategory.skillsDescription" 
+              v-model="newCategory.skills_description" 
               rows="4"
               class="px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all placeholder:text-slate-400 text-sm font-medium"
               placeholder="Vypíšte očakávané vedomosti a skúsenosti voľnou formou..."
@@ -140,7 +140,7 @@
         <div class="pt-4 flex justify-end">
           <button 
             @click="createCategory"
-            :disabled="!newCategory.name"
+            :disabled="!newCategory.title"
             class="px-10 py-4 bg-slate-900 hover:bg-black disabled:opacity-20 text-white font-black rounded-2xl shadow-xl transition-all uppercase tracking-widest text-xs"
           >
             Vytvoriť kategóriu
@@ -152,19 +152,18 @@
 </template>
 
 <script>
-// import axios from 'axios';
-
+import axios from 'axios';
 export default {
-  name: "AdminManageCategoriesView",
+  title: "AdminManageCategoriesView",
   data() {
     return {
       isLoading: false,
       expandedCategoryId: null,
       categories: [],
       newCategory: {
-        name: "",
-        skillsDescription: "",
-        isVisible: false
+        title: "",
+        skills_description: "",
+        status: "invisible"
       }
     };
   },
@@ -174,61 +173,44 @@ export default {
   },
 
   methods: {
-    // --- AXIOS PRÍPRAVA ---
-
     async fetchCategories() {
       this.isLoading = true;
       try {
-        // const response = await axios.get('/api/categories');
-        // this.categories = response.data;
-        
-        // Simulácia pre teraz:
-        this.categories = [
-          { 
-            id: 1, 
-            name: "Backend Development", 
-            skillsDescription: "Znalosť Node.js alebo Pythonu, práca s databázami SQL a základné pochopenie REST architektúry.", 
-            isVisible: true 
-          },
-          { 
-            id: 2, 
-            name: "Grafický dizajn", 
-            skillsDescription: "Pokročilá práca s Adobe Creative Cloud (Photoshop, Illustrator), cit pre typografiu a vizuálnu hierarchiu.", 
-            isVisible: false 
-          }
-        ];
-      } catch (error) {
+        const response = await axios.get('http://localhost:8080/api/auth/program-a/all-categories');
+        this.categories = response.data.categories;
+      }
+      catch (error) {
         console.error("Fetch error:", error);
-      } finally {
+      }
+      finally {
         this.isLoading = false;
       }
     },
 
     async createCategory() {
       try {
-        const payload = { ...this.newCategory };
-        // const response = await axios.post('/api/categories', payload);
-        
-        this.categories.push({ ...payload, id: Date.now() });
-        this.newCategory = { name: "", skillsDescription: "", isVisible: true };
-        alert("Kategória úspešne vytvorená.");
-      } catch (error) {
+        const formData = new FormData();
+        formData.append('title', this.newCategory.title);
+        formData.append('skills_description', this.newCategory.skills_description);
+        await axios.post('http://localhost:8080/api/auth/program-a/create-category', formData);
+        this.fetchCategories();
+        this.newCategory = { title: "", skills_description: "", status: "visible" };
+      }
+      catch (error) {
         alert("Chyba pri vytváraní.");
       }
     },
 
     async updateCategory(category) {
       try {
-        const payload = {
-          name: category.name,
-          isVisible: category.isVisible,
-          skillsDescription: category.skillsDescription
-        };
-        // await axios.patch(`/api/categories/${category.id}`, payload);
-        
+        const formData = new FormData();
+        formData.append('title', category.title);
+        formData.append('status', category.status);
+        formData.append('skills_description', category.skills_description);
+        await axios.post(`http://localhost:8080/api/auth/program-a/category/${category.id}`, formData);
         this.expandedCategoryId = null;
-        alert("Zmeny boli uložené.");
-      } catch (error) {
+      }
+      catch (error) {
         alert("Chyba pri ukladaní.");
       }
     },
@@ -236,9 +218,10 @@ export default {
     async deleteCategory(id) {
       if (!confirm("Naozaj chcete túto kategóriu natrvalo zmazať?")) return;
       try {
-        // await axios.delete(`/api/categories/${id}`);
+        await axios.delete(`http://localhost:8080/api/auth/program-a/category/${id}`);
         this.categories = this.categories.filter(c => c.id !== id);
-      } catch (error) {
+      }
+      catch (error) {
         alert("Chyba pri mazaní.");
       }
     },
