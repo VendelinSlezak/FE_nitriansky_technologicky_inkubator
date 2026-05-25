@@ -9,6 +9,8 @@ import NewsView from '../views/publicWeb/NewsView.vue'
 import ArticleView from '../views/publicWeb/ArticleView.vue'
 import ChallengesView from '@/views/publicWeb/ChallengesView.vue'
 import ChallengeView from '@/views/publicWeb/ChallengeView.vue'
+import GdprView from '@/views/publicWeb/GdprView.vue'
+import CookiesView from '@/views/publicWeb/CookiesView.vue'
 
 import LoginView from '../views/login/LoginView.vue'
 import ResetPasswordView from '../views/login/ResetPasswordView.vue'
@@ -36,9 +38,6 @@ import EditorCreateArticleView from '@/views/editorDashboard/EditorCreateArticle
 import EditorEditArticleView from '@/views/editorDashboard/EditorEditArticleView.vue'
 import EditorEditFAQView from '@/views/editorDashboard/EditorEditFAQView.vue'
 
-import FirmDashboardView from '@/views/firmDashboard/FirmDashboardView.vue'
-import FirmCreateChallengeView from '@/views/firmDashboard/FirmCreateChallengeView.vue'
-import FirmChallengeView from '@/views/firmDashboard/FirmChallengeView.vue'
 import AdminDashboardView from '@/views/adminDashboard/AdminDashboardView.vue'
 import AdminManageAccountsView from '@/views/adminDashboard/AdminManageAccountsView.vue'
 import AdminManageTeamsView from '@/views/adminDashboard/AdminManageTeamsView.vue'
@@ -103,6 +102,16 @@ const router = createRouter({
             name: 'challenge',
             props: true,
             component: ChallengeView
+        },
+        {
+            path: '/gdpr',
+            name: 'gdpr',
+            component: GdprView
+        },
+        {
+            path: '/cookies',
+            name: 'cookies',
+            component: CookiesView
         },
 
         {
@@ -300,23 +309,6 @@ const router = createRouter({
                     component: AdminEditTeamView
                 },
             ]
-        },
-        {
-            path: '/firm-dashboard',
-            name: 'firm-dashboard',
-            component: FirmDashboardView,
-        },
-        {
-            path: '/firm-dashboard/create-challenge/:id',
-            props: true,
-            name: 'firm-create-challenge',
-            component: FirmCreateChallengeView,
-        },
-        {
-            path: '/firm-dashboard/challenge/:id',
-            props: true,
-            name: 'firm-challenge',
-            component: FirmChallengeView,
         },
 
         {

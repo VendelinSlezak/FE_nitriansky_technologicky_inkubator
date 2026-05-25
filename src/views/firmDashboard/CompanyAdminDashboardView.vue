@@ -52,7 +52,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div class="flex flex-col gap-2">
               <label class="font-bold text-slate-700 ml-1">Názov projektu</label>
-              <input v-model="projectForm.title" type="text" placeholder="Napr. Modernizácia API" class="w-full px-5 py-3 rounded-xl border-2 border-slate-100 focus:border-blue-400 outline-none transition-all" required />
+              <input v-model="projectForm.name_of_challenge" type="text" placeholder="Napr. Modernizácia API" class="w-full px-5 py-3 rounded-xl border-2 border-slate-100 focus:border-blue-400 outline-none transition-all" required />
             </div>
             <div class="flex flex-col gap-2">
               <label class="font-bold text-slate-700 ml-1">Odmena (€)</label>
@@ -68,7 +68,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div class="flex flex-col gap-2">
               <label class="font-bold text-slate-700 ml-1">Product Owner</label>
-              <select v-model="projectForm.productOwnerId" class="w-full px-5 py-3 rounded-xl border-2 border-slate-100 focus:border-blue-400 outline-none transition-all" required>
+              <select v-model="projectForm.product_owner_id" class="w-full px-5 py-3 rounded-xl border-2 border-slate-100 focus:border-blue-400 outline-none transition-all" required>
                 <option value="" disabled>Vyberte zodpovednú osobu</option>
                 <option v-for="emp in employees" :key="emp.id" :value="emp.id">{{ emp.name }}</option>
               </select>
@@ -108,8 +108,8 @@
           >
             <div class="flex justify-between items-center">
               <div>
-                <h4 class="font-bold text-slate-800 text-lg">{{ project.title }}</h4>
-                <p class="text-xs text-slate-400 uppercase font-bold tracking-wider">PO: {{ getEmployeeName(project.productOwnerId) }}</p>
+                <h4 class="font-bold text-slate-800 text-lg">{{ project.name_of_project }}</h4>
+                <p class="text-xs text-slate-400 uppercase font-bold tracking-wider">PO: {{project.product_owner_name}}</p>
               </div>
               <div class="flex items-center gap-4">
                 <a v-if="project.fileUrl" :href="project.fileUrl" :download="project.fileName" @click.stop class="flex items-center gap-2 bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-600 px-3 py-2 rounded-xl transition-colors">
@@ -117,7 +117,7 @@
                   <span class="text-[10px] font-bold uppercase">Dokumentácia</span>
                 </a>
                 <div class="text-right hidden sm:block">
-                  <span class="text-sm font-bold text-slate-600">{{ project.teamName || 'Čaká na priradenie' }}</span>
+                  <span class="text-sm font-bold text-slate-600">{{ project.name_of_team || 'Čaká na priradenie' }}</span>
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 transition-transform duration-300" :class="{ 'rotate-180': expandedProjects.includes(project.id) }" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -125,46 +125,44 @@
               </div>
             </div>
 
-            <transition name="expand">
-              <div v-if="expandedProjects.includes(project.id)" class="mt-6 pt-6 border-t border-slate-100 space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div class="space-y-4">
-                    <div>
-                      <p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">Popis projektu</p>
-                      <p class="text-slate-600 text-sm mt-1 leading-relaxed">{{ project.description || 'Bez popisu.' }}</p>
-                    </div>
-                    <div class="bg-blue-50 p-4 rounded-2xl">
-                      <p class="text-[10px] text-blue-400 uppercase font-black tracking-widest">Finančná odmena</p>
-                      <p class="text-2xl font-black text-blue-600 mt-1">{{ project.reward ? project.reward + ' €' : '0.00 €' }}</p>
-                    </div>
+            <div v-if="expandedProjects.includes(project.id)" class="mt-6 pt-6 border-t border-slate-100 space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                  <div>
+                    <p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">Popis projektu</p>
+                    <p class="text-slate-600 text-sm mt-1 leading-relaxed">{{ project.description || 'Bez popisu.' }}</p>
                   </div>
+                  <div class="bg-blue-50 p-4 rounded-2xl">
+                    <p class="text-[10px] text-blue-400 uppercase font-black tracking-widest">Finančná odmena</p>
+                    <p class="text-2xl font-black text-blue-600 mt-1">{{ project.reward ? project.reward + ' €' : '0.00 €' }}</p>
+                  </div>
+                </div>
 
-                  <div class="space-y-4">
-                    <div v-if="project.teamMembers && project.teamMembers.length > 0">
-                      <p class="text-[10px] text-slate-400 uppercase font-black tracking-widest mb-2">Realizačný tím: {{ project.teamName }}</p>
-                      <div class="space-y-2">
-                        <div v-for="member in project.teamMembers" :key="member.email" class="flex items-center gap-3 bg-slate-50 p-2 rounded-xl border border-slate-100">
-                          <div class="w-8 h-8 rounded-lg bg-slate-200 flex items-center justify-center text-xs font-bold text-slate-500">
-                            {{ member.name.charAt(0) }}
-                          </div>
-                          <div>
-                            <p class="text-xs font-bold text-slate-700">{{ member.name }}</p>
-                            <p class="text-[10px] text-slate-400">{{ member.email }}</p>
-                          </div>
+                <div class="space-y-4">
+                  <div v-if="project.team_members && project.team_members.length > 0">
+                    <p class="text-[10px] text-slate-400 uppercase font-black tracking-widest mb-2">Realizačný tím: {{ project.name_of_team }}</p>
+                    <div class="space-y-2">
+                      <div v-for="member in project.team_members" :key="member.email" class="flex items-center gap-3 bg-slate-50 p-2 rounded-xl border border-slate-100">
+                        <div class="w-8 h-8 rounded-lg bg-slate-200 flex items-center justify-center text-xs font-bold text-slate-500">
+                          {{ member.name.charAt(0) }}
+                        </div>
+                        <div>
+                          <p class="text-xs font-bold text-slate-700">{{ member.name }}</p>
+                          <p class="text-[10px] text-slate-400">{{ member.email }}</p>
                         </div>
                       </div>
                     </div>
+                  </div>
 
-                    <div v-if="project.status === 'finished'" class="bg-emerald-50 p-4 rounded-2xl border border-emerald-100">
-                      <p class="text-[10px] text-emerald-500 uppercase font-black tracking-widest">Záverečné zhodnotenie</p>
-                      <p class="text-slate-700 text-sm italic mt-1 leading-relaxed">
-                        "{{ project.globalComment || 'Projekt bol úspešne odovzdaný bez ďalších komentárov.' }}"
-                      </p>
-                    </div>
+                  <div v-if="project.status === 'finished'" class="bg-emerald-50 p-4 rounded-2xl border border-emerald-100">
+                    <p class="text-[10px] text-emerald-500 uppercase font-black tracking-widest">Záverečné zhodnotenie</p>
+                    <p class="text-slate-700 text-sm italic mt-1 leading-relaxed">
+                      "{{ project.globalComment || 'Projekt bol úspešne odovzdaný bez ďalších komentárov.' }}"
+                    </p>
                   </div>
                 </div>
               </div>
-            </transition>
+            </div>
           </div>
         </div>
       </section>
@@ -174,6 +172,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "AdminDashboard",
   data() {
@@ -186,84 +185,70 @@ export default {
       ],
       newEmp: { name: '', email: '', password: '' },
       projectForm: { 
-        title: '', description: '', reward: null, productOwnerId: '',
-        fileName: '', fileUrl: null
+        name_of_challenge: '', description: '', reward: null, product_owner_id: '',
+        documentation: null, fileName: '', fileUrl: null
       },
-      projects: [
-        { 
-          id: 101, 
-          title: "AI Optimalizácia skladov", 
-          status: "published", 
-          productOwnerId: 1, 
-          teamName: null,
-          description: "Implementácia neurónových sietí pre predpovedanie zásob.",
-          reward: 2500,
-          fileName: 'analyza_skladov.pdf',
-          fileUrl: '#'
-        },
-        { 
-          id: 102, 
-          title: "B2B Portál", 
-          status: "in_progress", 
-          productOwnerId: 2, 
-          teamName: "TechAlpha",
-          description: "Klientska zóna pre veľkoobchodných partnerov.",
-          reward: 4800,
-          teamMembers: [
-            { name: "Michal Tall", email: "tall@techalpha.com" },
-            { name: "Lucia Rýchla", email: "rychla@techalpha.com" }
-          ],
-          fileName: 'zadanie_b2b.docx',
-          fileUrl: '#'
-        },
-        { 
-          id: 103, 
-          title: "Modernizácia infraštruktúry", 
-          status: "finished", 
-          productOwnerId: 1, 
-          teamName: "NetConnect",
-          description: "Prechod na kontajnerizáciu (Docker & Kubernetes).",
-          reward: 3200,
-          globalComment: "Projekt ukončený v predstihu o 2 týždne.",
-          teamMembers: [
-            { name: "Peter Server", email: "admin@netconnect.sk" }
-          ],
-          fileName: 'infra_final.pdf',
-          fileUrl: '#'
-        }
-      ]
+      projects: []
     };
   },
   computed: {
     projectSections() {
       return [
-        { id: 'published', title: 'Aktívne ponuky', color: 'bg-emerald-400', items: this.projects.filter(p => p.status === 'published') },
+        { id: 'open', title: 'Aktívne ponuky', color: 'bg-emerald-400', items: this.projects.filter(p => p.status === 'open') },
         { id: 'in_progress', title: 'V realizácii', color: 'bg-blue-500', items: this.projects.filter(p => p.status === 'in_progress') },
         { id: 'finished', title: 'Ukončené', color: 'bg-slate-900', items: this.projects.filter(p => p.status === 'finished') }
       ];
     }
   },
+  mounted() {
+    this.fetchData();
+  },
   methods: {
+    async fetchData() {
+      try {
+        const response = await axios.get('http://localhost:8080/api/auth/company/members');
+        this.employees = response.data;
+
+        const responseProjects = await axios.get('http://localhost:8080/api/auth/company/challenges');
+        this.projects = responseProjects.data;
+      }
+      catch (error) {
+        console.error("Chyba pri načítaní dát", error);
+      }
+    },
     handleFileChange(event) {
       const file = event.target.files[0];
       if (file) {
+        this.projectForm.documentation = file;
         this.projectForm.fileName = file.name;
-        this.projectForm.fileUrl = URL.createObjectURL(file);
+        this.projectForm.fileUrl = '#';
       }
     },
-    addEmployee() {
+    async addEmployee() {
       if (this.employees.length < 10 && this.newEmp.name) {
-        this.employees.push({ ...this.newEmp, id: Date.now() });
-        this.newEmp = { name: '', email: '', password: '' };
-        this.showAddEmployee = false;
+        try {
+          const response = await axios.post('http://localhost:8080/api/auth/company/create-member', {
+            name: this.newEmp.name,
+            email: this.newEmp.email,
+            password: this.newEmp.password
+          });
+          this.employees.push({ ...this.newEmp, id: response.data.id });
+          this.newEmp = { name: '', email: '', password: '' };
+          this.showAddEmployee = false;
+        }
+        catch (error) {
+          alert("Chyba pri vytváraní zamestnanca.");
+        }
       }
     },
-    deleteEmployee(id) {
-      this.employees = this.employees.filter(e => e.id !== id);
-    },
-    getEmployeeName(id) {
-      const emp = this.employees.find(e => e.id === id);
-      return emp ? emp.name : 'Neznámy';
+    async deleteEmployee(id) {
+      try {
+        await axios.delete(`http://localhost:8080/api/auth/company/member/${id}`);
+        this.employees = this.employees.filter(e => e.id !== id);
+      }
+      catch (error) {
+        alert("Chyba pri odstránení zamestnanca.");
+      }
     },
     toggleProject(projectId) {
       const index = this.expandedProjects.indexOf(projectId);
@@ -273,31 +258,23 @@ export default {
         this.expandedProjects.push(projectId);
       }
     },
-    submitProject() {
-      const newProject = {
-        ...this.projectForm,
-        id: Date.now(),
-        status: 'published',
-        teamName: null,
-        teamMembers: []
-      };
-      this.projects.push(newProject);
-      this.projectForm = { title: '', description: '', reward: null, productOwnerId: '', fileName: '', fileUrl: null };
-      if (this.$refs.fileInput) this.$refs.fileInput.value = '';
-      alert("Projekt odoslaný.");
+    async submitProject() {
+      try {
+        const formData = new FormData();
+        formData.append('name_of_challenge', this.projectForm.name_of_challenge);
+        formData.append('description_of_challenge', this.projectForm.description);
+        formData.append('reward', this.projectForm.reward);
+        formData.append('product_owner_id', this.projectForm.product_owner_id);
+        formData.append('documentation_file', this.projectForm.documentation);
+        const response = await axios.post('http://localhost:8080/api/auth/program-b/create', formData);
+        alert("Projekt bol úspešne odoslaný.");
+        this.projectForm = { name_of_challenge: '', description: '', reward: null, product_owner_id: '', documentation: null, fileName: '', fileUrl: null };
+        if (this.$refs.fileInput) this.$refs.fileInput.value = '';
+      }
+      catch (error) {
+        alert("Chyba pri odoslaní projektu.");
+      }
     }
   }
 };
 </script>
-
-<style scoped>
-.expand-enter-active, .expand-leave-active {
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  max-height: 800px;
-}
-.expand-enter-from, .expand-leave-to {
-  max-height: 0;
-  opacity: 0;
-  transform: translateY(-10px);
-}
-</style>

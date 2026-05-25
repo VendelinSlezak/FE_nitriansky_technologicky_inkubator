@@ -25,21 +25,21 @@
                 <span 
                   class="text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-md border"
                   :class="{
-                    'bg-blue-50 text-blue-600 border-blue-100': project.program === 'Program A',
-                    'bg-emerald-50 text-emerald-600 border-emerald-100': project.program === 'Program B'
+                    'bg-blue-50 text-blue-600 border-blue-100': project.program === 'A',
+                    'bg-emerald-50 text-emerald-600 border-emerald-100': project.program === 'B'
                   }"
                 >
-                  {{ project.program }}
+                  Program {{ project.program }}
                 </span>
               </div>
               <h3 class="text-xl font-bold text-gray-900 leading-tight mb-2 mt-2">
-                {{ project.title }}
+                {{ project.name_of_challenge }}
               </h3>
               <p class="text-sm text-gray-600 flex items-center gap-1">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
-                Tím: <span class="font-semibold">{{ project.teamName }}</span>
+                Tím: <span class="font-semibold">{{ project.name_of_team }}</span>
               </p>
             </div>
 
@@ -67,34 +67,27 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "MentorDashboardView",
   data() {
     return {
-      rozpracovaneProjekty: [
-        { 
-          id: 501, 
-          title: "Vývoj mobilnej aplikácie pre seniorov", 
-          teamName: "SilverTech", 
-          program: "Program A", 
-          lastActivity: "pred 2 hodinami" 
-        },
-        { 
-          id: 502, 
-          title: "Analýza dopadu obnoviteľných zdrojov", 
-          teamName: "EcoLogic", 
-          program: "Program B", 
-          lastActivity: "včera" 
-        },
-        { 
-          id: 503, 
-          title: "UI/UX Redizajn AiS2 portálu", 
-          teamName: "Designers Hub", 
-          program: "Program A", 
-          lastActivity: "pred 3 dňami" 
-        },
-      ],
+      rozpracovaneProjekty: [],
     };
+  },
+  mounted() {
+    this.fetchData();
+  },
+  methods: {
+    async fetchData() {
+      try {
+        const response = await axios.get('http://localhost:8080/api/auth/mentor/all-challenges');
+        this.rozpracovaneProjekty = response.data;
+      }
+      catch (error) {
+        console.error("Chyba pri načítaní dát", error);
+      }
+    }
   }
 };
 </script>
