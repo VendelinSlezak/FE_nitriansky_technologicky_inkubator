@@ -37,8 +37,8 @@
               required
             >
               <option value="" disabled>Vyberte kategóriu</option>
-              <option v-for="cat in categories" :key="cat" :value="cat">
-                {{ cat }}
+              <option v-for="cat in categories" :key="cat.id" :value="cat.id">
+                {{ cat.title }}
               </option>
             </select>
           </div>
@@ -54,18 +54,51 @@
             ></textarea>
           </div>
 
-          <div class="bg-gray-50 p-4 rounded-lg border border-gray-100 transition-colors hover:border-blue-200">
-            <div class="flex items-start space-x-3">
-              <input
-                type="checkbox"
-                id="autoTeam"
-                v-model="challenge.autoCreateTeam"
-                class="mt-1 h-5 w-5 text-blue-600 border-gray-300 rounded cursor-pointer"
+          <div class="space-y-1">
+            <label class="block text-sm font-bold text-gray-700 uppercase tracking-wider">Príloha (Súbor s popisom výzvy)</label>
+            <div 
+              class="border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-all"
+              :class="challenge.file ? 'border-green-500 bg-green-50' : 'border-gray-300 hover:border-blue-500 bg-gray-50'"
+              @click="$refs.fileInput.click()"
+            >
+              <input 
+                type="file" 
+                ref="fileInput" 
+                class="hidden" 
+                @change="handleFileUpload"
+                accept=".pdf,.doc,.docx,.txt"
               />
-              <label for="autoTeam" class="text-sm text-gray-700 leading-tight cursor-pointer">
-                <span class="font-bold text-gray-900 block mb-1 text-base">Automaticky vytvoriť tím</span>
-                Chcem sa automaticky stať teamleadrom tohto projektu, ak bude výzva schválená administrátorom.
-              </label>
+              
+              <div v-if="!challenge.file" class="space-y-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                </svg>
+                <p class="text-sm text-gray-600">
+                  <span class="font-bold text-blue-600 hover:underline">Kliknite pre nahranie</span> alebo presuňte súbor sem
+                </p>
+                <p class="text-xs text-gray-500">Podporované formáty: PDF, DOCX, TXT (Max. 2 MB)</p>
+              </div>
+              
+              <div v-else class="flex items-center justify-between bg-white p-3 rounded-md border border-green-200">
+                <div class="flex items-center gap-2 truncate">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  <div class="text-left truncate">
+                    <p class="text-sm font-medium text-gray-800 truncate">{{ challenge.file.name }}</p>
+                    <p class="text-xs text-gray-500">{{ formatFileSize(challenge.file.size) }}</p>
+                  </div>
+                </div>
+                <button 
+                  type="button" 
+                  @click.stop="removeFile" 
+                  class="text-red-500 hover:text-red-700 p-1 rounded hover:bg-red-50 transition-all"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -92,28 +125,69 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "CreateChallengeView",
   data() {
     return {
-      categories: ["Vývoj softvéru", "AI a dátové technológie", "Webové aplikácie", "Herný vývoj", "IoT a embedded systémy"],
+      categories: [],
       challenge: {
         title: "",
         description: "",
         category: "",
-        autoCreateTeam: false,
+        file: null,
       },
     };
   },
+  mounted() {
+    this.fetchData();
+  },
   methods: {
-    submitChallenge() {
-      // Tu pridaj logiku pre odoslanie do Pinia store alebo API
-      console.log("Odosielam výzvu:", this.challenge);
-      
-      alert(`Výzva "${this.challenge.title}" bola úspešne odoslaná na schválenie.`);
-      
-      // Presmerovanie späť po úspešnom odoslaní
-      this.$router.push('/student-dashboard');
+    async fetchData() {
+      try {
+        const response = await axios.get('http://localhost:8080/api/auth/program-a/categories');
+        this.categories = response.data.categories;
+      }
+      catch (error) {
+        console.error("Fetch error:", error);
+      }
+    },
+    handleFileUpload(event) {
+      const selectedFile = event.target.files[0];
+      if (selectedFile) {
+        this.challenge.file = selectedFile;
+      }
+    },
+    removeFile() {
+      this.challenge.file = null;
+      if (this.$refs.fileInput) {
+        this.$refs.fileInput.value = "";
+      }
+    },
+    formatFileSize(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    },
+    async submitChallenge() {
+      try {
+        const formData = new FormData();
+        formData.append('name_of_challenge', this.challenge.title);
+        formData.append('description_of_challenge', this.challenge.description);
+        formData.append('category_of_challenge_id', this.challenge.category);
+        if (this.challenge.file) {
+          formData.append('proposal_implemenation_file', this.challenge.file);
+        }
+        await axios.post('http://localhost:8080/api/auth/program-a/create-challenge', formData);
+        alert(`Výzva "${this.challenge.title}" bola úspešne odoslaná na schválenie.`);
+        this.$router.push('/student-dashboard');
+      }
+      catch (error) {
+        alert("Chyba pri odoslaní výzvy.");
+        console.error("Chyba pri odoslaní výzvy:", error);
+      }
     },
   },
 };
