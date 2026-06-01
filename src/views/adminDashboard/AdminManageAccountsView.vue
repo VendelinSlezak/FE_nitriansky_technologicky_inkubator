@@ -40,7 +40,7 @@
                 :class="{'bg-blue-50/50': expandedRequestId === req.id}"
               >
                 <td class="px-6 py-4 font-bold text-slate-800 truncate">
-                  {{ req.type === 'student' ? `${req.data.firstName} ${req.data.lastName}` : req.data.companyName }}
+                  {{ req.type === 'student' ? req.name : req.name_of_company }}
                 </td>
                 <td class="px-6 py-4">
                   <span 
@@ -52,7 +52,7 @@
                     {{ req.type === 'student' ? 'Študent' : 'Firma' }}
                   </span>
                 </td>
-                <td class="px-6 py-4 text-slate-500 font-medium truncate">{{ req.data.email }}</td>
+                <td class="px-6 py-4 text-slate-500 font-medium truncate">{{ req.email }}</td>
                 <td class="px-6 py-4 text-right">
                   <div class="inline-flex items-center gap-2 text-blue-600 font-bold text-xs uppercase tracking-tight">
                     {{ expandedRequestId === req.id ? 'Zavrieť' : 'Detail' }}
@@ -71,21 +71,21 @@
                       <template v-if="req.type === 'student'">
                         <div class="flex flex-col">
                           <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Celé meno</span>
-                          <span class="text-sm font-bold text-slate-800">{{ req.data.firstName }} {{ req.data.lastName }}</span>
+                          <span class="text-sm font-bold text-slate-800">{{ req.name }}</span>
                         </div>
                         <div class="flex flex-col">
                           <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Univerzita</span>
-                          <span class="text-sm font-bold text-slate-800">{{ req.data.university }}</span>
+                          <span class="text-sm font-bold text-slate-800">{{ req.university }}</span>
                         </div>
                         <div class="flex flex-col">
                           <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Univerzitný email</span>
-                          <span class="text-sm font-bold text-slate-800">{{ req.data.email }}</span>
+                          <span class="text-sm font-bold text-slate-800">{{ req.email }}</span>
                         </div>
                         <div class="flex flex-col">
                           <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Príloha (Životopis)</span>
                           <div class="flex items-center gap-2 text-blue-600 font-bold text-sm">
                              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-width="2" /></svg>
-                             <a href="#" @click.prevent class="hover:underline">{{ req.data.cvName }}</a>
+                             <a :href="req.curriculum_vitae_url" @click.prevent class="hover:underline">{{ req.curriculum_vitae_name }}</a>
                           </div>
                         </div>
                       </template>
@@ -93,25 +93,24 @@
                       <template v-else>
                         <div class="flex flex-col">
                           <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Názov spoločnosti</span>
-                          <span class="text-sm font-bold text-slate-800">{{ req.data.companyName }}</span>
+                          <span class="text-sm font-bold text-slate-800">{{ req.name_of_company }}</span>
                         </div>
                         <div class="flex flex-col">
                           <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Identifikačné údaje</span>
-                          <span class="text-sm font-bold text-slate-800">IČO: {{ req.data.ico }} <span class="mx-2 text-slate-300">|</span> DIČ: {{ req.data.dic || 'Neuvedené' }}</span>
+                          <span class="text-sm font-bold text-slate-800">IČO: {{ req.ico }} <span class="mx-2 text-slate-300">|</span> DIČ: {{ req.dic || 'Neuvedené' }}</span>
                         </div>
                         <div class="flex flex-col">
                           <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Kontaktná osoba</span>
-                          <span class="text-sm font-bold text-slate-800">{{ req.data.contactPerson }}</span>
+                          <span class="text-sm font-bold text-slate-800">{{ req.name_of_contact_person }}</span>
                         </div>
                         <div class="flex flex-col">
                           <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">E-mail pre prístup</span>
-                          <span class="text-sm font-bold text-slate-800">{{ req.data.email }}</span>
+                          <span class="text-sm font-bold text-slate-800">{{ req.email }}</span>
                         </div>
                         <div class="flex flex-col">
                           <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Logo firmy</span>
                           <div class="flex items-center gap-2 text-emerald-600 font-bold text-sm">
-                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-width="2" /></svg>
-                             <a href="#" @click.prevent class="hover:underline">{{ req.data.logoName }}</a>
+                             <img :src="req.logo_url" :alt="req.name_of_company">
                           </div>
                         </div>
                       </template>
@@ -125,7 +124,7 @@
                         Schváliť prístup
                       </button>
                       <button 
-                        @click.stop="rejectRequest(req.id)" 
+                        @click.stop="rejectRequest(req)" 
                         class="px-6 py-3 text-xs font-bold text-rose-600 hover:bg-rose-50 rounded-xl transition-colors uppercase tracking-widest"
                       >
                         Zamietnuť
@@ -175,7 +174,7 @@
             <tr v-for="user in filteredUsers" :key="user.id" class="hover:bg-slate-50/50 transition-colors">
               <td class="px-6 py-4">
                 <div class="flex items-center gap-3">
-                  <div :class="`flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-sm ${user.avatarBg}`">
+                  <div :class="`flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-sm bg-blue-600`">
                     {{ getInitials(user.name) }}
                   </div>
                   <div class="min-w-0">
@@ -214,42 +213,36 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "ManageAccountsView",
   data() {
     return {
       searchQuery: "",
       expandedRequestId: null,
+
       pendingRequests: [
         {
           id: 501,
           type: "student",
-          data: {
-            firstName: "Samuel",
-            lastName: "Hruška",
-            university: "UKF v Nitre",
-            email: "samuel.hruska@student.ukf.sk",
-            cvName: "zivotopis_hruska.pdf"
-          }
+          name: "Samuel",
+          university: "UKF v Nitre",
+          email: "samuel.hruska@student.ukf.sk",
+          curriculum_vitae_name: "zivotopis_hruska.pdf",
+          curriculum_vitae_url: "#",
         },
         {
           id: 502,
-          type: "firm",
-          data: {
-            companyName: "Innovate AI s.r.o.",
-            ico: "35888999",
-            dic: "2021234567",
-            logoName: "logo_innovate.png",
-            contactPerson: "Ing. Jozef Mrkva",
-            email: "hr@innovate-ai.sk"
-          }
+          type: "company",
+          name_of_company: "Innovate AI s.r.o.",
+          ico: "35888999",
+          dic: "2021234567",
+          name_of_contact_person: "Ing. Jozef Mrkva",
+          email: "hr@innovate-ai.sk",
+          logo_url: "logo_innovate.png",
         }
       ],
-      users: [
-        { id: 1, name: "Marek Kovác", email: "marek.kovac@nti.sk", role: "Admin", status: "Aktívny", lastLogin: "Dnes o 08:45", avatarBg: "bg-blue-600" },
-        { id: 2, name: "Jana Nováková", email: "jana.novakova@nti.sk", role: "Editor", status: "Aktívny", lastLogin: "Včera o 14:20", avatarBg: "bg-emerald-600" },
-        { id: 3, name: "Peter Halás", email: "peter.halas@nti.sk", role: "Editor", status: "Neaktívny", lastLogin: "Pred 5 dňami", avatarBg: "bg-purple-600" }
-      ]
+      users: [],
     };
   },
   computed: {
@@ -261,30 +254,59 @@ export default {
       );
     }
   },
+  mounted() {
+    this.fetchData();
+  },
   methods: {
+    async fetchData() {
+      try {
+        const responseUsers = await axios.get("http://localhost:8080/api/auth/users");
+        this.users = responseUsers.data;
+
+        const responseStudentRequests = await axios.get("http://localhost:8080/api/auth/students/registration-requests");
+        this.pendingRequests = responseStudentRequests.data.students;
+
+        const responseCompaniesRequests = await axios.get("http://localhost:8080/api/auth/companies/registration-requests");
+        this.pendingRequests.push(...responseCompaniesRequests.data.companies);
+      }
+      catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    },
     getInitials(name) {
       return name.split(' ').map(word => word[0]).join('').toUpperCase().substring(0, 2);
     },
     toggleRequest(id) {
       this.expandedRequestId = this.expandedRequestId === id ? null : id;
     },
-    approveRequest(req) {
-      const name = req.type === 'student' ? `${req.data.firstName} ${req.data.lastName}` : req.data.companyName;
-      this.users.unshift({
-        id: Date.now(),
-        name: name,
-        email: req.data.email,
-        role: "Editor",
-        status: "Aktívny",
-        lastLogin: "Práve teraz",
-        avatarBg: req.type === 'student' ? 'bg-blue-600' : 'bg-emerald-600'
-      });
-      this.pendingRequests = this.pendingRequests.filter(r => r.id !== req.id);
-      this.expandedRequestId = null;
+    async approveRequest(req) {
+      try {
+        if (req.type === 'student') {
+          await axios.post(`http://localhost:8080/api/auth/student/${req.id}/approve-registration`);
+        }
+        else {
+          await axios.post(`http://localhost:8080/api/auth/company/${req.id}/approve-registration`);
+        }
+      }
+      catch (error) {
+        console.error("Error approving request:", error);
+      }
+      this.fetchData();
     },
-    rejectRequest(id) {
+    async rejectRequest(req) {
       if (confirm("Naozaj chcete zamietnuť túto registráciu?")) {
-        this.pendingRequests = this.pendingRequests.filter(r => r.id !== id);
+        try {
+          if (req.type === 'student') {
+            await axios.post(`http://localhost:8080/api/auth/student/${req.id}/reject-registration`);
+          }
+          else {
+            await axios.post(`http://localhost:8080/api/auth/company/${req.id}/reject-registration`);
+          }
+        }
+        catch (error) {
+          console.error("Error deleting request:", error);
+        }
+        this.fetchData();
       }
     },
     createNewAccount() { 
