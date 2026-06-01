@@ -197,11 +197,6 @@
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>
                   </button>
-                  <button @click="deleteUser(user.id)" class="p-2 text-slate-400 hover:text-rose-600 transition-colors">
-                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6h18m-2 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2m-6 5v6m4-6v6" />
-                    </svg>
-                  </button>
                 </div>
               </td>
             </tr>
@@ -315,9 +310,6 @@ export default {
     editUser(user) { 
       this.$router.push({ name: "admin-edit-account", params: { id: user.id } });
     },
-    deleteUser(id) {
-      if (confirm("Zmazať účet?")) this.users = this.users.filter(u => u.id !== id);
-    }
   }
 };
 </script>
