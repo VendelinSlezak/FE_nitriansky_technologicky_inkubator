@@ -53,7 +53,7 @@
           <div>
             <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 mb-2 block">Názov výzvy</label>
             <input 
-              v-model="form.title"
+              v-model="form.name"
               type="text"
               placeholder="Napr. Vývoj mobilnej aplikácie..."
               class="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-bold text-slate-800"
@@ -61,23 +61,23 @@
             />
           </div>
 
-          <div class="grid md:grid-cols-2 gap-4">
-            <div>
+          <div class="grid gap-4">
+            <div v-if="form.type === 'A'">
               <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 mb-2 block">Kategória</label>
               <select 
-                v-model="form.category"
+                v-model="form.category_id"
                 class="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500/20 outline-none transition-all font-bold text-slate-800 appearance-none"
                 required
               >
                 <option value="" disabled>Vyberte kategóriu</option>
-                <option v-for="cat in categories" :key="cat" :value="cat">{{ cat }}</option>
+                <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.title }}</option>
               </select>
             </div>
             
             <div v-if="form.type === 'B'">
               <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 mb-2 block">Rozpočet / Odmena</label>
               <input 
-                v-model="form.budget"
+                v-model="form.reward"
                 type="text"
                 placeholder="Napr. 2 000 €"
                 class="w-full px-5 py-3.5 bg-emerald-50/30 border border-emerald-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all font-black text-emerald-700"
@@ -158,31 +158,37 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "AdminCreateChallengeView",
   data() {
     return {
       isDragging: false,
-      categories: [
-        "Webové aplikácie", 
-        "AI a dátové technológie", 
-        "Mobilné aplikácie", 
-        "Herný vývoj", 
-        "IoT systémy", 
-        "UX/UI Design"
-      ],
+      categories: [],
       form: {
-        type: "A", // Predvolený Program A
-        title: "",
-        category: "",
+        type: "A",
+        name: "",
+        category_id: "",
         description: "",
-        budget: "", // Iba pre Program B
+        reward: "",
         file: null,
         fileName: ""
       }
     };
   },
+  mounted() {
+    this.fetchData();
+  },
   methods: {
+    async fetchData() {
+      try {
+        const response = await axios.get('http://localhost:8080/api/auth/program-a/all-categories');
+        this.categories = response.data.categories;
+      }
+      catch (error) {
+        console.error("Chyba pri načítaní dát", error);
+      }
+    },
     handleFileSelect(event) {
       const file = event.target.files[0];
       if (file) this.processFile(file);
@@ -201,24 +207,30 @@ export default {
       this.form.fileName = "";
       if (this.$refs.fileInput) this.$refs.fileInput.value = "";
     },
-    submitChallenge() {
-      // Validácia
-      if (!this.form.title || !this.form.category || !this.form.description) {
+    async submitChallenge() {
+      if (!this.form.name || !this.form.description || !this.form.file || (this.form.type === "A" && !this.form.category_id) || (this.form.type === "B" && !this.form.reward)) {
         alert("Prosím vyplňte všetky povinné polia.");
         return;
       }
 
-      const challengeData = {
-        ...this.form,
-        id: Date.now(),
-        status: "Otvorená",
-        teamCount: 0,
-        createdAt: new Date().toISOString()
-      };
-
-      console.log("Admin vytvára výzvu:", challengeData);
-      alert("Výzva bola úspešne vytvorená.");
-      this.$router.push("/admin-dashboard/manage-challenges");
+      try {
+        const formData = new FormData();
+        formData.append('type', this.form.type);
+        formData.append('name', this.form.name);
+        formData.append('description', this.form.description);
+        if(this.form.type === "A") formData.append('category_id', this.form.category_id);
+        if(this.form.type === "B") formData.append('reward', this.form.reward);
+        if (this.form.file) {
+          formData.append('technical_specification', this.form.file);
+        }
+        await axios.post('http://localhost:8080/api/auth/create-challenge', formData);
+        this.$router.push("/admin-dashboard/manage-challenges");
+      }
+      catch (error) {
+        console.error("Chyba pri vytváraní výzvy", error);
+        alert("Chyba pri vytváraní výzvy");
+        return;
+      }
     }
   }
 };

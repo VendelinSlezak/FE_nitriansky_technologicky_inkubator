@@ -45,7 +45,7 @@
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-100">
-            <tr v-for="team in filteredTeams" :key="team.id" class="hover:bg-slate-50/50 transition-colors">
+            <tr v-for="team in filteredTeams" :key="team.team_id" class="hover:bg-slate-50/50 transition-colors">
               
               <td class="px-6 py-4 font-semibold text-slate-800">
                 <div class="flex items-center gap-3">
@@ -57,9 +57,9 @@
               <td class="px-6 py-4 text-slate-600">
                 <div class="flex items-center gap-2">
                   <div class="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-500 border border-slate-200">
-                    {{ getInitials(team.leader) }}
+                    {{ getInitials(team.teamleader_name) }}
                   </div>
-                  {{ team.leader }}
+                  {{ team.teamleader_name }}
                 </div>
               </td>
               
@@ -67,10 +67,10 @@
                 <span 
                   :class="[
                     'px-2.5 py-0.5 rounded-md text-xs font-medium',
-                    team.isActive ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-600'
+                    team.is_active ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-600'
                   ]"
                 >
-                  {{ team.isActive ? 'Aktívny' : 'Neaktívny' }}
+                  {{ team.is_active ? 'Aktívny' : 'Neaktívny' }}
                 </span>
               </td>
               
@@ -78,9 +78,6 @@
                 <div class="flex items-center justify-end gap-3">
                   <button @click="editTeam(team)" class="text-slate-400 hover:text-emerald-600 transition-colors">
                     Upraviť
-                  </button>
-                  <button @click="deleteTeam(team.id)" class="text-slate-400 hover:text-rose-600 transition-colors">
-                    Zmazať
                   </button>
                 </div>
               </td>
@@ -93,37 +90,13 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "ManageTeamsView",
   data() {
     return {
       searchQuery: "",
-      teams: [
-        {
-          id: 1,
-          name: "Redakcia správ",
-          description: "Správa hlavných článkov a aktualít",
-          leader: "Marek Kováč",
-          memberCount: 5,
-          isActive: true
-        },
-        {
-          id: 2,
-          name: "Zákaznícka podpora",
-          description: "Riešenie FAQ a odpovedí pre klientov",
-          leader: "Jana Nováková",
-          memberCount: 3,
-          isActive: true
-        },
-        {
-          id: 3,
-          name: "Grafický tím",
-          description: "Príprava log a grafických podkladov",
-          leader: "Lucia Richterová",
-          memberCount: 2,
-          isActive: false
-        }
-      ]
+      teams: []
     };
   },
   computed: {
@@ -133,12 +106,25 @@ export default {
       const query = this.searchQuery.toLowerCase();
       return this.teams.filter(team => 
         team.name.toLowerCase().includes(query) || 
-        team.leader.toLowerCase().includes(query)
+        team.teamleader_name.toLowerCase().includes(query)
       );
     }
   },
+  mounted() {
+    this.fetchData();
+  },
   methods: {
+    async fetchData() {
+      try {
+        const response = await axios.get("http://localhost:8080/api/auth/teams");
+        this.teams = response.data.teams;
+      }
+      catch (error) {
+        console.error(error);
+      }
+    },
     getInitials(name) {
+      if (!name) return '?';
       return name
         .split(' ')
         .map(word => word[0])
@@ -150,13 +136,8 @@ export default {
       this.$router.push({ name: "admin-create-team" });
     },
     editTeam(team) {
-      this.$router.push({ name: "admin-edit-team", params: { id: team.id } });
+      this.$router.push({ name: "admin-edit-team", params: { id: team.team_id } });
     },
-    deleteTeam(id) {
-      if (confirm("Naozaj chcete zmazať tento tím?")) {
-        this.teams = this.teams.filter(t => t.id !== id);
-      }
-    }
   }
 };
 </script>
