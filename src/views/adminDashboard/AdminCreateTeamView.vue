@@ -31,8 +31,8 @@
             ]"
           >
             <div>
-              <div class="font-bold text-slate-800">{{ challenge.title }}</div>
-              <div class="text-[10px] font-black text-emerald-600 uppercase">{{ challenge.program }}</div>
+              <div class="font-bold text-slate-800">{{ challenge.name }}</div>
+              <div class="text-[10px] font-black text-emerald-600 uppercase">Program {{ challenge.program }}</div>
             </div>
             <div v-if="team.challengeId === challenge.id" class="text-emerald-500">
               <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
@@ -59,17 +59,28 @@
             type="email" 
             placeholder="email.studenta@student.sk" 
             class="flex-grow bg-slate-50 border border-slate-200 rounded-xl p-3 focus:ring-2 focus:ring-slate-400 outline-none font-bold text-sm" 
+            :disabled="isLoading"
           />
-          <button @click="addMember" class="bg-slate-800 text-white px-6 rounded-xl font-black text-[10px] uppercase hover:bg-emerald-600 transition-all">Pridať do zoznamu</button>
+          <button 
+            @click="addMember" 
+            :disabled="isLoading"
+            class="bg-slate-800 text-white px-6 rounded-xl font-black text-[10px] uppercase hover:bg-emerald-600 transition-all disabled:opacity-50"
+          >
+            {{ isLoading ? 'Overujem...' : 'Pridať do zoznamu' }}
+          </button>
         </div>
 
+        <p v-if="errorMessage" class="text-rose-500 text-xs font-bold bg-rose-50 p-2 rounded-lg border border-rose-100">
+          {{ errorMessage }}
+        </p>
+
         <div v-if="team.members.length > 0" class="divide-y divide-slate-100 border border-slate-100 rounded-xl overflow-hidden">
-          <div v-for="member in team.members" :key="member.email" class="flex items-center justify-between p-4 bg-white hover:bg-slate-50 transition-colors">
+          <div v-for="member in team.members" :key="member.id" class="flex items-center justify-between p-4 bg-white hover:bg-slate-50 transition-colors">
             <div class="flex items-center gap-4">
               <input 
                 type="radio" 
                 :checked="member.isLeader"
-                @change="setLeader(member.email)"
+                @change="setLeader(member.id)"
                 name="leaderSelection"
                 class="w-5 h-5 text-emerald-600 border-slate-300 focus:ring-emerald-500 cursor-pointer"
               />
@@ -79,7 +90,7 @@
               </div>
             </div>
 
-            <button @click="removeMember(member.email)" class="text-slate-300 hover:text-rose-500 transition-colors p-1">
+            <button @click="removeMember(member.id)" class="text-slate-300 hover:text-rose-500 transition-colors p-1">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
           </div>
@@ -88,7 +99,7 @@
       </section>
 
       <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-        <h2 class="text-sm font-black uppercase text-slate-400 tracking-widest border-b border-slate-50 pb-2 italic">4. Prílohy (Nepovinné)</h2>
+        <h2 class="text-sm font-black uppercase text-slate-400 tracking-widest border-b border-slate-50 pb-2 italic">4. Prílohy</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
           <label v-for="type in ['assignment', 'motivation']" :key="type" class="relative cursor-pointer group">
             <input type="file" @change="handleFileChange($event, type)" class="hidden" />
@@ -121,25 +132,26 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "AdminCreateTeamView",
   data() {
     return {
       filter: 'Všetko',
       newMemberEmail: "",
-      challenges: [
-        { id: 1, program: 'Program A', title: 'Smart City Osvetlenie' },
-        { id: 2, program: 'Program B', title: 'Logistický Robot pre Sklad' },
-        { id: 3, program: 'Program A', title: 'Digitálny archív obce' },
-        { id: 4, program: 'Program B', title: 'Solárny tracking systém' }
-      ],
+      errorMessage: "",
+      isLoading: false,
+      challenges: [],
       team: {
         name: "",
         challengeId: null,
-        members: [], // Teraz obsahuje objekty { email, isLeader }
+        members: [], // Teraz obsahuje objekty { id, email, isLeader }
         files: { assignment: null, motivation: null }
       }
     };
+  },
+  mounted() {
+    this.fetchData();
   },
   computed: {
     filteredChallenges() {
@@ -156,29 +168,65 @@ export default {
     }
   },
   methods: {
-    selectChallenge(challenge) { this.team.challengeId = challenge.id; },
-    addMember() {
-      const email = this.newMemberEmail.trim().toLowerCase();
-      const exists = this.team.members.find(m => m.email === email);
-      
-      if (email && email.includes('@') && !exists) {
-        // Ak je to prvý pridaný člen, automaticky mu dáme rolu lídra
-        const isFirst = this.team.members.length === 0;
-        this.team.members.push({
-          email: email,
-          isLeader: isFirst
-        });
-        this.newMemberEmail = "";
+    async fetchData() {
+      try {
+        const responseProgramA = await axios.get('http://localhost:8080/api/auth/program-a');
+        this.challenges = responseProgramA.data;
+        const responseProgramB = await axios.get('http://localhost:8080/api/auth/program-b');
+        this.challenges.push(...responseProgramB.data);
+      }
+      catch (err) {
+        console.log(err);
       }
     },
-    setLeader(email) {
+    selectChallenge(challenge) { this.team.challengeId = challenge.id; },
+    async addMember() {
+      this.errorMessage = "";
+      const email = this.newMemberEmail.trim().toLowerCase();
+      
+      if (!email || !email.includes('@')) {
+        this.errorMessage = "Zadajte platnú e-mailovú adresu.";
+        return;
+      }
+
+      const exists = this.team.members.find(m => m.email === email);
+      if (exists) {
+        this.errorMessage = "Tento člen už bol do zoznamu pridaný.";
+        return;
+      }
+
+      try {
+        this.isLoading = true;
+        const formData = new FormData();
+        formData.append('email', email);
+        const response = await axios.post('http://localhost:8080/api/auth/student/can-be-invited', formData);
+        const canBeInvited = response.data.status;
+        const studentId = response.data.id;
+        if (canBeInvited) {
+          const isFirst = this.team.members.length === 0;
+          this.team.members.push({
+            id: studentId,
+            email: email,
+            isLeader: isFirst
+          });
+          this.newMemberEmail = "";
+        } else {
+          this.errorMessage = "Študenta nie je možné pozvať";
+        }
+      } catch (err) {
+        console.error(err);
+        this.errorMessage = "Chyba pri komunikácii so serverom pri overovaní študenta.";
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    setLeader(id) {
       this.team.members.forEach(m => {
-        m.isLeader = (m.email === email);
+        m.isLeader = (m.id === id);
       });
     },
-    removeMember(email) {
-      this.team.members = this.team.members.filter(m => m.email !== email);
-      // Ak sme zmazali lídra a ostali nejakí členovia, nastavíme prvého ako lídra
+    removeMember(id) {
+      this.team.members = this.team.members.filter(m => m.id !== id);
       if (this.team.members.length > 0 && !this.team.members.some(m => m.isLeader)) {
         this.team.members[0].isLeader = true;
       }
@@ -186,22 +234,28 @@ export default {
     handleFileChange(event, type) { 
       this.team.files[type] = event.target.files[0]; 
     },
-    submitTeam() {
-      // Pre backend by ste pravdepodobne chceli leaderEmail vyextrahovať
-      const leader = this.team.members.find(m => m.isLeader);
-      const membersOnly = this.team.members.filter(m => !m.isLeader).map(m => m.email);
-
-      const payload = {
-        name: this.team.name,
-        challengeId: this.team.challengeId,
-        leaderEmail: leader ? leader.email : null,
-        members: membersOnly,
-        files: this.team.files
-      };
-
-      console.log("Odosielanie payloadu:", payload);
-      alert("Tím úspešne vytvorený!");
-      this.$router.push('/admin/teams');
+    async submitTeam() {
+      try {
+        const formData = new FormData();
+        formData.append('challenge_id', this.team.challengeId);
+        formData.append('name_of_team', this.team.name);
+        this.team.members.forEach((member, index) => {
+          const status = member.isLeader ? 'teamleader' : 'member';
+          formData.append(`members[${index}][id]`, member.id);
+          formData.append(`members[${index}][status]`, status);
+        });
+        formData.append('proposal_of_implementation', this.team.files.assignment);
+        formData.append('cover_letter', this.team.files.motivation);
+        console.log(Object.fromEntries(formData));
+        await axios.post(`http://localhost:8080/api/auth/create-team`, formData);
+        
+        alert("Tím úspešne vytvorený!");
+        this.$router.push('/admin-dashboard/manage-teams');
+      }
+      catch (error) {
+        console.error(error);
+        alert("Nastala chyba pri vytváraní tímu.");
+      }
     }
   }
 };

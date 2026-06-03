@@ -360,20 +360,7 @@ export default {
       data: {
         status: "basic", // basic, invited, team_draft, team_waiting_for_approval, approved_team
 
-        finished_projects: [
-          { 
-            id: 101,
-            name: "Digitálna transformácia skladu",
-            date_of_completion: "12.02.2024",
-            evaluation: "Projekt bol spracovaný na profesionálnej úrovni. Tím preukázal vynikajúce technické zručnosti pri integrácii API a čistotu kódu. Dokumentácia je príkladná pre ostatných študentov.",
-          },
-          { 
-            id: 102,
-            name: "Marketingová stratégia NTI",
-            date_of_completion: "05.01.2024",
-            evaluation: "Analýza trhu bola veľmi hĺbková. Návrh kampane by však potreboval konkrétnejšie rozpočtové rámce. Celkovo veľmi dobrá práca s dátami.",
-          }
-        ],
+        finished_projects: [],
 
         team_id: 5,
         name_of_team: "Inovátori 2024",
