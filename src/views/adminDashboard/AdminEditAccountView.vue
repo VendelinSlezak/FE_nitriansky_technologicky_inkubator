@@ -229,11 +229,16 @@ export default {
         reader.readAsDataURL(file);
       }
     },
-    confirmDelete() {
+    async confirmDelete() {
       if (confirm(`Naozaj chcete natrvalo odstrániť účet ${this.form.email}? Táto akcia je nevratná.`)) {
-        console.log('Mažem účet ID:', this.id);
-        alert('Účet bol úspešne odstránený.');
-        this.goBack();
+        try {
+          await axios.delete(`http://localhost:8080/api/auth/user/${this.form.id}`);
+          this.$router.push('/admin-dashboard/manage-accounts');
+        }
+        catch (error) {
+          console.error('Chyba pri odstranení účtu:', error);
+          alert('Nepodarilo sa odstrániť účet.');
+        }
       }
     },
     goBack() {
