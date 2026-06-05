@@ -213,6 +213,7 @@ export default {
   name: "ManageAccountsView",
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       searchQuery: "",
       expandedRequestId: null,
 
@@ -235,13 +236,13 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const responseUsers = await axios.get("http://localhost:8080/api/auth/users");
+        const responseUsers = await axios.get(`${this.backendApiUrl}/api/auth/users`);
         this.users = responseUsers.data;
 
-        const responseStudentRequests = await axios.get("http://localhost:8080/api/auth/students/registration-requests");
+        const responseStudentRequests = await axios.get(`${this.backendApiUrl}/api/auth/students/registration-requests`);
         this.pendingRequests = responseStudentRequests.data.students;
 
-        const responseCompaniesRequests = await axios.get("http://localhost:8080/api/auth/companies/registration-requests");
+        const responseCompaniesRequests = await axios.get(`${this.backendApiUrl}/api/auth/companies/registration-requests`);
         this.pendingRequests.push(...responseCompaniesRequests.data.companies);
       }
       catch (error) {
@@ -257,10 +258,10 @@ export default {
     async approveRequest(req) {
       try {
         if (req.type === 'student') {
-          await axios.post(`http://localhost:8080/api/auth/student/${req.id}/approve-registration`);
+          await axios.post(`${this.backendApiUrl}/api/auth/student/${req.id}/approve-registration`);
         }
         else {
-          await axios.post(`http://localhost:8080/api/auth/company/${req.id}/approve-registration`);
+          await axios.post(`${this.backendApiUrl}/api/auth/company/${req.id}/approve-registration`);
         }
       }
       catch (error) {
@@ -272,10 +273,10 @@ export default {
       if (confirm("Naozaj chcete zamietnuť túto registráciu?")) {
         try {
           if (req.type === 'student') {
-            await axios.post(`http://localhost:8080/api/auth/student/${req.id}/reject-registration`);
+            await axios.post(`${this.backendApiUrl}/api/auth/student/${req.id}/reject-registration`);
           }
           else {
-            await axios.post(`http://localhost:8080/api/auth/company/${req.id}/reject-registration`);
+            await axios.post(`${this.backendApiUrl}/api/auth/company/${req.id}/reject-registration`);
           }
         }
         catch (error) {

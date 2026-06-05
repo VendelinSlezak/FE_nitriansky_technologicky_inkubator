@@ -157,6 +157,7 @@ export default {
   name: 'AdminCreateAccountView',
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       submitting: false,
       inputBaseClass: 'w-full px-5 py-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all shadow-sm placeholder:text-slate-300',
       uploadBoxClass: 'relative flex items-center px-5 py-3 rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 hover:bg-white hover:border-slate-300 transition-all group',
@@ -281,7 +282,7 @@ export default {
           }
         }
 
-        await axios.post('http://localhost:8080/api/auth/create-account', formData);
+        await axios.post(`${this.backendApiUrl}/api/auth/create-account`, formData);
 
         alert('Používateľ bol úspešne vytvorený.');
         this.goBack();

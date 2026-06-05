@@ -76,7 +76,7 @@
               
               <td class="px-6 py-4 text-right">
                 <div class="flex items-center justify-end gap-3">
-                  <button @click="editTeam(team)" class="text-slate-400 hover:text-emerald-600 transition-colors">
+                  <button @click="editTeam(team)" class="text-slate-400 hover:text-emerald-600 transition-colors" v-if="team.is_active">
                     Upraviť
                   </button>
                 </div>
@@ -95,6 +95,7 @@ export default {
   name: "ManageTeamsView",
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       searchQuery: "",
       teams: []
     };
@@ -116,7 +117,7 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const response = await axios.get("http://localhost:8080/api/auth/teams");
+        const response = await axios.get(`${this.backendApiUrl}/api/auth/teams`);
         this.teams = response.data.teams;
       }
       catch (error) {

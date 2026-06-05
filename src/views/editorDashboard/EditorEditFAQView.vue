@@ -63,6 +63,7 @@ export default {
   name: "EditorEditFAQView",
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       editingIndex: null,
       editForm: { id: null, question: "", answer: "" },
       newFaqs: {
@@ -91,7 +92,7 @@ export default {
     },
     async saveEdit(id, sectionKey, index) {
       try {
-        await axios.post(`http://localhost:8080/api/auth/faq/${id}`, this.editForm);
+        await axios.post(`${this.backendApiUrl}/api/auth/faq/${id}`, this.editForm);
         this.faqData[sectionKey].items[index] = { ...this.editForm };
         this.editingIndex = null;
       }
@@ -103,7 +104,7 @@ export default {
     async deleteFaq(id, sectionKey, index) {
       if (confirm("Naozaj chcete vymazať túto otázku?")) {
         try {
-          await axios.delete(`http://localhost:8080/api/auth/faq/${id}`);
+          await axios.delete(`${this.backendApiUrl}/api/auth/faq/${id}`);
           this.faqData[sectionKey].items.splice(index, 1);
         }
         catch (error) {
@@ -118,7 +119,7 @@ export default {
         formData.append('question', this.newFaqs[sectionKey].question);
         formData.append('answer', this.newFaqs[sectionKey].answer);
         formData.append('type', sectionKey);
-        const response = await axios.post(`http://localhost:8080/api/auth/faq/create`, formData);
+        const response = await axios.post(`${this.backendApiUrl}/api/auth/faq/create`, formData);
         this.newFaqs[sectionKey].id = response.data.id;
         this.faqData[sectionKey].items.push({ ...this.newFaqs[sectionKey] });
         this.newFaqs[sectionKey].id = null;
@@ -132,10 +133,10 @@ export default {
     },
     async fetchData() {
       try {
-        const response = await axios.get('http://localhost:8080/api/faq/a');
+        const response = await axios.get(`${this.backendApiUrl}/api/faq/a`);
         this.faqData.A.items = response.data.data;
 
-        const responseB = await axios.get('http://localhost:8080/api/faq/b');
+        const responseB = await axios.get(`${this.backendApiUrl}/api/faq/b`);
         this.faqData.B.items = responseB.data.data;
       }
       catch (error) {

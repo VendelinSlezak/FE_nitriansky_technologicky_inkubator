@@ -62,6 +62,7 @@ export default {
   name: 'ResetPasswordView',
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       email: '',
       loading: false
     }
@@ -76,7 +77,7 @@ export default {
 
       try {
         this.loading = true;
-        const response = await axios.post(`http://localhost:8080/api/auth/reset-password-request`, {
+        const response = await axios.post(`${this.backendApiUrl}/api/auth/reset-password-request`, {
           "email": this.email,
           "g-recaptcha-response": token
         });

@@ -109,6 +109,7 @@ export default {
   name: "CompanyMemberDashboard",
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       expandedProjects: [],
       activeProjects: []
     };
@@ -127,7 +128,7 @@ export default {
     },
     async getProjects() {
       try {
-        const response = await axios.get('http://localhost:8080/api/auth/company/challenges');
+        const response = await axios.get(`${this.backendApiUrl}/api/auth/company/challenges`);
         this.activeProjects = response.data;
       }
       catch (error) {

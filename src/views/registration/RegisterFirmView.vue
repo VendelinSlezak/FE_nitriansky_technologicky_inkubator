@@ -197,6 +197,7 @@ export default {
   name: 'RegisterFirmView',
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       loading: false,
       form: {
         companyName: '',
@@ -271,7 +272,7 @@ export default {
         
         formData.append('g-recaptcha-response', token);
 
-        const response = await axios.post(`http://localhost:8080/api/auth/registration/company`, formData);
+        const response = await axios.post(`${this.backendApiUrl}/api/auth/registration/company`, formData);
 
         console.log('Úspešná registrácia firmy:', response.data);
         this.$router.push('/register-success');

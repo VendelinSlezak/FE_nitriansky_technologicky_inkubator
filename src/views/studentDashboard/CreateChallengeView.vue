@@ -130,6 +130,7 @@ export default {
   name: "CreateChallengeView",
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       categories: [],
       challenge: {
         title: "",
@@ -145,7 +146,7 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const response = await axios.get('http://localhost:8080/api/auth/program-a/categories');
+        const response = await axios.get(`${this.backendApiUrl}/api/auth/program-a/categories`);
         this.categories = response.data.categories;
       }
       catch (error) {
@@ -180,7 +181,7 @@ export default {
         if (this.challenge.file) {
           formData.append('proposal_implemenation_file', this.challenge.file);
         }
-        await axios.post('http://localhost:8080/api/auth/program-a/create-challenge', formData);
+        await axios.post(`${this.backendApiUrl}/api/auth/program-a/create-challenge`, formData);
         alert(`Výzva "${this.challenge.title}" bola úspešne odoslaná na schválenie.`);
         this.$router.push('/student-dashboard');
       }

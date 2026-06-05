@@ -77,52 +77,10 @@ export default {
   name: 'LoginView',
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       email: '',
       password: '',
       loading: false,
-
-      student: {
-        name: 'Ján Nový',
-        role: 'Student',
-        avatar: null,
-        dashboard: '/student-dashboard',
-      },
-      mentor: {
-        name: 'Ján Nový',
-        role: 'Mentor',
-        avatar: null,
-        dashboard: '/mentor-dashboard',
-      },
-      clen_komisie: {
-        name: 'Ján Nový',
-        role: 'Člen Komisie',
-        avatar: null,
-        dashboard: '/committee-member-dashboard',
-      },
-      admin: {
-        name: 'Ján Nový',
-        role: 'Admin',
-        avatar: null,
-        dashboard: '/admin-dashboard/edit-news',
-      },
-      administrator_firmy: {
-        name: 'Ján Nový',
-        role: 'Administrator firmy',
-        avatar: null,
-        dashboard: '/company-admin-dashboard',
-      },
-      clen_firmy: {
-        name: 'Ján Nový',
-        role: 'Člen firmy',
-        avatar: null,
-        dashboard: '/company-member-dashboard',
-      },
-      editor_webu: {
-        name: 'Ján Nový',
-        role: 'Editor webu',
-        avatar: null,
-        dashboard: '/editor-dashboard/edit-news',
-      },
     }
   },
   computed: {
@@ -138,7 +96,7 @@ export default {
         const formData = new FormData();
         formData.append('email', this.email);
         formData.append('password', this.password);
-        const response = await axios.post(`http://localhost:8080/api/auth/login`, formData);
+        const response = await axios.post(`${this.backendApiUrl}/api/auth/login`, formData);
         
         this.login(response.data);
         this.$router.push(response.data.dashboard);
@@ -149,17 +107,6 @@ export default {
       finally {
         this.loading = false;
       }
-
-      // console.log('Prihlasujem užívateľa:', {
-      //   email: this.email,
-      //   password: this.password
-      // });
-
-      // setTimeout(() => {
-      //   this.loading = false;
-      //   this.login(this.admin);
-      //   this.$router.push(this.admin.dashboard);
-      // }, 300);
     }
   }
 }

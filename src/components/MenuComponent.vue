@@ -181,7 +181,8 @@ export default {
         { name: 'Živá prax', path: '/program-b' },
         { name: 'Partneri', path: '/partneri-a-mentori' },
         { name: 'Novinky', path: '/news' },
-      ]
+      ],
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
     }
   },
   computed: {
@@ -206,7 +207,7 @@ export default {
     async handleLogout() {
       console.log("Odhlasujem cez Pinia Store...");
       try {
-        await axios.post('http://localhost:8080/api/auth/logout');
+        await axios.post(`${this.backendApiUrl}/api/auth/logout`);
         this.logout();
         this.closeMenu();
         this.$router.push('/');

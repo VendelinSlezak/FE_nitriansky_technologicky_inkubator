@@ -176,30 +176,14 @@ export default {
   },
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       ui: { 
         infoExpanded: false, 
         newMessage: "",
         milestoneDrafts: [] 
       },
       newMeeting: { date: "", time: "", type: "online", location: "" },
-      project: {
-        id: 501,
-        name_of_challenge: "Vývoj mobilnej aplikácie pre seniorov",
-        name_of_team: "SilverTech",
-        program: "A",
-        challenge_description: "Cieľom projektu je vytvoriť prístupné používateľské rozhranie pre seniorov, ktoré im umožní jednoducho spravovať pripomienky na lieky a priame spojenie s ošetrujúcim lekárom.",
-        implementation_file: { name: "Specifikacia_v1.pdf", url: "#" },
-        proposal_file: { name: "Graficky_navrh.figma", url: "#" },
-        team_members: [
-          { id: 1, name: "Peter Kováč", status: "teamleader", initials: "PK", email: "peter.kovac@student.sk" },
-          { id: 2, name: "Lucia Malá", status: "member", initials: "LM", email: "lucia.mala@student.sk" },
-          { id: 3, name: "Marek Nový", status: "member", initials: "MN", email: "marek.novy@student.sk" }
-        ],
-        milestones: [
-          { id: 1, title: "Analýza a prieskum", date_of_reasisation: "15.04.2024", description: "Identifikovať hlavné problémy cieľovej skupiny cez dotazníky.", comment: "Veľmi dobrý výber respondentov.", is_finished: true },
-          { id: 2, title: "Prototyp aplikácie", date_of_reasisation: "30.05.2024", description: "Vytvorenie klikateľného prototypu v nástroji Figma.", comment: "", is_finished: false }
-        ],
-      }
+      project: {},
     };
   },
   mounted() {
@@ -208,7 +192,7 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const response = await axios.get('http://localhost:8080/api/auth/challenge/' + this.id);
+        const response = await axios.get(`${this.backendApiUrl}/api/auth/challenge/${this.id}`);
         const data = response.data;
         if (data && data.team_members) {
           data.team_members = data.team_members.map(member => ({
@@ -229,7 +213,7 @@ export default {
     },
     async saveMilestoneComment(index) {
       try {
-        await axios.post(`http://localhost:8080/api/auth/challenge/${this.project.id}/set-milestone-comment/${this.project.milestones[index].id}`, {
+        await axios.post(`${this.backendApiUrl}/api/auth/challenge/${this.project.id}/set-milestone-comment/${this.project.milestones[index].id}`, {
           comment: this.ui.milestoneDrafts[index]
         });
         const updatedText = this.ui.milestoneDrafts[index];

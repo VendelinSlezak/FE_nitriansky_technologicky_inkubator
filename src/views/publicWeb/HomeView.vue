@@ -91,6 +91,7 @@ export default {
   },
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       programs: [
         {
           id: "a",
@@ -131,7 +132,7 @@ export default {
     },
     async fetchData() {
       try {
-        const response = await axios.get('http://localhost:8080/api/challenges/preview/three-random');
+        const response = await axios.get(`${this.backendApiUrl}/api/challenges/preview/three-random`);
         this.challenges = response.data
       }
       catch (error) {
@@ -139,7 +140,7 @@ export default {
       }
 
       try {
-        const response = await axios.get('http://localhost:8080/api/all-companies-logos');
+        const response = await axios.get(`${this.backendApiUrl}/api/all-companies-logos`);
         this.partners = response.data
       }
       catch (error) {

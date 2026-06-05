@@ -177,6 +177,7 @@ export default {
   name: "AdminDashboard",
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       showAddEmployee: false,
       expandedProjects: [],
       employees: [
@@ -206,10 +207,10 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const response = await axios.get('http://localhost:8080/api/auth/company/members');
+        const response = await axios.get(`${this.backendApiUrl}/api/auth/company/members`);
         this.employees = response.data;
 
-        const responseProjects = await axios.get('http://localhost:8080/api/auth/company/challenges');
+        const responseProjects = await axios.get(`${this.backendApiUrl}/api/auth/company/challenges`);
         this.projects = responseProjects.data;
       }
       catch (error) {
@@ -227,7 +228,7 @@ export default {
     async addEmployee() {
       if (this.employees.length < 10 && this.newEmp.name) {
         try {
-          const response = await axios.post('http://localhost:8080/api/auth/company/create-member', {
+          const response = await axios.post(`${this.backendApiUrl}/api/auth/company/create-member`, {
             name: this.newEmp.name,
             email: this.newEmp.email,
             password: this.newEmp.password
@@ -243,7 +244,7 @@ export default {
     },
     async deleteEmployee(id) {
       try {
-        await axios.delete(`http://localhost:8080/api/auth/company/member/${id}`);
+        await axios.delete(`${this.backendApiUrl}/api/auth/company/member/${id}`);
         this.employees = this.employees.filter(e => e.id !== id);
       }
       catch (error) {
@@ -266,7 +267,7 @@ export default {
         formData.append('reward', this.projectForm.reward);
         formData.append('product_owner_id', this.projectForm.product_owner_id);
         formData.append('documentation_file', this.projectForm.documentation);
-        const response = await axios.post('http://localhost:8080/api/auth/program-b/create', formData);
+        const response = await axios.post(`${this.backendApiUrl}/api/auth/program-b/create`, formData);
         alert("Projekt bol úspešne odoslaný.");
         this.projectForm = { name_of_challenge: '', description: '', reward: null, product_owner_id: '', documentation: null, fileName: '', fileUrl: null };
         if (this.$refs.fileInput) this.$refs.fileInput.value = '';

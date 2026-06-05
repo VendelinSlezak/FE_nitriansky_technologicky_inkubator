@@ -72,6 +72,7 @@ export default {
   name: "MentorDashboardView",
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       rozpracovaneProjekty: [],
     };
   },
@@ -81,7 +82,7 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const response = await axios.get('http://localhost:8080/api/auth/mentor/all-challenges');
+        const response = await axios.get(`${this.backendApiUrl}/api/auth/mentor/all-challenges`);
         this.rozpracovaneProjekty = response.data;
       }
       catch (error) {

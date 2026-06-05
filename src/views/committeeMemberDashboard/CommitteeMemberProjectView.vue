@@ -190,6 +190,7 @@ export default {
   },
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       isZapisovatel: true,
       isSubmitting: false,
       project: null,
@@ -230,10 +231,10 @@ export default {
   methods: {
     async fetchProjectData() {
       try {
-        const responseMentors = await axios.get(`http://localhost:8080/api/auth/accounts/mentors`);
+        const responseMentors = await axios.get(`${this.backendApiUrl}/api/auth/accounts/mentors`);
         this.dostupniMentori = responseMentors.data.data;
 
-        const responseChallenge = await axios.get(`http://localhost:8080/api/auth/challenge/${this.id}`);
+        const responseChallenge = await axios.get(`${this.backendApiUrl}/api/auth/challenge/${this.id}`);
         const data = responseChallenge.data;
 
         if (data && data.team_members) {
@@ -272,7 +273,7 @@ export default {
         formData.append('comment', this.form.commission_comment);
         formData.append('mentor_id', this.form.mentor_id);
         console.log(formData);
-        await axios.post(`http://localhost:8080/api/auth/challenge/${this.id}/set-commission-decision`, formData);
+        await axios.post(`${this.backendApiUrl}/api/auth/challenge/${this.id}/set-commission-decision`, formData);
         Object.keys(this.errors).forEach(key => this.errors[key] = false);
       }
       catch (error) {

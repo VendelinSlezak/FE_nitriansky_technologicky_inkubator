@@ -78,6 +78,7 @@ export default {
   name: "NewsView",
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       articles: [],
       isLoading: false,
     };
@@ -89,7 +90,7 @@ export default {
     async fetchArticles() {
       this.isLoading = true;
       try {
-        const url = "http://localhost:8080/api/articles";
+        const url = `${this.backendApiUrl}/api/articles`;
         const response = await axios.get(url);
         this.articles = response.data.data;
       }

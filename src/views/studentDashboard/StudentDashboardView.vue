@@ -199,7 +199,7 @@
 
                   <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm space-y-4 group-hover:border-blue-200 transition-colors">
                     <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-2">
-                      <h4 class="text-lg font-black text-gray-900 leading-tight">{{ m.name }}</h4>
+                      <h4 class="text-lg font-black text-gray-900 leading-tight">{{ m.title }}</h4>
                       <span class="inline-flex text-[10px] font-black text-blue-600 bg-blue-50 border border-blue-100 px-3 py-1 rounded-full uppercase self-start">
                         Termín: {{ m.date_of_reasisation }}
                       </span>
@@ -333,7 +333,7 @@
                   <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">Záverečné hodnotenie</h4>
                 </div>
                 <p class="text-sm font-medium text-gray-800 italic leading-relaxed relative z-10">
-                  "{{ project.evaluation }}"
+                  "{{ project.final_assessment }}"
                 </p>
               </div>
             </div>
@@ -351,6 +351,7 @@ export default {
   name: "StudentDashboardView",
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       otvorenyProjektId: null,
       novyClenEmail: "",
       maxClenov: 10,
@@ -410,7 +411,7 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const response = await axios.get('http://localhost:8080/api/auth/student');
+        const response = await axios.get(`${this.backendApiUrl}/api/auth/student`);
         this.data = response.data;
         console.log(this.data);
       }
@@ -438,7 +439,7 @@ export default {
       try {
         const formData = new FormData();
         formData.append('statuory_declaration', this.statuory_declaration_file);
-        await axios.post('http://localhost:8080/api/auth/student/accept-invitation', formData);
+        await axios.post(`${this.backendApiUrl}/api/auth/student/accept-invitation`, formData);
         
         // Po úspešnom odoslaní vyčistíme súbor
         this.statuory_declaration_file = null;
@@ -451,7 +452,7 @@ export default {
     },
     async odmietnutPozvanku() {
       try {
-        await axios.post('http://localhost:8080/api/auth/student/reject-invitation');
+        await axios.post(`${this.backendApiUrl}/api/auth/student/reject-invitation`);
         this.fetchData();
       }
       catch (error) {
@@ -466,7 +467,7 @@ export default {
       try {
         const formData = new FormData();
         formData.append('email', email);
-        await axios.post(`http://localhost:8080/api/auth/team/${this.data.team_id}/invite-member`, formData);
+        await axios.post(`${this.backendApiUrl}/api/auth/team/${this.data.team_id}/invite-member`, formData);
         this.novyClenEmail = "";
         this.fetchData();
       }
@@ -477,7 +478,7 @@ export default {
     },
     async odstranitClena(student_id) {
       try {
-        await axios.delete(`http://localhost:8080/api/auth/team/${this.data.team_id}/remove-member/${student_id}`);
+        await axios.delete(`${this.backendApiUrl}/api/auth/team/${this.data.team_id}/remove-member/${student_id}`);
         this.fetchData();
       }
       catch (error) {
@@ -488,8 +489,8 @@ export default {
     async odstranitTim() {
       if (confirm("Naozaj chcete vymazať tím?")) {
         try {
-          console.log(`http://localhost:8080/api/auth/team/${this.data.team_id}`);
-          await axios.delete(`http://localhost:8080/api/auth/team/${this.data.team_id}`);
+          console.log(`${this.backendApiUrl}/api/auth/team/${this.data.team_id}`);
+          await axios.delete(`${this.backendApiUrl}/api/auth/team/${this.data.team_id}`);
           this.fetchData();
         }
         catch (error) {
@@ -501,7 +502,7 @@ export default {
     async odoslatNaSchvalenie() {
       if (this.mozeOdoslat) {
         try {
-          await axios.post(`http://localhost:8080/api/auth/team/${this.data.team_id}/send-for-approval`);
+          await axios.post(`${this.backendApiUrl}/api/auth/team/${this.data.team_id}/send-for-approval`);
           this.fetchData();
         }
         catch (error) {

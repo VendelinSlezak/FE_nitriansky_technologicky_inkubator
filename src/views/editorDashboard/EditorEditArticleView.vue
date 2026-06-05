@@ -125,6 +125,7 @@ export default {
   },
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       loading: true,
       isDragging: false,
       imagePreview: null,
@@ -144,7 +145,7 @@ export default {
     async fetchArticleData() {
       try {
         this.loading = true;
-        const response = await axios.get(`http://localhost:8080/api/articles/${this.id}`);
+        const response = await axios.get(`${this.backendApiUrl}/api/articles/${this.id}`);
         this.article = response.data.data;
       }
       catch (error) {
@@ -182,7 +183,7 @@ export default {
         }
         formData.append("image_description", this.article.image_description);
         formData.append("content", this.article.content);
-        await axios.post(`http://localhost:8080/api/auth/article/${this.id}`, formData);
+        await axios.post(`${this.backendApiUrl}/api/auth/article/${this.id}`, formData);
         alert("Zmeny boli úspešne uložené.");
         this.$router.push("/editor-dashboard/edit-news");
       }
@@ -193,7 +194,7 @@ export default {
     async deleteArticle() {
       if (confirm("Naozaj chcete tento článok nenávratne odstrániť?")) {
         try {
-          await axios.delete(`http://localhost:8080/api/auth/article/${this.id}`);
+          await axios.delete(`${this.backendApiUrl}/api/auth/article/${this.id}`);
           alert("Článok bol úspešne odstránený.");
           this.$router.push("/editor-dashboard/edit-news");
         }

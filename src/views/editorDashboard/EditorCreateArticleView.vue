@@ -122,6 +122,7 @@ export default {
   name: "EditorCreateArticleView",
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       isDragging: false,
       imagePreview: null,
       article: {
@@ -164,7 +165,7 @@ export default {
         formData.append('content', this.article.content);
         formData.append('image', this.article.imageFile);
         formData.append('image_description', this.article.imageAlt);
-        axios.post('http://localhost:8080/api/auth/article/create', formData);
+        axios.post(`${this.backendApiUrl}/api/auth/article/create`, formData);
         alert("Článok bol úspešne vytvorený");
         this.$router.push('/editor-dashboard/edit-news');
       }

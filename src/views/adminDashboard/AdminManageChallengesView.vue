@@ -171,35 +171,10 @@ export default {
   name: "AdminManageChallengesView",
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       expandedProposalId: null,
-      pendingChallenges: [
-        {
-          id: 101, program: "A",
-          title: "Mobilná aplikácia pre zdieľanie parkovania",
-          name_of_author: "Samuel Hruška",
-          category: "Webové aplikácie",
-          description: "Cieľom je vytvoriť komunitnú platformu pre obyvateľov sídlisk, kde môžu v reálnom čase zdieľať informácie o voľných parkovacích miestach. Študent navrhuje využitie frameworku Vue.js.",
-          when: "Dnes o 10:45",
-          technical_specification_name: "Specifikácia technológie.pdf",
-          technical_specification_url: "#",
-        },
-        {
-          id: 102, program: "B",
-          title: "Prediktívna údržba vstrekovacích lisov",
-          name_of_author: "Innovate AI s.r.o.",
-          category: "AI a dátové technológie",
-          description: "Hľadáme tím pre analýzu dát zo senzorov našej výrobnej linky. Potrebujeme model, ktorý včas upozorní na možné poruchy motorov.",
-          reward: "3 500",
-          when: "Včera o 16:20",
-          technical_specification_name: "Specifikácia technológie.pdf",
-          technical_specification_url: "#",
-        }
-      ],
-      calls: [
-        { id: 1, program: "B", title: "Optimalizácia logistických trás", category: "IoT systémy", teams: 4, status: "open" },
-        { id: 2, program: "A", title: "VR trenažér pre medikov", category: "Herný vývoj", teams: 12, status: "open" },
-        { id: 3, program: "B", title: "Smart City osvetlenie Nitra", category: "AI technológie", teams: 7, status: "V hodnotení" }
-      ]
+      pendingChallenges: [],
+      calls: []
     };
   },
   mounted() {
@@ -208,10 +183,10 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const responseRegistrationRequests = await axios.get('http://localhost:8080/api/auth/challenges/registration-requests');
+        const responseRegistrationRequests = await axios.get(`${this.backendApiUrl}/api/auth/challenges/registration-requests`);
         this.pendingChallenges = responseRegistrationRequests.data.challenges;
 
-        const responseChallenges = await axios.get('http://localhost:8080/api/auth/challenges');
+        const responseChallenges = await axios.get(`${this.backendApiUrl}/api/auth/challenges`);
         this.calls = responseChallenges.data.data;
       }
       catch (error) {
@@ -223,7 +198,7 @@ export default {
     },
     async approveProposal(proposal) {
       try {
-        await axios.post(`http://localhost:8080/api/auth/challenge/${proposal.id}/accept`);
+        await axios.post(`${this.backendApiUrl}/api/auth/challenge/${proposal.id}/accept`);
       }
       catch (error) {
         console.error("Error approving proposal:", error);
@@ -233,7 +208,7 @@ export default {
     async rejectProposal(id) {
       if (confirm("Naozaj chcete zamietnuť tento návrh?")) {
         try {
-          await axios.post(`http://localhost:8080/api/auth/challenge/${id}/reject`);
+          await axios.post(`${this.backendApiUrl}/api/auth/challenge/${id}/reject`);
         }
         catch (error) {
           console.error("Error approving proposal:", error);

@@ -66,6 +66,7 @@ export default {
   name: "EditorEditNewsView",
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       newsItems: [],
     };
   },
@@ -85,7 +86,7 @@ export default {
     },
     async fetchNewsData() {
       try {
-        const response = await axios.get('http://localhost:8080/api/articles');
+        const response = await axios.get(`${this.backendApiUrl}/api/articles`);
         this.newsItems = response.data.data;
       }
       catch (error) {

@@ -102,6 +102,7 @@ export default {
   name: 'RegisterStudentView',
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       loading: false,
       form: {
         firstName: '',
@@ -167,7 +168,7 @@ export default {
         
         console.log(token); // debug
 
-        const response = await axios.post(`http://localhost:8080/api/auth/registration/student`, formData);
+        const response = await axios.post(`${this.backendApiUrl}/api/auth/registration/student`, formData);
 
         console.log('Úspešná registrácia:', response.data);
         this.$router.push('/register-success');

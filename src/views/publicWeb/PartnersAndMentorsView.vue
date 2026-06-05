@@ -103,6 +103,7 @@ export default {
   name: "PartnersAndMentorsView",
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       partners: [],
       mentors: [],
       benefits: [
@@ -131,7 +132,7 @@ export default {
     async fetchMentors() {
       this.isLoadingMentors = true;
       try {
-        const url = "http://localhost:8080/api/all-mentors-info";
+        const url = `${this.backendApiUrl}/api/all-mentors-info`;
         const response = await axios.get(url);
         this.mentors = response.data.mentori;
       }
@@ -145,7 +146,7 @@ export default {
     async fetchPartners() {
       this.isLoadingPartners = true;
       try {
-        const url = "http://localhost:8080/api/all-companies-info";
+        const url = `${this.backendApiUrl}/api/all-companies-info`;
         const response = await axios.get(url);
         this.partners = response.data.data;
       }

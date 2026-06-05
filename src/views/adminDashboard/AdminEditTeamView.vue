@@ -167,6 +167,7 @@ export default {
   name: "AdminEditTeamView",
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       teamId: null,
       filter: 'Všetko',
       newMemberEmail: "",
@@ -217,12 +218,12 @@ export default {
     async fetchData() {
       this.isLoading = true;
       try {
-        const responseProgramA = await axios.get('http://localhost:8080/api/auth/program-a');
+        const responseProgramA = await axios.get(`${this.backendApiUrl}/api/auth/program-a`);
         this.challenges = responseProgramA.data;
-        const responseProgramB = await axios.get('http://localhost:8080/api/auth/program-b');
+        const responseProgramB = await axios.get(`${this.backendApiUrl}/api/auth/program-b`);
         this.challenges.push(...responseProgramB.data);
 
-        const teamResponse = await axios.get(`http://localhost:8080/api/auth/team/${this.teamId}`);
+        const teamResponse = await axios.get(`${this.backendApiUrl}/api/auth/team/${this.teamId}`);
         const teamData = teamResponse.data;
 
         this.team.name = teamData.name_of_team || teamData.name;
@@ -271,7 +272,7 @@ export default {
         this.isLoadingOverVerify = true;
         const formData = new FormData();
         formData.append('email', email);
-        const response = await axios.post('http://localhost:8080/api/auth/student/can-be-invited', formData);
+        const response = await axios.post(`${this.backendApiUrl}/api/auth/student/can-be-invited`, formData);
         
         const canBeInvited = response.data.status;
         const studentId = response.data.id;
@@ -333,7 +334,7 @@ export default {
           formData.append('cover_letter', this.newMotivationFile);
         }
 
-        await axios.post(`http://localhost:8080/api/auth/team/${this.teamId}`, formData);
+        await axios.post(`${this.backendApiUrl}/api/auth/team/${this.teamId}`, formData);
         
         alert("Zmeny v tíme boli úspešne uložené!");
         this.$router.push('/admin-dashboard/manage-teams');
@@ -348,7 +349,7 @@ export default {
       if (confirm("Naozaj chcete natrvalo vymazať tento tím? Všetky väzby budú odstránené.")) {
         this.isLoading = true;
         try {
-          await axios.delete(`http://localhost:8080/api/auth/team/${this.teamId}`);
+          await axios.delete(`${this.backendApiUrl}/api/auth/team/${this.teamId}`);
           alert("Tím bol úspešne vymazaný.");
           this.$router.push('/admin-dashboard/manage-teams');
         } catch (error) {

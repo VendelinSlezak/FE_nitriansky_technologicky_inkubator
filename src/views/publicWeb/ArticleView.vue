@@ -99,6 +99,7 @@ export default {
   },
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       article: null,
       isLoading: false,
     };
@@ -124,8 +125,7 @@ export default {
     async fetchArticle() {
       this.isLoading = true;
       try {
-        const url = "http://localhost:8080/api/articles/" + this.id;
-        const response = await axios.get(url);
+        const response = await axios.get(`${this.backendApiUrl}/api/articles/${this.id}`);
         this.article = response.data.data;
       }
       catch (error) {

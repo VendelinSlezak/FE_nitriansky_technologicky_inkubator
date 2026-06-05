@@ -163,6 +163,7 @@ export default {
   name: "AdminCreateChallengeView",
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       isDragging: false,
       categories: [],
       form: {
@@ -182,7 +183,7 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const response = await axios.get('http://localhost:8080/api/auth/program-a/all-categories');
+        const response = await axios.get(`${this.backendApiUrl}/api/auth/program-a/all-categories`);
         this.categories = response.data.categories;
       }
       catch (error) {
@@ -223,7 +224,7 @@ export default {
         if (this.form.file) {
           formData.append('technical_specification', this.form.file);
         }
-        await axios.post('http://localhost:8080/api/auth/create-challenge', formData);
+        await axios.post(`${this.backendApiUrl}/api/auth/create-challenge`, formData);
         this.$router.push("/admin-dashboard/manage-challenges");
       }
       catch (error) {

@@ -161,6 +161,7 @@ export default {
   },
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       loading: true,
       submitting: false,
       inputBaseClass: 'w-full px-5 py-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all shadow-sm placeholder:text-slate-300',
@@ -203,7 +204,7 @@ export default {
   methods: {
     async fetchUserData() {
       try {
-        const response = await axios.get(`http://localhost:8080/api/auth/user/${this.id}`);
+        const response = await axios.get(`${this.backendApiUrl}/api/auth/user/${this.id}`);
         this.form = response.data;
       } catch (error) {
         console.error('Chyba pri načítavaní dát:', error);
@@ -232,7 +233,7 @@ export default {
     async confirmDelete() {
       if (confirm(`Naozaj chcete natrvalo odstrániť účet ${this.form.email}? Táto akcia je nevratná.`)) {
         try {
-          await axios.delete(`http://localhost:8080/api/auth/user/${this.form.id}`);
+          await axios.delete(`${this.backendApiUrl}/api/auth/user/${this.form.id}`);
           this.$router.push('/admin-dashboard/manage-accounts');
         }
         catch (error) {
@@ -273,7 +274,7 @@ export default {
         }
         formData.append('name', this.form.name);
         formData.append('email', this.form.email);
-        await axios.post(`http://localhost:8080/api/auth/user/${this.form.id}`, formData);
+        await axios.post(`${this.backendApiUrl}/api/auth/user/${this.form.id}`, formData);
         
         this.$router.push('/admin-dashboard/manage-accounts');
       } catch (error) {

@@ -130,6 +130,7 @@ export default {
   },
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       benefits: {
         students: [
           "Práca na reálnych projektoch od firiem",
@@ -182,7 +183,7 @@ export default {
     },
     async fetchData() {
       try {
-        const response = await axios.get('http://localhost:8080/api/faq/b');
+        const response = await axios.get(`${this.backendApiUrl}/api/faq/b`);
         this.faqItems = response.data.data
       }
       catch (error) {

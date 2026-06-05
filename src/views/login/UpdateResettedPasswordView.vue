@@ -85,6 +85,7 @@ export default {
   },
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       password: '',
       passwordConfirm: '',
       loading: false,
@@ -105,7 +106,7 @@ export default {
 
       try {
         this.loading = true;
-        const response = await axios.post(`http://localhost:8080/api/auth/reset-password`, {
+        const response = await axios.post(`${this.backendApiUrl}/api/auth/reset-password`, {
           token: this.token,
           password: this.password,
           password_confirmation: this.passwordConfirm

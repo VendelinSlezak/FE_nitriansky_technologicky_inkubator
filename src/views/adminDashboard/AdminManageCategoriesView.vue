@@ -157,6 +157,7 @@ export default {
   title: "AdminManageCategoriesView",
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       isLoading: false,
       expandedCategoryId: null,
       categories: [],
@@ -176,7 +177,7 @@ export default {
     async fetchCategories() {
       this.isLoading = true;
       try {
-        const response = await axios.get('http://localhost:8080/api/auth/program-a/all-categories');
+        const response = await axios.get(`${this.backendApiUrl}/api/auth/program-a/all-categories`);
         this.categories = response.data.categories;
       }
       catch (error) {
@@ -192,7 +193,7 @@ export default {
         const formData = new FormData();
         formData.append('title', this.newCategory.title);
         formData.append('skills_description', this.newCategory.skills_description);
-        await axios.post('http://localhost:8080/api/auth/program-a/create-category', formData);
+        await axios.post(`${this.backendApiUrl}/api/auth/program-a/create-category`, formData);
         this.fetchCategories();
         this.newCategory = { title: "", skills_description: "", status: "visible" };
       }
@@ -207,7 +208,7 @@ export default {
         formData.append('title', category.title);
         formData.append('status', category.status);
         formData.append('skills_description', category.skills_description);
-        await axios.post(`http://localhost:8080/api/auth/program-a/category/${category.id}`, formData);
+        await axios.post(`${this.backendApiUrl}/api/auth/program-a/category/${category.id}`, formData);
         this.expandedCategoryId = null;
       }
       catch (error) {
@@ -218,7 +219,7 @@ export default {
     async deleteCategory(id) {
       if (!confirm("Naozaj chcete túto kategóriu natrvalo zmazať?")) return;
       try {
-        await axios.delete(`http://localhost:8080/api/auth/program-a/category/${id}`);
+        await axios.delete(`${this.backendApiUrl}/api/auth/program-a/category/${id}`);
         this.categories = this.categories.filter(c => c.id !== id);
       }
       catch (error) {

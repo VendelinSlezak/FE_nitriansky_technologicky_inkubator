@@ -134,6 +134,7 @@ export default {
   },
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       steps: [
         { title: "Podanie prihlášky", description: "Nahrajte potrebnú dokumentáciu.", icon: "file" },
         { title: "Hodnotenie", description: "Komisia vyhodnotí váš inovatívny projekt.", icon: "award" },
@@ -188,7 +189,7 @@ export default {
     },
     async fetchData() {
       try {
-        const response = await axios.get('http://localhost:8080/api/faq/a');
+        const response = await axios.get(`${this.backendApiUrl}/api/faq/a`);
         this.faqItems = response.data.data
       }
       catch (error) {

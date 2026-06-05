@@ -195,6 +195,7 @@ export default {
   name: "CreateTeamView",
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       filter: 'Všetko',
       currentPage: 1,
       itemsPerPage: 5,
@@ -243,9 +244,9 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const responseA = await axios.get('http://localhost:8080/api/auth/program-a');
+        const responseA = await axios.get(`${this.backendApiUrl}/api/auth/program-a`);
         this.challenges = responseA.data;
-        const responseB = await axios.get('http://localhost:8080/api/auth/program-b');
+        const responseB = await axios.get(`${this.backendApiUrl}/api/auth/program-b`);
         this.challenges.push(...responseB.data);
       }
       catch (error) {
@@ -279,7 +280,7 @@ export default {
       try {
         const formData = new FormData();
         formData.append('email', email);
-        const response = await axios.post(`http://localhost:8080/api/auth/student/can-be-invited`, formData);
+        const response = await axios.post(`${this.backendApiUrl}/api/auth/student/can-be-invited`, formData);
         if (response.data.status === true) {
           this.team.members.push(email);
           this.newMemberEmail = "";
@@ -305,7 +306,7 @@ export default {
         });
         formData.append('proposal_of_implementation', this.team.files.assignment);
         formData.append('cover_letter', this.team.files.motivation);
-        await axios.post(`http://localhost:8080/api/auth/student/create-team`, formData);
+        await axios.post(`${this.backendApiUrl}/api/auth/student/create-team`, formData);
         alert("Tím bol úspešne vytvorený!");
         this.$router.push('/student-dashboard');
       }
