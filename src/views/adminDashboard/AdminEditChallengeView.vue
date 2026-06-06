@@ -89,17 +89,38 @@
 
         <section class="bg-white rounded-[1.5rem] p-6 border border-slate-200 shadow-sm space-y-4">
           <h3 class="font-black text-slate-800 uppercase text-xs tracking-widest border-b border-slate-50 pb-4">3. Zostavenie komisie</h3>
+          
           <div class="flex gap-2">
-            <input v-model="newJurorEmail" @keyup.enter="addJuror" type="email" placeholder="Email člena komisie..." class="flex-grow px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-blue-500/20" />
-            <button @click="addJuror" class="bg-slate-800 text-white px-6 rounded-xl font-black text-[10px] uppercase hover:bg-black transition-colors">Pridať</button>
+            <select 
+              v-model="selectedMemberId" 
+              class="flex-grow px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-blue-500/20 appearance-none text-slate-700"
+            >
+              <option value="" disabled selected>Vyberte člena komisie...</option>
+              <option 
+                v-for="member in commissionMembersList" 
+                :key="member.id" 
+                :value="member.id"
+              >
+                {{ member.email }}
+              </option>
+            </select>
+
+            <button 
+              @click="addJuror(selectedMemberId)" 
+              :disabled="!selectedMemberId"
+              class="bg-slate-800 text-white px-6 rounded-xl font-black text-[10px] uppercase hover:bg-black transition-colors disabled:opacity-50 disabled:hover:bg-slate-800"
+            >
+              Pridať
+            </button>
           </div>
+
           <div class="divide-y divide-slate-100 border border-slate-100 rounded-xl overflow-hidden">
             <div v-for="j in jury" :key="j.email" class="flex items-center justify-between p-4 bg-white">
               <div class="flex items-center gap-4">
                 <input type="radio" :checked="j.isRecorder" @change="setRecorder(j.email)" name="recorder" class="w-5 h-5 text-blue-600 border-slate-300 focus:ring-blue-500" />
                 <div class="flex flex-col text-left">
                   <span :class="['text-sm font-bold', j.isRecorder ? 'text-blue-700' : 'text-slate-700']">{{ j.email }}</span>
-                  <span v-if="j.isRecorder" class="text-[9px] font-black text-blue-500 uppercase tracking-widest font-mono">Zapisovateľ / Reportér</span>
+                  <span v-if="j.isRecorder" class="text-[9px] font-black text-blue-500 uppercase tracking-widest font-mono">Zapisovateľ</span>
                 </div>
               </div>
               <button @click="removeJuror(j.email)" class="text-slate-300 hover:text-rose-500 transition-colors">
@@ -107,6 +128,7 @@
               </button>
             </div>
           </div>
+
           <button @click="moveToPhase('Posudzovaná komisiou')" :disabled="!canMoveToJury" class="w-full py-5 bg-blue-600 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-blue-100 disabled:opacity-30 hover:bg-blue-700 transition-all active:scale-[0.98]">
             Posunúť na posúdenie komisiou
           </button>
@@ -305,9 +327,11 @@ export default {
       newJurorEmail: "",
       showClosingModal: false,
       selectedTeamIds: [],
+      selectedMemberId: '',
       tempEvaluation: "",
 
       mentorsList: [],
+      commissionMembersList: [],
       jury: [], 
 
       form: {
@@ -367,6 +391,9 @@ export default {
 
         const response2 = await axios.get(`${this.backendApiUrl}/api/auth/accounts/mentors`);
         this.mentorsList = response2.data.data;
+
+        const response3 = await axios.get(`${this.backendApiUrl}/api/auth/accounts/committee-members`);
+        this.commissionMembersList = response3.data.committee_members;
       }
       catch (error) {
         console.error("Chyba pri načítavaní dát výzvy:", error);
@@ -377,32 +404,33 @@ export default {
     },
 
     /**
-     * 2. PRIDANIE ČLENA KOMISIE (POST)
+     * 2. PRIDANIE ČLENA KOMISIE
      */
-    addJuror() {
-      const email = this.newJurorEmail.trim().toLowerCase();
-      if (email && email.includes('@') && !this.jury.find(j => j.email === email)) {
-        const newJuror = { email, isRecorder: this.jury.length === 0 };
-        this.jury.push(newJuror);
-        this.newJurorEmail = "";
+    addJuror(id) {
+      if (!id) return;
+      const member = this.commissionMembersList.find(m => m.id === id);
+      if (member) {
+        const alreadyExists = this.jury.some(j => j.email === member.email);
+        if (!alreadyExists) {
+          this.jury.push({
+            email: member.email,
+            isRecorder: false
+          });
+          this.selectedMemberId = '';
+        }
+        else {
+          alert('Tento člen už bol do komisie pridaný.');
+        }
       }
     },
-
-    /**
-     * 3. ZMENA ZAPISOVATEĽA (PUT)
-     */
-    setRecorder(email) {
-      this.jury.forEach(j => j.isRecorder = (j.email === email));
-    },
-
-    /**
-     * 4. VYMAZANIE ČLENA KOMISIE (DELETE)
-     */
     removeJuror(email) {
       this.jury = this.jury.filter(j => j.email !== email);
-      if (this.jury.length > 0 && !this.jury.some(j => j.isRecorder)) {
-        this.jury[0].isRecorder = true;
-      }
+    },
+    
+    setRecorder(email) {
+      this.jury.forEach(j => {
+        j.isRecorder = (j.email === email);
+      });
     },
 
     /**
@@ -474,7 +502,10 @@ export default {
      */
     async moveToPhase(newPhase) {
       try {
-        if(newPhase === "Posudzovaná komisiou") {
+        if(newPhase === "Otvorená") {
+          await axios.post(`${this.backendApiUrl}/api/auth/challenge/${this.challengeId}/move-back-to-open`);
+        }
+        else if(newPhase === "Posudzovaná komisiou") {
           const formData = new FormData();
           formData.append('team_id', this.selectedTeamIds[0]);
           this.jury.forEach((member, index) => {
@@ -515,6 +546,7 @@ export default {
       } catch (error) {
         console.error("Chyba pri uzatváraní výzvy:", error);
       }
+      this.showClosingModal = false;
       this.fetchData();
     }
   }

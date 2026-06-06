@@ -45,7 +45,6 @@
               
               <component
                 :is="user?.role === 'Student' ? 'router-link' : 'div'"
-                :to="user?.role === 'Student' ? '/student-dashboard/profile' : null"
                 class="flex items-center gap-4 transition-all duration-200"
                 :class="{ 'hover:opacity-80 cursor-pointer group': user?.role === 'Student' }"
               >
@@ -109,7 +108,6 @@
           <component
             :is="user?.role === 'Student' ? 'router-link' : 'div'"
             v-if="isLoggedIn"
-            :to="user?.role === 'Student' ? '/student-dashboard/profile' : null"
             @click="user?.role === 'Student' ? closeMenu() : null"
             class="flex items-center gap-4 px-4 py-4 bg-gray-50 rounded-2xl mb-4 transition-colors"
             :class="{ 'hover:bg-gray-100 cursor-pointer group': user?.role === 'Student' }"
@@ -205,7 +203,6 @@ export default {
     ...mapActions(useAuthStore, ['logout']),
 
     async handleLogout() {
-      console.log("Odhlasujem cez Pinia Store...");
       try {
         await axios.post(`${this.backendApiUrl}/api/auth/logout`);
         this.logout();

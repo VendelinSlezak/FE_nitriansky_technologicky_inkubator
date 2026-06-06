@@ -271,7 +271,9 @@ export default {
         const formData = new FormData();
         formData.append('decision', this.form.status);
         formData.append('comment', this.form.commission_comment);
-        formData.append('mentor_id', this.form.mentor_id);
+        if(this.form.status === 'accepted') {
+          formData.append('mentor_id', this.form.mentor_id);
+        }
         console.log(formData);
         await axios.post(`${this.backendApiUrl}/api/auth/challenge/${this.id}/set-commission-decision`, formData);
         Object.keys(this.errors).forEach(key => this.errors[key] = false);

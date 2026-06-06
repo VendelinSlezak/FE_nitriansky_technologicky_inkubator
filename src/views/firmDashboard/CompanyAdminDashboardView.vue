@@ -88,7 +88,7 @@
           </div>
 
           <button type="submit" class="mt-4 w-full bg-blue-600 text-white py-4 rounded-xl font-black shadow-lg hover:bg-blue-700 hover:-translate-y-1 transition-all active:scale-[0.98]">
-            Odoslať globálnemu adminovi
+            Odoslať výzvu administrátorovi
           </button>
         </form>
       </section>
@@ -109,7 +109,7 @@
             <div class="flex justify-between items-center">
               <div>
                 <h4 class="font-bold text-slate-800 text-lg">{{ project.name_of_project }}</h4>
-                <p class="text-xs text-slate-400 uppercase font-bold tracking-wider">PO: {{project.product_owner_name}}</p>
+                <p class="text-xs text-slate-400 uppercase font-bold tracking-wider">Product Owner: {{project.product_owner_name}}</p>
               </div>
               <div class="flex items-center gap-4">
                 <a v-if="project.fileUrl" :href="project.fileUrl" :download="project.fileName" @click.stop class="flex items-center gap-2 bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-600 px-3 py-2 rounded-xl transition-colors">

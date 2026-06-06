@@ -209,7 +209,7 @@
                     <div class="mt-4 p-5 bg-gray-50 rounded-2xl border border-gray-100 space-y-3">
                       <div class="flex items-center gap-2">
                         <span class="flex h-2 w-2 rounded-full bg-blue-500"></span>
-                        <span class="text-[9px] font-black text-gray-400 uppercase tracking-[0.2em]">Spätná väzba od komisie / mentora</span>
+                        <span class="text-[9px] font-black text-gray-400 uppercase tracking-[0.2em]">Spätná väzba od mentora</span>
                       </div>
                       <p v-if="m.comment" class="text-sm text-gray-800 italic font-medium leading-relaxed">
                         "{{ m.comment }}"
@@ -355,41 +355,14 @@ export default {
       otvorenyProjektId: null,
       novyClenEmail: "",
       maxClenov: 10,
-      sablonaUrl: "#", // TODO
+      sablonaUrl: `${import.meta.env.VITE_BACKEND_API_URL}/storage/documents/Cestne_vyhlasenie_vyvoj_softveru.docx`,
       statuory_declaration_file: null, // Sem sa korektne uloží vybraný File objekt
       
       data: {
         status: "basic", // basic, invited, team_draft, team_waiting_for_approval, approved_team
-
         finished_projects: [],
-
-        team_id: 5,
-        name_of_team: "Inovátori 2024",
-        name_of_project: "Smart City Osvetlenie",
-        description_of_project: "Cieľom projektu je navrhnúť systém inteligentného riadenia pouličných lámp pomocou senzorov pohybu, čím sa zníži energetická náročnosť mesta o 30%.",
-        description_of_skills: "Toto jednoducho treba",
-
-        team_members: [ // role = teamleader, member, status = active, invited
-          { student_id: 1, name: "Peter Mrkva", email: "peter.mrkva@student.sk", role: 'teamleader', status: "active" },
-          { student_id: 2, name: "Matej Novák", email: "matej.novak@student.sk", role: 'member', status: "active" }
-        ],
-        milestones: [
-          { 
-            id: 1, name: "Analýza a prieskum", date_of_reasisation: "01.03.2026", 
-            description: "Identifikovať hlavné problémy cieľovej skupiny cez dotazníky.",
-            comment: "Veľmi dobrý výber respondentov, oceňujem hĺbku analýzy.",
-            is_finished: true 
-          },
-          { 
-            id: 2, name: "Prototyp aplikácie", date_of_reasisation: "15.03.2026", 
-            description: "Vytvorenie klikateľného prototypu v nástroji Figma.",
-            comment: "",
-            is_finished: false 
-          }
-        ],
-
-        technical_specification_file: { name: "Technická špecifikácia_v1.pdf", url: "#" },
-        proposal_of_implementation_file: { name: "Návrh riešenia_finál.figma", url: "#" },
+        team_members: [],
+        milestones: [],
       },
     };
   },
@@ -422,7 +395,6 @@ export default {
     toggleProject(id) {
       this.otvorenyProjektId = this.otvorenyProjektId === id ? null : id;
     },
-    // Nová metóda na spracovanie vybraného súboru
     handleFileUpload(event) {
       const file = event.target.files[0];
       if (file) {
@@ -430,7 +402,6 @@ export default {
       }
     },
     async prijatPozvanku() {
-      // Poistka, ak by niekto odstránil disabled atribút cez DevTools
       if (!this.statuory_declaration_file) {
         alert("Pred prijatím pozvánky musíte nahrať čestné vyhlásenie.");
         return;
@@ -441,7 +412,6 @@ export default {
         formData.append('statuory_declaration', this.statuory_declaration_file);
         await axios.post(`${this.backendApiUrl}/api/auth/student/accept-invitation`, formData);
         
-        // Po úspešnom odoslaní vyčistíme súbor
         this.statuory_declaration_file = null;
         this.fetchData();
       }

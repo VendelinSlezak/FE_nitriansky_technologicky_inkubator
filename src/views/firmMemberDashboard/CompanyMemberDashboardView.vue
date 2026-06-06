@@ -89,7 +89,6 @@
                     </div>
                     <div>
                       <p class="text-xs font-black text-slate-800">{{project.fileName}}</p>
-                      <p class="text-[10px] text-slate-400">PDF, 2.4 MB</p>
                     </div>
                   </a>
                 </div>
