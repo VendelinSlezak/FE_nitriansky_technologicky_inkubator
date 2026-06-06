@@ -31,6 +31,9 @@
 
 <script>
 export default {
-  name: 'RegisterSuccessView'
+  name: 'RegisterSuccessView',
+  mounted() {
+    document.title = "Nitriansky technologický inkubátor";
+  },
 }
 </script>

@@ -33,6 +33,7 @@ export default defineComponent({
   }
 })
 </script>
+
 <template>
     <div class="max-w-4xl mx-auto space-y-4">
   <div v-for="(step, index) in steps" :key="'step-' + index" 

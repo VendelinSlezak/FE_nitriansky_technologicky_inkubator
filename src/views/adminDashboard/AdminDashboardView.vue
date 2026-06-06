@@ -119,6 +119,9 @@
 <script>
 export default {
   name: "EditorDashboardView",
+  mounted() {
+    document.title = "Nitriansky technologický inkubátor";
+  },
 };
 </script>
 

@@ -41,6 +41,7 @@ axios.interceptors.response.use(
         if (error.response && error.response.status === 401) {
             const authStore = useAuthStore();
             authStore.logout();
+            router.push('/login');
         }
         return Promise.reject(error);
     }

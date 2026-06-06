@@ -119,10 +119,11 @@ export default {
     }
   },
   mounted() {
-    this.fetchArticle();
+    document.title = "Nitriansky technologický inkubátor";
+    this.fetchData();
   },
   methods: {
-    async fetchArticle() {
+    async fetchData() {
       this.isLoading = true;
       try {
         const response = await axios.get(`${this.backendApiUrl}/api/articles/${this.id}`);

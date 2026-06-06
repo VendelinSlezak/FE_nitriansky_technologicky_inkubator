@@ -114,6 +114,7 @@ export default {
     };
   },
   mounted() {
+    document.title = "Nitriansky technologický inkubátor";
     this.getProjects();
   },
   methods: {
@@ -121,7 +122,8 @@ export default {
       const index = this.expandedProjects.indexOf(projectId);
       if (index > -1) {
         this.expandedProjects.splice(index, 1);
-      } else {
+      }
+      else {
         this.expandedProjects.push(projectId);
       }
     },

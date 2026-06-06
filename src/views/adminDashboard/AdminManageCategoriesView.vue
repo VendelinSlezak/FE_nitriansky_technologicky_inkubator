@@ -168,13 +168,12 @@ export default {
       }
     };
   },
-  
-  async created() {
-    await this.fetchCategories();
+  mounted() {
+    document.title = "Nitriansky technologický inkubátor";
+    this.fetchData();
   },
-
   methods: {
-    async fetchCategories() {
+    async fetchData() {
       this.isLoading = true;
       try {
         const response = await axios.get(`${this.backendApiUrl}/api/auth/program-a/all-categories`);
@@ -194,7 +193,7 @@ export default {
         formData.append('title', this.newCategory.title);
         formData.append('skills_description', this.newCategory.skills_description);
         await axios.post(`${this.backendApiUrl}/api/auth/program-a/create-category`, formData);
-        this.fetchCategories();
+        this.fetchData();
         this.newCategory = { title: "", skills_description: "", status: "visible" };
       }
       catch (error) {
@@ -226,8 +225,6 @@ export default {
         alert("Chyba pri mazaní.");
       }
     },
-
-    // --- UI ---
 
     toggleEdit(id) {
       this.expandedCategoryId = this.expandedCategoryId === id ? null : id;

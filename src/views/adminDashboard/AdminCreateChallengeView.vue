@@ -178,6 +178,7 @@ export default {
     };
   },
   mounted() {
+    document.title = "Nitriansky technologický inkubátor";
     this.fetchData();
   },
   methods: {
@@ -219,9 +220,13 @@ export default {
         formData.append('type', this.form.type);
         formData.append('name', this.form.name);
         formData.append('description', this.form.description);
-        if(this.form.type === "A") formData.append('category_id', this.form.category_id);
-        if(this.form.type === "B") formData.append('reward', this.form.reward);
-        if (this.form.file) {
+        if(this.form.type === "A") {
+          formData.append('category_id', this.form.category_id);
+        }
+        if(this.form.type === "B") {
+          formData.append('reward', this.form.reward);
+        }
+        if(this.form.file) {
           formData.append('technical_specification', this.form.file);
         }
         await axios.post(`${this.backendApiUrl}/api/auth/create-challenge`, formData);
@@ -230,7 +235,6 @@ export default {
       catch (error) {
         console.error("Chyba pri vytváraní výzvy", error);
         alert("Chyba pri vytváraní výzvy");
-        return;
       }
     }
   }
@@ -238,7 +242,6 @@ export default {
 </script>
 
 <style scoped>
-/* Plynulé prepínanie farieb tlačidiel */
 button {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }

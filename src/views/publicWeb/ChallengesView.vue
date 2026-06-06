@@ -59,6 +59,7 @@ export default {
   },
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       activeFilter: 'all',
       filterBtnClass: 'px-6 py-3 rounded-xl font-bold transition-all duration-200 active:scale-95 border-2',
       activeClass: 'bg-slate-900 text-white border-slate-900 shadow-xl',
@@ -76,18 +77,18 @@ export default {
     }
   },
   mounted() {
+    document.title = "Nitriansky technologický inkubátor";
     window.scrollTo(0, 0);
-    document.title = "Aktuálne výzvy | Nitriansky technologický inkubátor";
     this.fetchData();
   },
   methods: {
     async fetchData() {
       try {
-        const response = await axios.get('http://127.0.0.1:8080/api/challenges/preview');
-        this.challenges = response.data.data
+        const response = await axios.get(`${this.backendApiUrl}/api/challenges/preview`);
+        this.challenges = response.data.data;
       }
       catch (err) {
-        this.errorMessage = err
+        this.errorMessage = err;
       }
     },
   }
@@ -95,7 +96,6 @@ export default {
 </script>
 
 <style scoped>
-/* Voliteľné animácie pre prechod medzi filtrami */
 .grid {
   animation: fadeIn 0.4s ease-out;
 }

@@ -122,10 +122,11 @@ export default {
     }
   },
   mounted() {
-    this.fetchProjects();
+    document.title = "Nitriansky technologický inkubátor";
+    this.fetchData();
   },
   methods: {
-    async fetchProjects() {
+    async fetchData() {
       try {
         const response = await axios.get(`${this.backendApiUrl}/api/auth/commission-member/all-challenges`);
         this.rozpracovaneProjekty = response.data;

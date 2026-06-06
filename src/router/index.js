@@ -51,6 +51,8 @@ import AdminEditTeamView from '@/views/adminDashboard/AdminEditTeamView.vue'
 import CompanyAdminDashboardView from '@/views/firmDashboard/CompanyAdminDashboardView.vue'
 import CompanyMemberDashboardView from '@/views/firmMemberDashboard/CompanyMemberDashboardView.vue'
 
+import NotFoundView from '../views/publicWeb/NotFoundView.vue'
+
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
@@ -309,6 +311,12 @@ const router = createRouter({
             name: 'company-member-dashboard',
             component: CompanyMemberDashboardView,
         },
+
+        {
+            path: '/:pathMatch(.*)*',
+            name: 'not-found',
+            component: NotFoundView
+        }
     ],
     scrollBehavior(to, from, savedPosition) {
         return { top: 0, behavior: 'smooth' }

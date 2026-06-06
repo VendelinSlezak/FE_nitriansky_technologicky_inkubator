@@ -187,6 +187,7 @@ export default {
     };
   },
   mounted() {
+    document.title = "Nitriansky technologický inkubátor";
     this.fetchData();
   },
   methods: {
@@ -201,7 +202,6 @@ export default {
           }));
         }
         this.project = response.data;
-        console.log(response.data);
         this.ui.milestoneDrafts = this.project.milestones.map(milestone => milestone.comment);
       }
       catch (error) {
@@ -213,9 +213,9 @@ export default {
     },
     async saveMilestoneComment(index) {
       try {
-        await axios.post(`${this.backendApiUrl}/api/auth/challenge/${this.project.id}/set-milestone-comment/${this.project.milestones[index].id}`, {
-          comment: this.ui.milestoneDrafts[index]
-        });
+        const formData = new FormData();
+        formData.append('comment', this.ui.milestoneDrafts[index]);
+        await axios.post(`${this.backendApiUrl}/api/auth/challenge/${this.project.id}/set-milestone-comment/${this.project.milestones[index].id}`, formData);
         const updatedText = this.ui.milestoneDrafts[index];
         this.project.milestones[index].comment = updatedText;
       }

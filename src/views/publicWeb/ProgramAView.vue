@@ -198,7 +198,7 @@ export default {
     },
   },
   mounted() {
-    document.title = "Program A | NTI";
+    document.title = "Nitriansky technologický inkubátor";
     this.fetchData();
   },
 };

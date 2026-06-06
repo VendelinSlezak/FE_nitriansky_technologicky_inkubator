@@ -146,12 +146,13 @@ export default {
       team: {
         name: "",
         challengeId: null,
-        members: [], // Teraz obsahuje objekty { id, email, isLeader }
+        members: [],
         files: { assignment: null, motivation: null }
       }
     };
   },
   mounted() {
+    document.title = "Nitriansky technologický inkubátor";
     this.fetchData();
   },
   computed: {

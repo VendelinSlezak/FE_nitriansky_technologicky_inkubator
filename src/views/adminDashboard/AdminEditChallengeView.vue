@@ -365,12 +365,10 @@ export default {
     }
   },
   mounted() {
+    document.title = "Nitriansky technologický inkubátor";
     this.fetchData();
   },
   methods: {
-    /**
-     * 1. NAČÍTANIE DÁT Z BACKENDU (GET)
-     */
     async fetchData() {
       this.isLoading = true;
       try {
@@ -403,9 +401,6 @@ export default {
       }
     },
 
-    /**
-     * 2. PRIDANIE ČLENA KOMISIE
-     */
     addJuror(id) {
       if (!id) return;
       const member = this.commissionMembersList.find(m => m.id === id);
@@ -433,9 +428,6 @@ export default {
       });
     },
 
-    /**
-     * 5. VÝBER / ZRUŠENIE VÝBERU TÍMU (POST / DELETE)
-     */
     toggleTeamSelection(id) {
       const idx = this.selectedTeamIds.indexOf(id);
       if (idx > -1) {
@@ -445,9 +437,6 @@ export default {
       }
     },
 
-    /**
-     * 6. MANIPULÁCIA S MÍĽNIKMI (LOKÁLNE PRIDANIE/ODOBRATIE)
-     */
     addMilestone() {
       this.form.milestones.push({ 
         id: null,
@@ -497,9 +486,6 @@ export default {
       this.fetchData();
     },
 
-    /**
-     * 7. ZMENA FÁZY CELKOVO (PUT / PATCH)
-     */
     async moveToPhase(newPhase) {
       try {
         if(newPhase === "Otvorená") {
@@ -534,10 +520,6 @@ export default {
       }
       this.fetchData();
     },
-
-    /**
-     * 8. UZATVORENIE VÝZVY (PUT / PATCH)
-     */
     async confirmCloseChallenge() {
       try {
         const formData = new FormData();

@@ -165,10 +165,16 @@ import axios from 'axios';
 
 export default {
   name: "AdminEditTeamView",
+  props: {
+    id: {
+      type: [String, Number],
+      required: true
+    }
+  },
   data() {
     return {
       backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
-      teamId: null,
+      teamId: this.id,
       filter: 'Všetko',
       newMemberEmail: "",
       errorMessage: "",
@@ -181,7 +187,7 @@ export default {
       team: {
         name: "",
         challenge_id: null,
-        members: [], // Obsahuje objekty { id, email, status: 'teamleader' / 'member' }
+        members: [], // { id, email, status: 'teamleader' / 'member' }
         proposal_of_implementation_url: null,
         proposal_of_implementation_name: null,
         cover_letter_url: null,
@@ -190,7 +196,7 @@ export default {
     };
   },
   mounted() {
-    this.teamId = this.$route.params.id;
+    document.title = "Nitriansky technologický inkubátor";
     this.fetchData();
   },
   computed: {
@@ -237,16 +243,17 @@ export default {
           }));
         }
 
-        // Mapovanie priamo na vlastnosti v objekte team podľa požiadavky
         this.team.proposal_of_implementation_url = teamData.proposal_of_implementation_url || null;
         this.team.proposal_of_implementation_name = teamData.proposal_of_implementation_name || null;
         this.team.cover_letter_url = teamData.cover_letter_url || null;
         this.team.cover_letter_name = teamData.cover_letter_name || null;
 
-      } catch (err) {
+      }
+      catch (err) {
         console.error(err);
         alert("Chyba pri načítavaní dát zo servera.");
-      } finally {
+      }
+      finally {
         this.isLoading = false;
       }
     },
@@ -285,13 +292,16 @@ export default {
             status: isFirst ? 'teamleader' : 'member'
           });
           this.newMemberEmail = "";
-        } else {
+        }
+        else {
           this.errorMessage = "Študenta nie je možné pozvať";
         }
-      } catch (err) {
+      }
+      catch (err) {
         console.error(err);
         this.errorMessage = "Chyba pri komunikácii so serverom pri overovaní študenta.";
-      } finally {
+      }
+      finally {
         this.isLoadingOverVerify = false;
       }
     },
@@ -320,28 +330,26 @@ export default {
         const formData = new FormData();
         formData.append('challenge_id', this.team.challenge_id);
         formData.append('name_of_team', this.team.name);
-        
         this.team.members.forEach((member, index) => {
           formData.append(`members[${index}][id]`, member.id);
           formData.append(`members[${index}][status]`, member.status);
         });
-
-        // Ak používateľ vybral nový súbor, priloží sa do requestu
         if (this.newAssignmentFile) {
           formData.append('proposal_of_implementation', this.newAssignmentFile);
         }
         if (this.newMotivationFile) {
           formData.append('cover_letter', this.newMotivationFile);
         }
-
         await axios.post(`${this.backendApiUrl}/api/auth/team/${this.teamId}`, formData);
         
         alert("Zmeny v tíme boli úspešne uložené!");
         this.$router.push('/admin-dashboard/manage-teams');
-      } catch (error) {
+      }
+      catch (error) {
         console.error(error);
         alert("Nastala chyba pri ukladaní tímu.");
-      } finally {
+      }
+      finally {
         this.isLoading = false;
       }
     },
@@ -352,10 +360,12 @@ export default {
           await axios.delete(`${this.backendApiUrl}/api/auth/team/${this.teamId}`);
           alert("Tím bol úspešne vymazaný.");
           this.$router.push('/admin-dashboard/manage-teams');
-        } catch (error) {
+        }
+        catch (error) {
           console.error(error);
           alert("Nastala chyba pri mazaní tímu.");
-        } finally {
+        }
+        finally {
           this.isLoading = false;
         }
       }

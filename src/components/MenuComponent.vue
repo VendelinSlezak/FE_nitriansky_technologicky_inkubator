@@ -163,7 +163,7 @@
 
 <script>
 import axios from 'axios'
-import { useAuthStore } from '../stores/auth' // Uprav cestu podľa tvojho projektu
+import { useAuthStore } from '../stores/auth'
 import { mapState, mapActions } from 'pinia'
 
 export default {
@@ -171,7 +171,6 @@ export default {
   data() {
     return {
       isOpen: false,
-      // NavLinks zostávajú v komponente, lebo sú statické pre toto menu
       navLinks: [
         { name: 'Domov', path: '/' },
         { name: 'O nás', path: '/o-nas' },
@@ -201,7 +200,6 @@ export default {
   },
   methods: {
     ...mapActions(useAuthStore, ['logout']),
-
     async handleLogout() {
       try {
         await axios.post(`${this.backendApiUrl}/api/auth/logout`);
@@ -213,8 +211,6 @@ export default {
         console.error(error);
       }
     },
-
-    // UI pomocné metódy zostávajú nezmenené
     toggleMenu() {
       this.isOpen = !this.isOpen;
       document.body.style.overflow = this.isOpen ? 'hidden' : '';
@@ -230,6 +226,7 @@ export default {
     }
   },
   mounted() {
+    document.title = "Nitriansky technologický inkubátor";
     window.addEventListener('resize', this.handleResize);
   },
   beforeUnmount() {

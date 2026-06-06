@@ -134,6 +134,9 @@ export default {
       }
     };
   },
+  mounted() {
+    document.title = "Nitriansky technologický inkubátor";
+  },
   methods: {
     handleFileSelect(event) {
       const file = event.target.files[0];

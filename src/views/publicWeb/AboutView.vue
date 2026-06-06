@@ -118,7 +118,7 @@ export default {
     }
   },
   mounted() {
-    document.title = "O nás | Nitriansky technologický inkubátor";
+    document.title = "Nitriansky technologický inkubátor";
   }
 };
 </script>

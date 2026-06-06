@@ -226,10 +226,11 @@ export default {
     }
   },
   mounted() {
-    this.fetchProjectData();
+    document.title = "Nitriansky technologický inkubátor";
+    this.fetchData();
   },
   methods: {
-    async fetchProjectData() {
+    async fetchData() {
       try {
         const responseMentors = await axios.get(`${this.backendApiUrl}/api/auth/accounts/mentors`);
         this.dostupniMentori = responseMentors.data.data;
@@ -286,7 +287,7 @@ export default {
         this.isSubmitting = false;
       }
 
-      this.fetchProjectData();
+      this.fetchData();
     },
 
     generateInitials(name) {

@@ -71,6 +71,7 @@ export default {
     };
   },
   mounted() {
+    document.title = "Nitriansky technologický inkubátor";
     this.fetchNewsData();
   },
   methods: {

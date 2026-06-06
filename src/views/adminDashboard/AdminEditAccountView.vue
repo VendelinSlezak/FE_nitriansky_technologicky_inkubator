@@ -175,9 +175,7 @@ export default {
         role: 'mentor', 
         email: '',
         name: '', university: '',
-        // Firma polia
         ico: '', dic: '', contactPerson: '', address: '', category: '', companyDescription: '',
-        // Mentor / Spolupracovníci polia
         description: '', experience: '', expertise: ''
       }
     }
@@ -199,6 +197,7 @@ export default {
     }
   },
   mounted() {
+    document.title = "Nitriansky technologický inkubátor";
     this.fetchUserData();
   },
   methods: {
@@ -206,10 +205,12 @@ export default {
       try {
         const response = await axios.get(`${this.backendApiUrl}/api/auth/user/${this.id}`);
         this.form = response.data;
-      } catch (error) {
+      }
+      catch (error) {
         console.error('Chyba pri načítavaní dát:', error);
         alert('Nepodarilo sa načítať údaje používateľa.');
-      } finally {
+      }
+      finally {
         this.loading = false;
       }
     },
@@ -277,10 +278,12 @@ export default {
         await axios.post(`${this.backendApiUrl}/api/auth/user/${this.form.id}`, formData);
         
         this.$router.push('/admin-dashboard/manage-accounts');
-      } catch (error) {
+      }
+      catch (error) {
         console.error('Chyba pri ukladaní dát:', error);
         alert('Pri ukladaní zmien nastala chyba. Skontrolujte zadané údaje.');
-      } finally {
+      }
+      finally {
         this.submitting = false;
       }
     }

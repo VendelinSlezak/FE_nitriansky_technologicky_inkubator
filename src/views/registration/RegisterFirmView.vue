@@ -216,6 +216,9 @@ export default {
       }
     }
   },
+  mounted() {
+    document.title = "Nitriansky technologický inkubátor";
+  },
   methods: {
     goBack() {
         if(window.history.state && window.history.state.back) {

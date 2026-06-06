@@ -72,15 +72,16 @@ export default {
       await this.$recaptchaLoaded();
       const token = await this.$recaptcha('password_reset');
       if (!token) {
+        alert("Chyba pri ziskavaní CAPTCHA.");
         throw new Error("Nepodarilo sa získať CAPTCHA token.");
       }
 
       try {
         this.loading = true;
-        const response = await axios.post(`${this.backendApiUrl}/api/auth/reset-password-request`, {
-          "email": this.email,
-          "g-recaptcha-response": token
-        });
+        const formData = new FormData();
+        formData.append('email', this.email);
+        formData.append('g-recaptcha-response', token);
+        const response = await axios.post(`${this.backendApiUrl}/api/auth/reset-password-request`, formData);
         alert('Ak je tento email registrovaný, poslali sme naň inštrukcie na obnovu hesla.');
         this.$router.push('/login');
       }

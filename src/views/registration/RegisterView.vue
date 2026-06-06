@@ -73,5 +73,8 @@
 <script>
 export default {
   name: 'RegisterView',
+  mounted() {
+    document.title = "Nitriansky technologický inkubátor";
+  },
 }
 </script>

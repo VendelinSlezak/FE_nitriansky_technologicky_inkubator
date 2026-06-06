@@ -93,15 +93,16 @@ export default {
   },
   data() {
     return {
+      backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       items: null,
       isLoading: false,
       errorMessage: null,
       challenge: null,
     };
   },
-  created() {
-    console.log(this.id)
-    this.fetchData(this.id)
+  mounted() {
+    document.title = "Nitriansky technologický inkubátor";
+    this.fetchData(this.id);
   },
   methods: {
     async fetchData(id) {
@@ -109,7 +110,7 @@ export default {
       this.errorMessage = null
 
       try {
-        const response = await axios.get(`http://127.0.0.1:8080/api/challenges/${id}`);
+        const response = await axios.get(`${this.backendApiUrl}/api/challenges/${id}`);
         this.items = response.data.data; 
         console.log(this.items)
       }

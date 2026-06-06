@@ -86,6 +86,9 @@ export default {
   computed: {
     ...mapState(useAuthStore, ['isLoggedIn', 'user', 'userInitials']),
   },
+  mounted() {
+    document.title = "Nitriansky technologický inkubátor";
+  },
   methods: {
     ...mapActions(useAuthStore, ['login']),
 

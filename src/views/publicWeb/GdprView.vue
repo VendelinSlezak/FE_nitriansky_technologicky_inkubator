@@ -156,6 +156,9 @@
 <script>
 export default {
   name: "GdprView",
+  mounted() {
+    document.title = "Nitriansky technologický inkubátor";
+  },
   data() {
     return {
       currentYear: new Date().getFullYear(),

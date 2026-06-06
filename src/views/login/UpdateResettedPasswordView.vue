@@ -98,7 +98,6 @@ export default {
         alert("Heslá sa nezhodujú!");
         return;
       }
-
       if (this.password.length < 8) {
         alert("Heslo musí mať aspoň 8 znakov.");
         return;
@@ -106,11 +105,11 @@ export default {
 
       try {
         this.loading = true;
-        const response = await axios.post(`${this.backendApiUrl}/api/auth/reset-password`, {
-          token: this.token,
-          password: this.password,
-          password_confirmation: this.passwordConfirm
-        });
+        const formData = new FormData();
+        formData.append('token', this.token);
+        formData.append('password', this.password);
+        formData.append('password_confirmation', this.passwordConfirm);
+        const response = await axios.post(`${this.backendApiUrl}/api/auth/reset-password`, formData);
         this.isFinished = true;
       }
       catch (error) {

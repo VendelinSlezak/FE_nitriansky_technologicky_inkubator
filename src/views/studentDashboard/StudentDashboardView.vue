@@ -356,7 +356,7 @@ export default {
       novyClenEmail: "",
       maxClenov: 10,
       sablonaUrl: `${import.meta.env.VITE_BACKEND_API_URL}/storage/documents/Cestne_vyhlasenie_vyvoj_softveru.docx`,
-      statuory_declaration_file: null, // Sem sa korektne uloží vybraný File objekt
+      statuory_declaration_file: null,
       
       data: {
         status: "basic", // basic, invited, team_draft, team_waiting_for_approval, approved_team
@@ -379,6 +379,7 @@ export default {
     }
   },
   mounted() {
+    document.title = "Nitriansky technologický inkubátor";
     this.fetchData();
   },
   methods: {

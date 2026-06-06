@@ -182,16 +182,13 @@ export default {
         email: '',
         password: '',
         name: '',
-        // Student
         university: '',
-        // Firma
         ico: '', 
         dic: '', 
         contactPerson: '',
         address: '',
         category: '',
         companyDescription: '',
-        // Mentor
         description: '', 
         experience: '', 
         expertise: ''
@@ -286,10 +283,12 @@ export default {
 
         alert('Používateľ bol úspešne vytvorený.');
         this.goBack();
-      } catch (error) {
+      }
+      catch (error) {
         console.error('Chyba pri vytváraní účtu:', error);
         alert('Pri vytváraní účtu nastala chyba. Skontrolujte zadané údaje.');
-      } finally {
+      }
+      finally {
         this.submitting = false;
       }
     }

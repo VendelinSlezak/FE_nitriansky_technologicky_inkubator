@@ -180,10 +180,7 @@ export default {
       backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
       showAddEmployee: false,
       expandedProjects: [],
-      employees: [
-        { id: 1, name: "Igor Hnát", email: "hnat@firma.sk" },
-        { id: 2, name: "Jana Kováčová", email: "kovacova@firma.sk" }
-      ],
+      employees: [],
       newEmp: { name: '', email: '', password: '' },
       projectForm: { 
         name_of_challenge: '', description: '', reward: null, product_owner_id: '',
@@ -202,6 +199,7 @@ export default {
     }
   },
   mounted() {
+    document.title = "Nitriansky technologický inkubátor";
     this.fetchData();
   },
   methods: {
@@ -270,7 +268,9 @@ export default {
         const response = await axios.post(`${this.backendApiUrl}/api/auth/program-b/create`, formData);
         alert("Projekt bol úspešne odoslaný.");
         this.projectForm = { name_of_challenge: '', description: '', reward: null, product_owner_id: '', documentation: null, fileName: '', fileUrl: null };
-        if (this.$refs.fileInput) this.$refs.fileInput.value = '';
+        if(this.$refs.fileInput){
+          this.$refs.fileInput.value = '';
+        }
       }
       catch (error) {
         alert("Chyba pri odoslaní projektu.");

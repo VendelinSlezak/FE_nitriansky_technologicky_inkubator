@@ -117,6 +117,9 @@ export default {
       }
     }
   },
+  mounted() {
+    document.title = "Nitriansky technologický inkubátor";
+  },
   methods: {
     goBack() {
       if(window.history.state && window.history.state.back) {
@@ -165,12 +168,7 @@ export default {
           formData.append('cv', this.form.cvFile);
         }
         formData.append('g-recaptcha-response', token);
-        
-        console.log(token); // debug
-
         const response = await axios.post(`${this.backendApiUrl}/api/auth/registration/student`, formData);
-
-        console.log('Úspešná registrácia:', response.data);
         this.$router.push('/register-success');
 
       }

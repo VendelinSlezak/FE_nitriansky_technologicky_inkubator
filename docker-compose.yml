@@ -3,7 +3,7 @@ services:
   vue-dev:
     build:
       context: .
-      target: development  # Povie Dockeru, aby skončil pri fáze 'development'
+      target: development
     ports:
       - "5173:5173"
     volumes:
@@ -16,8 +16,8 @@ services:
   vue-prod:
     build:
       context: .
-      target: production   # Povie Dockeru, aby prešiel až k Nginxu
+      target: production
     ports:
-      - "8080:80"
+      - "8000:80"
     environment:
       - NODE_ENV=production

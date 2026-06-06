@@ -149,7 +149,7 @@ export default {
     }
   },
   mounted() {
-    document.title = "Domov | Nitriansky technologický inkubátor";
+    document.title = "Nitriansky technologický inkubátor";
     this.fetchData();
   },
 };

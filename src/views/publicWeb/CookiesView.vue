@@ -105,6 +105,9 @@
 <script>
 export default {
   name: "CookiesView",
+  mounted() {
+    document.title = "Nitriansky technologický inkubátor";
+  },
   data() {
     return {
       currentYear: new Date().getFullYear(),
