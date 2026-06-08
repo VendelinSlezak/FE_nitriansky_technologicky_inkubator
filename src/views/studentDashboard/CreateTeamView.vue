@@ -171,6 +171,26 @@
               </div>
             </div>
 
+            <div class="space-y-3">
+              <label class="block text-xs font-black text-gray-400 uppercase tracking-widest">Čestné vyhlásenie o zručnostiach</label>
+              <a :href="sablonaUrl" class="flex items-center justify-between p-5 bg-blue-50 rounded-2xl text-blue-700 hover:bg-blue-100 transition-all shadow-sm group">
+                <span class="text-xs font-black uppercase tracking-wider">Stiahnuť šablónu čestného vyhlásenia</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+              </a>
+              <div class="relative group">
+                <input type="file" @change="handleFileChange($event, 'statuory_declaration')" accept=".pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
+                <div :class="['p-4 md:p-5 rounded-2xl border-2 border-dashed transition-all flex items-center justify-between', team.files.statuory_declaration ? 'border-green-500 bg-green-50' : 'border-gray-200 group-hover:border-blue-400 bg-gray-50']">
+                  <div class="flex items-center gap-3 overflow-hidden">
+                    <svg class="w-6 h-6 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                    <span class="text-sm font-bold truncate text-gray-700">{{ team.files.statuory_declaration ? team.files.statuory_declaration.name : 'Nahrať čestné vyhlásenie...' }}</span>
+                  </div>
+                  <div v-if="team.files.statuory_declaration" class="text-green-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </section>
 
@@ -196,6 +216,7 @@ export default {
   data() {
     return {
       backendApiUrl: import.meta.env.VITE_BACKEND_API_URL,
+      sablonaUrl: `${import.meta.env.VITE_BACKEND_API_URL}/storage/documents/Cestne_vyhlasenie_vyvoj_softveru.docx`,
       filter: 'Všetko',
       currentPage: 1,
       itemsPerPage: 5,
@@ -211,6 +232,7 @@ export default {
         files: {
           assignment: null,
           motivation: null,
+          statuory_declaration: null,
         },
       }
     };
@@ -231,10 +253,11 @@ export default {
     },
     isValid() {
       return (
-        this.team.name.length > 2 && 
+        this.team.name.length > 0 && 
         this.team.challengeId !== null &&
         this.team.files.assignment !== null &&
-        this.team.files.motivation !== null
+        this.team.files.motivation !== null &&
+        this.team.files.statuory_declaration !== null
       );
     }
   },
@@ -307,6 +330,7 @@ export default {
         });
         formData.append('proposal_of_implementation', this.team.files.assignment);
         formData.append('cover_letter', this.team.files.motivation);
+        formData.append('statuory_declaration', this.team.files.statuory_declaration);
         await axios.post(`${this.backendApiUrl}/api/auth/student/create-team`, formData);
         alert("Tím bol úspešne vytvorený!");
         this.$router.push('/student-dashboard');
